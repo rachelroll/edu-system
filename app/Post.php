@@ -10,4 +10,9 @@ class Post extends Model
     {
         return $this->hasMany('App\Comment');
     }
+
+    public function scopeIsChecked($query)
+    {
+        return $query->where('is_checked',1);
+    }
 }

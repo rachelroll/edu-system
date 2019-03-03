@@ -17,11 +17,15 @@ Route::get('/', function () {
 
 
 // posts
-Route::get('/posts', 'PostController@index')->name('posts.index');
-Route::get('/posts/{id}', 'PostController@show')->name('posts.show');
+Route::get('posts', 'PostController@index')->name('posts.index');
+Route::get('posts/{id}', 'PostController@show')->name('posts.show');
 
 // comments
-Route::post('/comments/store', 'CommentsController@store')->name('comments.store');
+Route::post('/comments/store', 'CommentController@store')->name('comments.store');
 
 
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
