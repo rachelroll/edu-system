@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -21,5 +22,11 @@ class PostController extends Controller
         $post = Post::isChecked()->with('comments')->findOrFail($id);
 
         return view('web.posts.show', compact('post'));
+    }
+
+    // п╢ндубрЁцФ
+    public function create()
+    {
+        return view('web.posts.create');
     }
 }
