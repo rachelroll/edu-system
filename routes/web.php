@@ -37,3 +37,6 @@ Route::get('/auth/oauth', 'Auth\AuthController@oauth')->name('wechat.login');
 
 # 微信接口回调地址
 Route::get('/auth/callback', 'Auth\AuthController@callback')->name('wechat.callback');
+
+
+Route::get('/SearchQuery', 'SearchController@search');

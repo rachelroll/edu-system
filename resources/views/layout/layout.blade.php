@@ -37,8 +37,8 @@
                 <a class="nav-link" href="{{ route('posts.create') }}" tabindex="-1" aria-disabled="true">写文章</a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0 ">
-                <input class="form-control mr-sm-2 form-control-sm" type="search" placeholder="搜索" aria-label="Search">
+            <form class="form-inline my-2 my-lg-0" id="elasticScout" action="/SearchQuery" method="get">
+                <input class="form-control mr-sm-2 form-control-sm" type="search" placeholder="搜索" aria-label="Search" name="search">
                 <button class="btn btn-outline-secondary btn-sm my-2 my-sm-0" type="submit">搜索</button>
             </form>
         </div>
