@@ -44,9 +44,15 @@
         </div>
         <div class="flex-row">
             <ul class="navbar-nav mr-auto">
+                @if(! Illuminate\Support\Facades\Auth::user())
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ route('wechat.login') }}">微信登录 <span class="sr-only">(current)</span></a>
                 </li>
+                @else
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ route('wechat.login') }}">{{ Illuminate\Support\Facades\Auth::user()->name }} <span class="sr-only">(current)</span></a>
+                </li>
+                @endif
             </ul>
         </div>
     </div>

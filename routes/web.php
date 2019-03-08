@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -33,10 +35,28 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 # 用户点击登录按钮时请求的地址
-Route::get('/auth/oauth', 'Auth\AuthController@oauth')->name('wechat.login');
+//Route::get('/auth/oauth', 'Auth\AuthController@oauth')->name('wechat.login');
 
 # 微信接口回调地址
 Route::get('/auth/callback', 'Auth\AuthController@callback')->name('wechat.callback');
 
 
 Route::get('/SearchQuery', 'SearchController@search');
+
+
+Route::get('/auth/oauth', function() {
+    Auth::loginUsingId(1);
+    //$user = Auth::user();
+    return redirect('posts');
+})->name('wechat.login');
+
+
+
+
+
+
+
+
+
+
+

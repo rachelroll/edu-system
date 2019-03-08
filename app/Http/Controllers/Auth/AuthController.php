@@ -17,7 +17,7 @@ class AuthController extends Controller
     # 微信的回调地址
     public function callback(Request $request)
     {
-        $oauthUser = Socialite::with('weixin')->user();
+        $oauthUser = Socialite::with('weixin')->stateless()->user();
 
         // 在这里可以获取到用户在微信的资料
         dd($oauthUser);
