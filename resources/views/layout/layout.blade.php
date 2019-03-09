@@ -6,11 +6,29 @@
     {{--<meta name="csrf-token" content="{{ csrf_token() }}">--}}
     <title>֪知识付费平台-@yield('title')</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: whitesmoke;
+        }
+        .triangle-down  {
+            width: 0;
+            height: 0;
+            border-top: 5px solid dimgrey;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+        }
+
+        nav {
+            background-color: white;
+        }
+    </style>
+    @yield('style')
 
 </head>
 <body>
 {{--导航--}}
-<nav class=" navbar navbar-expand-lg navbar-light bg-light">
+<nav class=" navbar navbar-expand-lg navbar-light">
     <div class="container">
         <a class="navbar-brand" href="#">投资</a>
         <div class="collapse navbar-collapse flex-row" id="navbarSupportedContent">
@@ -49,9 +67,17 @@
                     <a class="nav-link" href="{{ route('wechat.login') }}">微信登录 <span class="sr-only">(current)</span></a>
                 </li>
                 @else
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ route('wechat.login') }}">{{ Illuminate\Support\Facades\Auth::user()->name }} <span class="sr-only">(current)</span></a>
-                </li>
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span><img class="img-circle" style="width:30px; height:30px;" src="{{ 'http://' .env('CDN_DOMAIN').'/'.Illuminate\Support\Facades\Auth::user()->avatar }}" alt=""/></span>
+                            <span>{{ Illuminate\Support\Facades\Auth::user()->name }}</span>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{{ route('web.users.posts') }}">我的文章</a>
+                            <a class="dropdown-item" href="{{ route('web.users.edit') }}">编辑资料</a>
+                            <a class="dropdown-item" href="{{ route('logout') }}">退出</a>
+                        </div>
+                    </div>
                 @endif
             </ul>
         </div>
@@ -60,7 +86,16 @@
 </nav>
 {{--.end 导航--}}
 <br>
-<br>
+@if (session('success'))
+    <div class="container">
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+@endif
 <br>
 @yield('content')
 </body>

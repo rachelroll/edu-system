@@ -175,6 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
     ],
 
     /*
@@ -228,6 +229,9 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
         'Es' => Elasticquent\ElasticquentElasticsearchFacade::class,
+        'Image' => Intervention\Image\ImageManagerStatic::class,
+
     ],
 
 ];
+

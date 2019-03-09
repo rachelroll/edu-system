@@ -1,5 +1,4 @@
 @extends('layout/layout')
-@section('style')
 <style>
     li:hover {
         background-color: #F0F0F0;
@@ -17,14 +16,18 @@
         text-decoration: none;
     }
 </style>
-    @endsection('style)
 @section('content')
     <div class="container">
         <div class="row no-gutters">
             <div class="col-9 col-md-9 pr-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="text-muted">所有文章</h5>
+                        <hr>
+                    </div>
                     <ul class="list-unstyled">
                         @foreach($posts as $post)
-                            <li class="media">
+                            <li class="media card-body">
                                 <a href="{{ route('posts.show', ['id'=> $post->id]) }}">
                                     <div class="row">
                                         <img src="{{$post->cover}}" class="mr-3 img-thumbnail" alt="..." style="height: 10rem;">
@@ -42,24 +45,21 @@
                             <hr>
                         @endforeach
                     </ul>
+                </div>
             </div>
             <div class="col-3 col-md-3">
                 <div class="card" style="width: 17rem;">
-                    <div class="card-header">
+                    <div class="card-body">
                         投资平台
+                        <hr>
+                        <span>文章</span>
                     </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item text-muted">支付完成后，微信会把相关支付结果及用户信息通过数据流的形式发送给商户，商户需要接收处理，并按文档规范返回应答。</li>
-                    </ul>
                 </div>
                 <br>
                 <div class="card" style="width: 17rem;">
-                    <div class="card-header">
-                        公告
+                    <div class="card-body text-center">
+                        <a href="{{ route('posts.create') }}">撰写文章</a>
                     </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item text-muted">支付完成后，微信会把相关支付结果及用户信息通过数据流的形式发送给商户，商户需要接收处理，并按文档规范返回应答。</li>
-                    </ul>
                 </div>
             </div>
         </div>
