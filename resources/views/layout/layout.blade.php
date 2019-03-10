@@ -62,15 +62,15 @@
         </div>
         <div class="flex-row">
             <ul class="navbar-nav mr-auto">
-                @if(! Illuminate\Support\Facades\Auth::user())
+                @if(! \Auth::user())
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ route('wechat.login') }}">微信登录 <span class="sr-only">(current)</span></a>
                 </li>
                 @else
                     <div class="dropdown">
-                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span><img class="img-circle" style="width:30px; height:30px;" src="{{ 'http://' .env('CDN_DOMAIN').'/'.Illuminate\Support\Facades\Auth::user()->avatar }}" alt=""/></span>
-                            <span>{{ Illuminate\Support\Facades\Auth::user()->name }}</span>
+                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img class="rounded-circle" style="width:30px; height:30px;" src="{{ env('CDN_DOMAIN').'/'.\Auth::user()->avatar }}" alt=""/>
+                            <span>{{ \Auth::user()->name }}</span>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="{{ route('web.users.posts') }}">我的文章</a>

@@ -21,17 +21,18 @@
                 <div class="left">
                     <h5 class="text-muted">修改资料</h5>
                     <hr>
-                    <form>
+                    <form action="{{ route('web.users.store') }}" method="post" enctype="multipart/form-data">
+                        @csrf
                         <div class="form-group">
-                            <label for="exampleInputEmail1" class="text-muted">用户名</label>
-                            <input type="text" class="form-control" name="user_name" id="">
+                            <label for="user_name" class="text-muted">用户名</label>
+                            <input type="text" class="form-control" name="user_name" id="user_name">
                             <small class="form-text text-muted">用户名只能修改一次, 请谨慎操作</small>
                         </div>
                         <div class="form-group">
                             <label for="sex" class="text-muted">性别</label>
                             <select class="form-control" id="sex" name="sex">
-                                <option>男</option>
-                                <option>女</option>
+                                <option value=0>男</option>
+                                <option value=1>女</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -45,8 +46,8 @@
                             <small class="form-text text-muted">请一句话介绍你自己</small>
                         </div>
                         <div class="form-group">
-                            <label for="pay_code" class="text-muted">支付二维码</label>
-                            <input type="text" name="pay_code" class="form-control" id="pay_code">
+                            <label for="payee_code" class="text-muted">收款二维码</label>
+                            <input type="file" name="payee_code" class="form-control" id="payee_code">
                             <small class="form-text text-muted">微信支付二维码</small>
                         </div>
                         <button type="submit" class="btn btn-primary">提交</button>

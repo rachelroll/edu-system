@@ -34,7 +34,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('register_way')->default(0)->comment('注册设备来源(默认0:web/ios/android)');
             $table->string('uuid')->default('')->comment('uuid');
 
-            $table->tinyInteger('sex')->default(0)->comment('性别');
+            $table->tinyInteger('sex')->default(0)->comment('性别, 0:男|1:女');
             $table->text('sign')->nullable()->comment('个性签名');
 
             $table->string('openid');

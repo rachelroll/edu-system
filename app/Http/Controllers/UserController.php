@@ -47,9 +47,26 @@ class UserController extends Controller
         return back()->with('success', '成功上传头像');
     }
 
-    // 保存资料
+    // 保存个人信息
     public function store(Request $request)
     {
+        $name = $request->input('user_name', '');
+        $sex = $request->input('sex', '');
+        $city = $request->input('city', '');
+        $self_intro = $request->input('self_intro', '');
+        $file = $request->file('payee_code', '');
 
+        $payee_code = $this->upload($file, 300);
+        $user_id = Auth::user()->id;
+        User::where('id', $user_id)
+            ->update([
+                'name' => $name,
+                'sex' => $sex,
+                'city' => $city,
+                'self_intro' => $self_intro,
+                'payee_code' => $payee_code
+                ]);
+
+        return back()->with('success', '操作成功');
     }
 }
