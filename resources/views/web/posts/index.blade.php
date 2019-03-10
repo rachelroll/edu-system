@@ -1,38 +1,33 @@
 @extends('layout/layout')
 @section('style')
 <style>
-    li:hover {
-        background-color: #F0F0F0;
+    .left {
+        margin: 0 4px;
+        padding: 34px;
+        background-color: white;
     }
-    a:link {
-        text-decoration: none;
-    }
-    a:visited {
-        text-decoration: none;
-    }
-    a:hover {
-        text-decoration: none;
-    }
-    a:active {
-        text-decoration: none;
+
+    .right {
+        margin: 0 4px;
     }
 </style>
     @endsection('style)
 @section('content')
     <div class="container">
-        <div class="row no-gutters">
-            <div class="col-9 col-md-9 pr-4">
+        <div class="row">
+            <div class="col-9">
+                <div class="left">
                     <ul class="list-unstyled">
                         @foreach($posts as $post)
                             <li class="media">
-                                <a href="{{ route('posts.show', ['id'=> $post->id]) }}">
+                                <a href="{{ route('posts.show', ['id'=> $post->id]) }}" target="_blank" style="text-decoration:none;color:white;" >
                                     <div class="row">
-                                        <img src="{{$post->cover}}" class="mr-3 img-thumbnail" alt="..." style="height: 10rem;">
+                                        <div class="pl-3 mr-2">
+                                            <img src="{{$post->cover}}" class="mr-3" alt="..." style="height: 8rem;">
+                                        </div>
                                         <div class="media-body">
                                             <h5 class="mt-0 mb-1 text-muted">{{ $post->title }}</h5>
-                                            <p class="text-muted">
-                                                {{$post->description }}
-                                            </p>
+                                            <p class="text-muted">{{$post->description }}</p>
                                             <p class="text-muted">¥ {{ $post->price / 100 }}</p>
                                             <p class="card-text"><small class="text-muted">{{ $post->author }} . {{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}</small></p>
                                         </div>
@@ -42,24 +37,27 @@
                             <hr>
                         @endforeach
                     </ul>
-            </div>
-            <div class="col-3 col-md-3">
-                <div class="card" style="width: 17rem;">
-                    <div class="card-header">
-                        投资平台
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item text-muted">支付完成后，微信会把相关支付结果及用户信息通过数据流的形式发送给商户，商户需要接收处理，并按文档规范返回应答。</li>
-                    </ul>
                 </div>
-                <br>
-                <div class="card" style="width: 17rem;">
-                    <div class="card-header">
-                        公告
+            </div>
+            <div class="col-3">
+                <div class="right">
+                    <div class="card" style="width: 17rem;">
+                        <div class="card-header bg-transparent">
+                            投资平台
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item text-muted">支付完成后，微信会把相关支付结果及用户信息通过数据流的形式发送给商户，商户需要接收处理，并按文档规范返回应答。</li>
+                        </ul>
                     </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item text-muted">支付完成后，微信会把相关支付结果及用户信息通过数据流的形式发送给商户，商户需要接收处理，并按文档规范返回应答。</li>
-                    </ul>
+                    <br>
+                    <div class="card" style="width: 17rem;">
+                        <div class="card-header bg-transparent">
+                            公告
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item text-muted">支付完成后，微信会把相关支付结果及用户信息通过数据流的形式发送给商户，商户需要接收处理，并按文档规范返回应答。</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

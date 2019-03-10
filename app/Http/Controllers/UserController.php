@@ -25,7 +25,9 @@ class UserController extends Controller
     // 编辑资料
     public function edit()
     {
-        return view('web.users.edit');
+        $id = Auth::user()->id;
+        $user_info = User::where('id', $id)->first();
+        return view('web.users.edit', compact('user_info'));
     }
 
     // 修改头像
@@ -39,12 +41,16 @@ class UserController extends Controller
     {
         $file = $request->file('avatar','');
 
-        $avatar = $this->upload($file, 200);
-        $user_id = Auth::user()->id;
-        User::where('id', $user_id)
-            ->update(['avatar' => $avatar]);
+        if ($file) {
+            $avatar = $this->upload($file, 200);
+            $user_id = Auth::user()->id;
+            User::where('id', $user_id)
+                ->update(['avatar' => $avatar]);
 
-        return back()->with('success', '成功上传头像');
+            return back()->with('success', '成功上传头像');
+        }else{
+            return back()->with('error', '请选择照片');
+        }
     }
 
     // 保存个人信息
@@ -55,8 +61,12 @@ class UserController extends Controller
         $city = $request->input('city', '');
         $self_intro = $request->input('self_intro', '');
         $file = $request->file('payee_code', '');
+        if (!empty($file)) {
+            $payee_code = $this->upload($file, 300);
+        }else {
+            $payee_code = '';
+        }
 
-        $payee_code = $this->upload($file, 300);
         $user_id = Auth::user()->id;
         User::where('id', $user_id)
             ->update([
