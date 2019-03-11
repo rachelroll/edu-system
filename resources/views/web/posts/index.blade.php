@@ -2,46 +2,48 @@
 @section('style')
 <style>
     .left {
-        margin: 0 4px;
-        padding: 34px;
+        /*margin: 0 4px;*/
+        padding: 30px;
         background-color: white;
     }
 
     .right {
-        margin: 0 4px;
+        /*margin: 0 4px;*/
     }
 </style>
-    @endsection('style)
+@endsection('style)
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-9">
                 <div class="left">
                     <ul class="list-unstyled">
-                        @foreach($posts as $post)
-                            <li class="media">
-                                <a href="{{ route('posts.show', ['id'=> $post->id]) }}" target="_blank" style="text-decoration:none;color:white;" >
-                                    <div class="row">
-                                        <div class="pl-3 mr-2">
-                                            <img src="{{$post->cover}}" class="mr-3" alt="..." style="height: 8rem;">
+                        @if(!empty($posts))
+                            @foreach($posts as $post)
+                                <li class="media">
+                                    <a href="{{ route('posts.show', ['id'=> $post->id]) }}" target="_blank" style="text-decoration:none;color:white;" >
+                                        <div class="row">
+                                            <div class="pl-3 mr-2">
+                                                <img src="{{ env('CDN_DOMAIN').'/'.$post->cover}}" class="mr-3" alt="..." style="height: 8rem;">
+                                            </div>
+                                            <div class="media-body">
+                                                <h5 class="mt-0 mb-1 text-muted">{{ $post->title }}</h5>
+                                                <p class="text-muted">{{$post->description }}</p>
+                                                <p class="text-muted">¥ {{ $post->price / 100 }}</p>
+                                                <p class="card-text"><small class="text-muted">{{ $post->author }} . {{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}</small></p>
+                                            </div>
                                         </div>
-                                        <div class="media-body">
-                                            <h5 class="mt-0 mb-1 text-muted">{{ $post->title }}</h5>
-                                            <p class="text-muted">{{$post->description }}</p>
-                                            <p class="text-muted">¥ {{ $post->price / 100 }}</p>
-                                            <p class="card-text"><small class="text-muted">{{ $post->author }} . {{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}</small></p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <hr>
-                        @endforeach
+                                    </a>
+                                </li>
+                                <hr>
+                            @endforeach
+                        @endif
                     </ul>
                 </div>
             </div>
             <div class="col-3">
                 <div class="right">
-                    <div class="card" style="width: 17rem;">
+                    <div style="background-color: white">
                         <div class="card-header bg-transparent">
                             投资平台
                         </div>
@@ -50,7 +52,7 @@
                         </ul>
                     </div>
                     <br>
-                    <div class="card" style="width: 17rem;">
+                    <div style="background-color: white">
                         <div class="card-header bg-transparent">
                             公告
                         </div>

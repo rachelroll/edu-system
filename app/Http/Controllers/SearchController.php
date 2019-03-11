@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 class SearchController extends Controller
 {
     public function search(Request $request){
-
+        $key = $request->input('search');
         if($request->has('search')){
-            $posts = Post::search($request->input('search'))->where('is_checked', 1)->get();
+            $posts = Post::search($key)->where('is_checked', 1)->get();
         }
-        return view('web.search.results', compact('posts'));
+        return view('web.search.results', compact('posts', 'key'));
     }
 }
