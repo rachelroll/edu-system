@@ -13,3 +13,12 @@ yarn-error.log
 tests/*
 elasticsearch-2019-03-08-1.log.gz
 elasticsearch.log
+translog.ckp
+_1.si
+*.ckp
+*.tlog
+segments_c
+segments_4
+*.gz
+*.cfs
+*.st
