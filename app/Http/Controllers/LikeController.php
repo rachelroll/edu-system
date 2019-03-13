@@ -40,4 +40,11 @@ class LikeController extends Controller
             ];
         }
     }
+
+    // 查看我所有的赞过/收藏的文章
+    public function index()
+    {
+        $user_id = request()->user()->id;
+
+    }
 }

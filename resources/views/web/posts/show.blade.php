@@ -19,13 +19,13 @@
             width: 50%;
         }
 
-        .heart {
+        #heart {
             position: relative;
             width: 20px;
             height: 20px;
             margin: 0 12px 0 10px;
         }
-        .heart:before, .heart:after {
+        #heart:before, #heart:after {
             content: "";
             width: 12px;
             height: 20px;
@@ -37,7 +37,7 @@
             -moz-transform: rotate(-45deg);
             -webkit-transform: rotate(-45deg);
         }
-        .heart:after {
+        #heart:after {
             left: 6px;
             transform: rotate(45deg);
             -moz-transform: rotate(45deg);
@@ -71,7 +71,7 @@
                 <br>
                 <div class="left" style="padding:16px 30px">
                     <div class="row" id="like">
-                        <div class="heart"></div>
+                        <div id="heart"></div>
                         <span class="text-muted"><span >{{ $like_counts }}</span> 人点赞</span>
                     </div>
                 </div>
@@ -163,16 +163,17 @@
         });
 
         $('#like').click(function() {
-            axios.get('/like', {
+            axios.get('/like/store', {
                 params: {
                     id: "{{ $post->id }}"
                 }
             }).then(function (response) {
+                var a = $('#like span span').text();
                 if (response.data.code == 200) {
-                    var a = $('#like span span').text();
                     $('#like span span').text(++a);
+                    $('#heart:before').addClass('text-danger');
+                    $('#heart:after').attr('background', '#fff');
                 } else if (response.data.code == 202) {
-                    var a = $('#like span span').text();
                     $('#like span span').text(--a);
                 }}).catch(function (error) {
                     console.log(error);

@@ -74,6 +74,7 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item text-muted" href="{{ route('web.users.posts') }}">我的文章</a>
+                            <a class="dropdown-item text-muted" href="{{ route('web.users.posts') }}">我的赞(收藏)</a>
                             <a class="dropdown-item text-muted" href="{{ route('web.users.edit') }}">编辑资料</a>
                             <a class="dropdown-item text-muted" href="{{ route('logout') }}">退出</a>
                         </div>
