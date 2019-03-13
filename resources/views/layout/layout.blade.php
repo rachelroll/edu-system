@@ -70,12 +70,12 @@
                     <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="rounded-circle" style="width:30px; height:30px;" src="{{ env('CDN_DOMAIN').'/'.\Auth::user()->avatar }}" alt=""/>
-                            <span>{{ \Auth::user()->name }}</span>
+                            <span class="text-muted">{{ \Auth::user()->name }}</span>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="{{ route('web.users.posts') }}">我的文章</a>
-                            <a class="dropdown-item" href="{{ route('web.users.edit') }}">编辑资料</a>
-                            <a class="dropdown-item" href="{{ route('logout') }}">退出</a>
+                            <a class="dropdown-item text-muted" href="{{ route('web.users.posts') }}">我的文章</a>
+                            <a class="dropdown-item text-muted" href="{{ route('web.users.edit') }}">编辑资料</a>
+                            <a class="dropdown-item text-muted" href="{{ route('logout') }}">退出</a>
                         </div>
                     </div>
                 @endif
@@ -83,8 +83,10 @@
         </div>
     </div>
 </nav>
+
 {{--.end 导航--}}
 @if (session('success'))
+    <br>
     <div class="container">
         <div class="alert alert-success" role="alert">
             {{ session('success') }}

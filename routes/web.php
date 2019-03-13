@@ -60,6 +60,17 @@ Route::post('/users/store', 'UserController@store')->name('web.users.store');
 //保存头像
 Route::post('/users/store_avatar', 'UserController@storeAvatar')->name('web.users.store_avatar');
 
+// 粉丝关注
+Route::post('/fans/store', 'FansController@store')->name('web.fans.store');
+Route::post('/fans/cancel', 'FansController@cancel')->name('web.fans.cancel');
 
+// 通知
+// 编辑私信
+Route::get('/message/to/{id}', 'MessageController@create')->name('web.message.to');
+//发送(保存)私信
+Route::post('/message/store', 'MessageController@store')->name('web.message.store');
+// 所有私信
+Route::get('/messages', 'MessageController@index')->name('web.messages');
 
-
+// 点赞
+Route::get('/like', 'LikeController@like')->name('web.like');

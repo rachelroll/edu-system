@@ -1,6 +1,4 @@
 @extends('layout.layout')
-
-
 @section('css')
     <link rel="stylesheet" href="../css/simditor-markdown.css" media="screen" charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="assets/styles/simditor.css" />

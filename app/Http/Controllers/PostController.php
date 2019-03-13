@@ -2,40 +2,58 @@
 
 namespace App\Http\Controllers;
 
+use App\Fan;
+use App\Like;
 use App\Post;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 
 class PostController extends Controller
 {
-    // ндубап╠М
+
+    // Ф√┤Г╚═Е┬≈Х║╗
     public function index()
     {
-        $posts = Post::isChecked()->get();
+        $posts = Post::isChecked()->orderBy('updated_at', 'desc')->get();
 
         return view('web.posts.index', compact('posts'));
     }
 
-    // ндубоЙгИрЁ
+    // Ф√┤Г╚═Х╞╕Ф┐┘И║╣
     public function show($id)
     {
         $post = Post::isChecked()->with('comments')->findOrFail($id);
-        return view('web.posts.show', compact('post'));
+        $user_id = Auth::user()->id;
+        $author_id = $post->user_id;
+
+        // Ф≤╞Е░╕Е┘ЁФЁ╗
+        $bool = Fan::where('user_id', $author_id)->where('fans_id', $user_id)->exists();
+
+        // Г┌╧Х╣·Ф∙╟
+        $like_counts = 0;
+        $like_counts += Redis::get('likes_count'.$id);
+        $count_in_mysql = Like::where('post_id', $id)->first();
+        if (!empty($count_in_mysql)) {
+            $like_counts += $count_in_mysql->count;
+        }
+
+        return view('web.posts.show', compact('post', 'bool', 'like_counts'));
     }
 
-    // п╢ндубрЁцФ
+    // Е├≥Ф√┤Г╚═И║╣И²╒
     public function create()
     {
         return view('web.posts.create');
     }
 
-    //╠ё╢Фндуб
+    //Д©²Е╜≤Ф√┤Г╚═
     public function store(Request $request)
     {
         $file = $request->file('cover', '');
         if (!$file) {
-            return back()->with('error', 'я║р╩уецецФм╪╟и, ╩Ау╧й╬тзйврЁе╤!');
+            return back()->with('error', 'И─┴Д╦─Е╪═И≈╗И²╒Е⌡╬Е░╖, Д╪ Е╠∙Г╓╨Е°╗И╕√И║╣Е⌠╕!');
         } else {
             $cover = $this->upload($file, 500);
         }
@@ -52,25 +70,26 @@ class PostController extends Controller
         $author = Auth::user()->name;
 
         $bool = Post::create([
-            'user_id' => $user_id,
-            'author' => $author,
-            'title' => $title,
+            'user_id'     => $user_id,
+            'author'      => $author,
+            'title'       => $title,
             'description' => $description,
-            'content' => $content,
-            'cover' => $cover,
-            'price' => $price * 100,
-            'is_free' => $is_free
+            'content'     => $content,
+            'cover'       => $cover,
+            'price'       => $price * 100,
+            'is_free'     => $is_free,
         ]);
 
         if ($bool) {
             $post = Post::where('user_id', $user_id)->latest()->first();
             $id = $post->id;
+
             //$content = Markdown::convertToHtml($post->content);
             return redirect()->route('posts.show', [
                 'id' => $id,
             ]);
-        } else{
-            return back()->with('error', 'гКит╨Сжьйт');
+        } else {
+            return back()->with('error', 'Х╞╥Г╗█Е░▌И┤█Х╞∙');
         }
     }
 }

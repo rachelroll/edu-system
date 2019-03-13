@@ -30,7 +30,7 @@
                                                 <h5 class="mt-0 mb-1 text-muted">{{ $post->title }}</h5>
                                                 <p class="text-muted">{{$post->description }}</p>
                                                 <p class="text-muted">¥ {{ $post->price / 100 }}</p>
-                                                <p class="card-text"><small class="text-muted">{{ $post->author }} . {{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}</small></p>
+                                                <p class="card-text"><small class="text-muted">{{ $post->author }} | 发布于 {{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }} | 阅读 {{ $post->readed }} | 评论 {{ $post->comments_count }} | 点赞 {{ $post->like }}</small></p>
                                             </div>
                                         </div>
                                     </a>
