@@ -31,11 +31,19 @@ class PostController extends Controller
         // 是否关注
         $bool = Fan::where('user_id', $author_id)->where('fans_id', $user_id)->exists();
 
-        // 点赞数
+        // 获取文章的点赞数
+        // 初始化为 0
         $like_counts = 0;
-        $like_counts += Redis::get('likes_count'.$id);
+        // 获取 redis 中的点赞数
+        $count_in_redis = Redis::get('likes_count'.$id);
+        if (!is_null($count_in_redis)) {
+            $like_counts += $count_in_redis;
+        }
+
+        // 获取 mysql 的点赞数
         $count_in_mysql = Like::where('post_id', $id)->first();
         if (!empty($count_in_mysql)) {
+            // 加和
             $like_counts += $count_in_mysql->count;
         }
 
