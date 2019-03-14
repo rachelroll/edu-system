@@ -73,5 +73,5 @@ Route::post('/message/store', 'MessageController@store')->name('web.message.stor
 Route::get('/messages', 'MessageController@index')->name('web.messages');
 
 // µãÔŞ
-Route::get('/like/store', 'LikeController@like')->name('web.like');
+Route::post('/like', 'LikeController@like');
 Route::get('/likes', 'LikeController@index')->name('web.likes');

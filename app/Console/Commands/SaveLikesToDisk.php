@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 
 class SaveLikesToDisk extends Command
@@ -43,27 +44,45 @@ class SaveLikesToDisk extends Command
             for ($j = 0; $j < $users; $j++) {
                 // 取出一个给这篇文章点赞的用户
                 $user_id = Redis::spop($post_id);
-                // 这里获取到了文章ID 和用户ID, 就可以根据业务逻辑取出需要的信息
-                $post = Post::select('title', 'description')->where('id', $post_id)->first();
-                $user = User::select('name', 'avatar')->where('id', $user_id)->first();
+                // 根据文章 ID 和用户 ID, 从保存点赞快照的 hash 里取出所有信息
+                $key = 'post_user_like_'.$post_id.'_'.$user_id;
+
+                $post_title = Redis::hget($key, 'post_title');
+                $post_description = Redis::hget($key, 'post_description');
+                $user_name = Redis::hget($key, 'user_name');
+                $user_avatar = Redis::hget($key, 'user_avatar');
+                $ctime = Redis::hget($key, 'ctime');
+
                 // 把信息存入 user_like_post 表, 也就是保存点赞的具体细节
                 DB::table('user_like_post')->insert([
                     'user_id' => $user_id,
                     'post_id' => $post_id,
-                    'post_title' => $post->title,
-                    'post_description' => $post->description,
-                    'user_name' => $user->name,
-                    'user_avatar' => $user->avatar,
+                    'post_title' => $post_title,
+                    'post_description' => $post_description,
+                    'user_name' => $user_name,
+                    'user_avatar' => $user_avatar,
+                    'created_at' => $ctime
                 ]);
             }
 
-            // 根据文章ID 从点赞计数的 set 里取出这篇文章共有多少个赞
+            // 根据文章 ID 从点赞计数的 set 里取出这篇文章共有多少个赞
             $count = Redis::get('likes_count' . $post_id);
-            // 存入 likes 表, 也就是对每篇文章的点赞数统计表
-            Like::create([
-                'post_id' => $post_id,
-                'count' => $count,
-            ]);
+
+            // 根据文章 ID 查看 mysql likes 表, 看原来是否有这篇文章的记录
+            $res = DB::table('likes')->where('post_id', $post_id)->first();
+            if ($res) {
+                // 如果原来有这篇文章的记录, 看原来有多少个赞
+                $old_count = $res->count;
+                // 把原来的赞和新的赞加和后, 更新 mysql 数据库
+                $count += $old_count;
+                DB::table('likes')->where('post_id', $post_id)->update(['count' => $count]);
+            }else{
+                // 如果原来没有这篇文章的记录, 插入记录
+                DB::table('likes')->updateOrInsert([
+                    'post_id' => $post_id,
+                    'count' => $count,
+                ]);
+            }
         }
         //清空缓存
         Redis::flushDB();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -10,45 +11,67 @@ use Illuminate\Support\Facades\Redis;
 
 class LikeController extends Controller
 {
-    //µãÔŞ
+
+    //ç‚¹èµ
     public function like()
     {
-        // »ñÈ¡µ±Ç°µÇÂ¼ÓÃ»§µÄ id
+        // è·å–å½“å‰ç™»å½•ç”¨æˆ·çš„ id
         $user_id = request()->user()->id;
-        // »ñÈ¡±»µãÔŞµÄÎÄÕÂ id, ´Ó get ÇëÇó²ÎÊıÖĞ»ñÈ¡
-        $post_id = request('id');
+        $user_name = request()->user()->name;
+        $user_avatar = request()->user()->avatar;
 
-        // post_set ÓÃ redis µÄ set ÀàĞÍ, ±£´æËùÓĞ±» like µÄÎÄÕÂ
+        // è·å–è¢«ç‚¹èµçš„æ–‡ç«  id, ä» get è¯·æ±‚å‚æ•°ä¸­è·å–
+        $post_id = request('id');
+        $title = request('post_title');
+        $description = request('post_description');
+
+        // post_set ç”¨ redis çš„ set ç±»å‹, ä¿å­˜æ‰€æœ‰è¢« like çš„æ–‡ç« 
         Redis::sadd('post_set', $post_id);
 
-        // ¸ù¾İ post_id ºÍ user_id, ²éÑ¯ user_like_post ±í, ¿´µ±Ç°µÇÂ¼ÓÃ»§ÊÇ·ñÓĞÔø¾­ÔŞ¹ıÕâÆªÎÄÕÂµÄ¼ÇÂ¼
+        // æ ¹æ® post_id å’Œ user_id, æŸ¥è¯¢ user_like_post è¡¨, çœ‹å½“å‰ç™»å½•ç”¨æˆ·æ˜¯å¦æœ‰æ›¾ç»èµè¿‡è¿™ç¯‡æ–‡ç« çš„è®°å½•
         $mysql_like = DB::table('user_like_post')->where('post_id', $post_id)->where('user_id', $user_id)->first();
         /*
-        ¸ù¾İ post_id ºÍ user_id, ²éÑ¯ redis ÀïÊÇ·ñÓĞµ±Ç°µÇÂ¼ÓÃ»§ÊÇ·ñÓĞÔø¾­ÔŞ¹ıÕâÆªÎÄÕÂµÄ¼ÇÂ¼.
-        ÀûÓÃ set ÖµÊÇÒªÇóÎ¨Ò»µÄÌØµã:
-        Èç¹ûµ±Ç°ÓÃ»§Ôø¾­ÔŞ¹ıÕâÆªÎÄÕÂ, ÔòÌí¼Ó²»³É¹¦, sadd() ·µ»Ø 0;
-        Èç¹ûÃ»ÓĞÔŞ¹ı, Ôò»á½«µ±Ç°ÓÃ»§ id Ìí¼Óµ½ÕâÆªÎÄÕÂµÄ set Àï, ²¢ÇÒ·µ»Ø 1.
+        æ ¹æ® post_id å’Œ user_id, æŸ¥è¯¢ redis é‡Œæ˜¯å¦æœ‰å½“å‰ç™»å½•ç”¨æˆ·æ˜¯å¦æœ‰æ›¾ç»èµè¿‡è¿™ç¯‡æ–‡ç« çš„è®°å½•.
+        åˆ©ç”¨ set å€¼æ˜¯è¦æ±‚å”¯ä¸€çš„ç‰¹ç‚¹:
+        å¦‚æœå½“å‰ç”¨æˆ·æ›¾ç»èµè¿‡è¿™ç¯‡æ–‡ç« , åˆ™æ·»åŠ ä¸æˆåŠŸ, sadd() è¿”å› 0;
+        å¦‚æœæ²¡æœ‰èµè¿‡, åˆ™ä¼šå°†å½“å‰ç”¨æˆ· id æ·»åŠ åˆ°è¿™ç¯‡æ–‡ç« çš„ set é‡Œ, å¹¶ä¸”è¿”å› 1.
         */
         $redis_like = Redis::sadd($post_id, $user_id);
 
-        // Èç¹û mysql ÖĞÃ»ÓĞ¼ÇÂ¼ ÇÒ redis Ìí¼Ó³É¹¦, µãÔŞ³É¹¦
-        if(empty($mysql_like) && $redis_like) {
-            // ½«ÕâÆªÎÄÕÂµÄµãÔŞ¼ÆÊı ¼ÓÒ»
-            Redis::incr('likes_count'.$post_id);
+        // å¦‚æœ mysql ä¸­æ²¡æœ‰è®°å½• ä¸” redis æ·»åŠ æˆåŠŸ, ç‚¹èµæˆåŠŸ
+        if (empty($mysql_like) && $redis_like) {
+            // å°†è¿™ç¯‡æ–‡ç« çš„ç‚¹èµè®¡æ•° åŠ ä¸€
+            Redis::incr('likes_count' . $post_id);
+            // ç»™ç‚¹èµçš„ç”¨æˆ·çš„ ordered set é‡Œå¢åŠ æ–‡ç«  ID
+            Redis::zadd('user' . $user_id, strtotime(now()), $post_id);
+            // ç”¨ hash ä¿å­˜æ¯ä¸€ä¸ªèµçš„å¿«ç…§
+            Redis::hmset('post_user_like_'.$post_id.'_'.$user_id,
+                'user_id', $user_id,
+                'user_name', $user_name,
+                'user_avatar', $user_avatar,
+                'post_id', $post_id,
+                'post_title', $title,
+                'post_description', $description,
+                'ctime', now()
+            );
 
-            //·µ»ØµãÔŞ³É¹¦
+            //è¿”å›ç‚¹èµæˆåŠŸ
             return [
                 'code' => 200,
                 'msg'  => 'LIKE',
             ];
-            // ·´Ö®, ²»¹ÜÊÇ mysql ÖĞ»¹ÊÇ redis ÖĞÓĞ¹ıµãÔŞ¼ÇÂ¼, ´Ë´Î²Ù×÷¾ù±»ÊÓÎªÈ¡ÏûµãÔŞ
-        }else{
-            // ½«ÕâÆªÎÄÕÂµÄµãÔŞ¼ÆÊı ¼õÒ»
-            Redis::decr('likes_count'.$post_id);
-            // ´ÓÕâÆªÎÄÕÂµÄ set ÖĞ, É¾³ıµ±Ç°ÓÃ»§ ID
+            // åä¹‹, ä¸ç®¡æ˜¯ mysql ä¸­è¿˜æ˜¯ redis ä¸­æœ‰è¿‡ç‚¹èµè®°å½•, æ­¤æ¬¡æ“ä½œå‡è¢«è§†ä¸ºå–æ¶ˆç‚¹èµ
+        } else {
+            // å°†è¿™ç¯‡æ–‡ç« çš„ç‚¹èµè®¡æ•°å‡ä¸€
+            Redis::decr('likes_count' . $post_id);
+            // ä»è¿™ç¯‡æ–‡ç« çš„ set ä¸­, åˆ é™¤å½“å‰ç”¨æˆ· ID
             Redis::srem($post_id, $user_id);
+            // ä»å½“å‰ç”¨æˆ·èµçš„æ–‡ç« é›†åˆä¸­, åˆ é™¤è¿™ç¯‡æ–‡ç« 
+            Redis::zrem('user' . $user_id, $post_id);
+            // ä» mysql ä¸­åˆ é™¤è¿™æ¡ç‚¹èµè®°å½•
+            DB::table('user_like_post')->where('post_id', $post_id)->where('user_id', $user_id)->delete();
 
-            // ·µ»ØÎª È¡ÏûµãÔŞ
+            // è¿”å›ä¸º å–æ¶ˆç‚¹èµ
             return [
                 'code' => 202,
                 'msg'  => 'UNLIKE',
@@ -56,9 +79,18 @@ class LikeController extends Controller
         }
     }
 
-    // ²é¿´ÎÒËùÓĞµÄÔŞ¹ı/ÊÕ²ØµÄÎÄÕÂ
+    // æŸ¥çœ‹æˆ‘æ‰€æœ‰çš„èµè¿‡/æ”¶è—çš„æ–‡ç« 
     public function index()
     {
         $user_id = request()->user()->id;
+        // ä» mysql ä¸­å–å‡ºå½“å‰ç™»å½•ç”¨æˆ·æ‰€æœ‰çš„ç‚¹èµæ–‡ç« 
+        $post_mysql = DB::table('user_like_post')->where('user_id', $user_id)->orderBy('created_at')->get();
+        // ä» redis ä¸­å–å‡ºå½“å‰ç”¨æˆ·ç‚¹èµçš„æ–‡ç«  id
+        $post_in_redis = Redis::zrange('user'.$user_id, 0, -1);
+        foreach ($post_in_redis as $post_id) {
+            $posts_redis[] = Redis::hgetall('post_user_like_'.$post_id.'_'.$user_id);
+        }
+
+        return view('web.likes.index', compact('posts_redis', 'post_mysql'));
     }
 }

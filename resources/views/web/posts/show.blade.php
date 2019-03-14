@@ -178,11 +178,11 @@
 
         $('#like').click(function () {
             // 指定 get 请求, 及请求的 url
-            axios.get('/like/store', {
+            axios.post('/like', {
                 //设置请求参数, 被赞文章的 ID
-                params: {
-                    id: "{{ $post->id }}"
-                }
+                id: "{{ $post->id }}",
+                post_title: "{{ $post->title }}",
+                post_description: "{{ $post->description }}",
             }).then(function (response) {
                 var a = $('#like span span').text();
                 if (response.data.code == 200) {
