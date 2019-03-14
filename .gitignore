@@ -23,3 +23,4 @@ segments_4
 *.cfs
 *.st
 state-0.st
+/dump.rdb
