@@ -57,7 +57,7 @@
                         <h3 class="display-5 text-muted">{{ $post->title }}</h3>
                         <small class="text-muted">
                             创建于 {{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}
-                            / 阅读数 {{ $post->readed }} / 评论数 {{ $post->comments_count }} /
+                            / 阅读数 {{ $readed }} / 评论数 {{ $post->comments_count }} /
                             更新于 {{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->updated_at))->diffForHumans() }}</small>
                         <hr class="my-4">
                         <p class="text-muted">{{ $post->description }}</p>

@@ -18,6 +18,11 @@ class PostController extends Controller
     {
         $posts = Post::isChecked()->orderBy('updated_at', 'desc')->get();
 
+        // 增加阅读量
+        foreach ($posts as &$post) {
+            $post->readed = Redis::get('post'.$post->id.'_readed');
+        }
+
         return view('web.posts.index', compact('posts'));
     }
 
@@ -47,7 +52,10 @@ class PostController extends Controller
             $like_counts += $count_in_mysql->count;
         }
 
-        return view('web.posts.show', compact('post', 'bool', 'like_counts'));
+        // 阅读量
+        $readed = Redis::incr('post'.$id.'_readed');
+
+        return view('web.posts.show', compact('post', 'bool', 'like_counts', 'readed'));
     }
 
     // 写文章页面

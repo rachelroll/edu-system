@@ -20,25 +20,21 @@
             <div class="col-9">
                 <div class="left">
                     <div>
-                        <span class="text-muted">关于 "</span><span class="font-weight-bold"></span><span  class="text-muted">" 我的收藏:</span>
+                        <span  class="text-muted">收藏的文章</span>
                     </div>
                     <hr>
                     <ul class="list-unstyled">
-                        @if(!empty($posts_redis))
-                            @foreach($posts_redis as $post)
+                        @if(!empty($posts))
+                            @foreach($posts as $post)
+                                <br>
                                 <li class="media">
                                     <a href="{{ route('posts.show', ['id'=> $post['post_id']]) }}" target="_blank" style="text-decoration:none;color:white;">
-                                        <div class="row">
-                                            <div class="pl-3 mr-2">
-{{--                                                <img src="{{ env('CDN_DOMAIN').'/'.$post->cover}}" class="mr-3" alt="..." style="height: 10rem;">--}}
-                                            </div>
+                                        <div class="row pl-3">
                                             <div class="media-body">
                                                 <h5 class="mt-0 mb-1 text-muted">{{ $post['post_title'] }}</h5>
                                                 <p class="text-muted">
                                                     {{$post['post_description'] }}
                                                 </p>
-{{--                                                <p class="text-muted">¥ {{ $post->price / 100 }}</p>--}}
-{{--                                                <p class="card-text"><small class="text-muted">{{ $post->author }} . {{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}</small></p>--}}
                                             </div>
                                         </div>
                                     </a>
@@ -46,29 +42,6 @@
                                 <hr>
                             @endforeach
                         @endif
-
-                        @if(!empty($post_mysql))
-                                @foreach($post_mysql as $post)
-                                    <li class="media">
-                                        <a href="{{ route('posts.show', ['id'=> $post->id]) }}" target="_blank" style="text-decoration:none;color:white;">
-                                            <div class="row">
-                                                <div class="pl-3 mr-2">
-{{--                                                    <img src="{{ env('CDN_DOMAIN').'/'.$post->cover}}" class="mr-3" alt="..." style="height: 10rem;">--}}
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="mt-0 mb-1 text-muted">{{ $post->post_title }}</h5>
-                                                    <p class="text-muted">
-                                                        {{$post->post_description }}
-                                                    </p>
-                                                    {{--<p class="text-muted">¥ {{ $post->price / 100 }}</p>--}}
-                                                    {{--<p class="card-text"><small class="text-muted">{{ $post->author }} . {{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}</small></p>--}}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <hr>
-                                @endforeach
-                            @endif
                     </ul>
                 </div>
             </div>

@@ -15,12 +15,12 @@ class LikeController extends Controller
     //点赞
     public function like()
     {
-        // 获取当前登录用户的 id
+        // 获取当前登录用户的信息
         $user_id = request()->user()->id;
         $user_name = request()->user()->name;
         $user_avatar = request()->user()->avatar;
 
-        // 获取被点赞的文章 id, 从 get 请求参数中获取
+        // 获取被点赞的文章的信息
         $post_id = request('id');
         $title = request('post_title');
         $description = request('post_description');
@@ -42,7 +42,7 @@ class LikeController extends Controller
         if (empty($mysql_like) && $redis_like) {
             // 将这篇文章的点赞计数 加一
             Redis::incr('likes_count' . $post_id);
-            // 给点赞的用户的 ordered set 里增加文章 ID
+            // 给点赞的用户的 ordered set 里增加文章 ID, 用时间戳做 score, 根据点赞的时间排序
             Redis::zadd('user' . $user_id, strtotime(now()), $post_id);
             // 用 hash 保存每一个赞的快照
             Redis::hmset('post_user_like_'.$post_id.'_'.$user_id,
@@ -85,12 +85,20 @@ class LikeController extends Controller
         $user_id = request()->user()->id;
         // 从 mysql 中取出当前登录用户所有的点赞文章
         $post_mysql = DB::table('user_like_post')->where('user_id', $user_id)->orderBy('created_at')->get();
-        // 从 redis 中取出当前用户点赞的文章 id
-        $post_in_redis = Redis::zrange('user'.$user_id, 0, -1);
-        foreach ($post_in_redis as $post_id) {
-            $posts_redis[] = Redis::hgetall('post_user_like_'.$post_id.'_'.$user_id);
-        }
 
-        return view('web.likes.index', compact('posts_redis', 'post_mysql'));
+        // 从 redis 中取出当前用户点赞文章的 id
+        $post_in_redis = Redis::zrange('user'.$user_id, 0, -1);
+        if ($post_in_redis) {
+            // 由于 sorted set 存储的原则是 score 值由小到大排序, 最新收藏的时间戳的值肯定是最大的, 会排在后面, 所以这里将上面取出来的数组倒序遍历
+            foreach (array_reverse($post_in_redis) as $post_id) {
+                // 根据文章 id 和用户 id 从点赞快照中取出点赞的相关信息
+                $posts_redis[] = Redis::hgetall('post_user_like_'.$post_id.'_'.$user_id);
+            }
+            // 合并 mysql 和 redis 里的数据
+            $posts = array_merge($posts_redis, json_decode($post_mysql, 1));
+        }else{
+            $posts = $post_mysql->toArray();
+        }
+        return view('web.likes.index', compact('posts'));
     }
 }
