@@ -114,8 +114,9 @@
                 <div class="left">
                     <form method="post" action="{{ route('comments.store') }}">
                         @csrf
+                        <input type="hidden" name="post_id" value="{{ $post->id }}">
                         <div class="form-group">
-                            <textarea name="comments" id="" cols="90" rows="6" class="form-control"></textarea>
+                            <textarea name="comments" id="" cols="90" rows="4" class="form-control"></textarea>
                         </div>
                         <button type="submit" class="btn btn-secondary">发表评论</button>
                     </form>
