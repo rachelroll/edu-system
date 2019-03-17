@@ -48,6 +48,7 @@
 
     </style>
 @endsection('style)
+
 @section('content')
     <div class="container">
         <div class="row">
@@ -68,8 +69,9 @@
                         @if($post->is_free != 1)
                             <br>
                             <div class="center">
-                                <a href="#" class="btn btn-secondary btn-block" role="button"
-                                   aria-pressed="true">¥ {{ $post->price/100 }} 扫码投资</a>
+                                <a href="{{ route('web.payment.place_order', ['id' => $post->id]) }}" class="btn btn-secondary btn-block">
+                                    扫码投资
+                                </a>
                             </div>
                         @endif
                     </div>
@@ -100,9 +102,9 @@
                                         {{ $comment->name }}
                                     </div>
                                     <div class="card-body">
-                                        <blockquote class="blockquote mb-0">
+                                        <div class="mb-0">
                                             <p>{{ $comment->comments }}</p>
-                                        </blockquote>
+                                        </div>
                                         <small class="text-muted">{{ \Carbon\Carbon::createFromTimeStamp(strtotime($comment->created_at))->diffForHumans() }}</small>
                                     </div>
                                 </div>
@@ -155,8 +157,9 @@
                                        href="{{ route('web.message.to', ['id' => $post->user->id]) }}"
                                        role="button">私信</a>
                                     <br>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm btn-block">TA 的文章
-                                    </button>
+                                        <a class="btn btn-outline-secondary btn-sm btn-block"
+                                           href="{{ route('web.posts.user_collection', ['id' => $post->user->id]) }}"
+                                           role="button">TA 的文章</a>
                                 </li>
                             </ul>
                         </div>

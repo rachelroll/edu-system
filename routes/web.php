@@ -18,12 +18,13 @@ Route::get('/', function () {
 });
 
 
-// posts
+// 关于 posts
 Route::get('posts', 'PostController@index')->name('posts.index');
 Route::get('posts/create', 'PostController@create')->name('posts.create');
 Route::get('posts/{id}', 'PostController@show')->name('posts.show');
-
 Route::post('posts/store', 'PostController@store')->name('posts.store');
+Route::get('posts/user_colleciton/{id}', 'PostController@collect')->name('web.posts.user_collection');
+
 
 // comments
 Route::post('/comments/store', 'CommentController@store')->name('comments.store');
@@ -37,17 +38,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 # 用户点击登录按钮时请求的地址
 //Route::get('/auth/oauth', 'Auth\AuthController@oauth')->name('wechat.login');
 
-# 微信接口回调地址
-Route::get('/auth/callback', 'Auth\AuthController@callback')->name('wechat.callback');
-
-
+// 搜索
 Route::get('/SearchQuery', 'SearchController@search');
-
-Route::get('/auth/oauth', function() {
-    Auth::loginUsingId(1);
-    //$user = Auth::user();
-    return redirect('posts');
-})->name('wechat.login');
 
 // 我的文章
 Route::get('/users/posts', 'UserController@post')->name('web.users.posts');
@@ -75,3 +67,31 @@ Route::get('/messages', 'MessageController@index')->name('web.messages');
 // 点赞
 Route::post('/like', 'LikeController@like');
 Route::get('/likes', 'LikeController@index')->name('web.likes');
+
+
+// 给微信服务器访问的路由
+Route::any('/wechat', 'WeChatController@serve');
+
+// 通过中间件获取用户资料
+Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_userinfo']], function () {
+    Route::get('/user', function () {
+        $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
+
+        dd($user);
+    });
+});
+
+Route::get('/auth/oauth', function() {
+    Auth::loginUsingId(1);
+    //$user = Auth::user();
+    return redirect('posts');
+})->name('wechat.login');
+
+# 微信接口回调地址
+Route::get('/auth/callback', 'Auth\AuthController@callback')->name('wechat.callback');
+
+
+// 请求微信统一下单接口
+Route::get('/payment/place_order{id}', 'PaymentController@place_order')->name('web.payment.place_order');
+// 接收微信支付状态的通知
+Route::post('/payment/notify', 'paymentController@notify')->name('web.payment.notify');

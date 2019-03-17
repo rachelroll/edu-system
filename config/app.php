@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Overtrue\LaravelWeChat\ServiceProvider::class,
     ],
 
     /*
@@ -230,7 +231,8 @@ return [
         'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
         'Es' => Elasticquent\ElasticquentElasticsearchFacade::class,
         'Image' => Intervention\Image\ImageManagerStatic::class,
-
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'EasyWeChat' => Overtrue\LaravelWeChat\Facade::class,
     ],
 
 ];

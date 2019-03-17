@@ -16,27 +16,27 @@ class CreatePayLogsTable extends Migration
         Schema::create('pay_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedInteger("order_id");
-            $table->string('order_sn')->default('')->comment('¶©µ¥±àºÅ');
-            $table->string('appid')->default('')->comment('Î¢ÐÅ·ÖÅäµÄ¹«ÖÚÕËºÅID');
-            $table->string('mch_id')->default('')->comment('Î¢ÐÅÖ§¸¶·ÖÅäµÄÉÌ»§ºÅ');
-            $table->string('bank_type', 16)->default('')->comment('¸¶¿îÒøÐÐ');
-            $table->string('is_subscribe', 1)->default('')->comment('ÊÇ·ñ¹Ø×¢¹«ÖÚÕËºÅ');
-            $table->string('nonce_str', 32)->default('')->comment('Ëæ»ú×Ö·û´®');
-            $table->string('openid', 128)->default('')->comment('ÓÃ»§±êÊ¶');
-            $table->string('out_trade_no', 32)->default('')->comment('ÉÌ»§ÏµÍ³ÄÚ²¿¶©µ¥ºÅ');
-            $table->string('result_code', 16)->default('')->comment('ÒµÎñ½á¹û');
-            $table->string('return_code', 16)->default('')->comment('Í¨ÐÅ±êÊ¶');
-            $table->string('sign', 32)->default('')->comment('Ç©Ãû');
-            $table->string("prepay_id",64)->default('')->comment('Î¢ÐÅÉú³ÉµÄÔ¤Ö§¸¶»Ø»°±êÊ¶£¬ÓÃÓÚºóÐø½Ó¿Úµ÷ÓÃÖÐÊ¹ÓÃ£¬¸ÃÖµÓÐÐ§ÆÚÎª2Ð¡Ê±');
-            $table->dateTime('time_end')->nullable()->comment('Ö§¸¶Íê³ÉÊ±¼ä');
-            $table->integer('total_fee')->default(0)->comment('¶©µ¥½ð¶î');
-            $table->string('trade_type', 16)->default('')->comment('½»Ò×ÀàÐÍ');
-            $table->string('transaction_id', 32)->default('')->comment('Î¢ÐÅÖ§¸¶¶©µ¥ºÅ');
-            $table->string('err_code', 32)->default('')->comment('´íÎó´úÂë');
-            $table->string('err_code_des', 128)->default('')->comment('´íÎó´úÂëÃèÊö');
-            $table->string('device_info', 32)->default('')->comment('Éè±¸ºÅ');
-            $table->text('attach')->nullable()->comment('ÉÌ¼ÒÊý¾Ý°ü');
+            $table->string('appid')->default('')->comment('å¾®ä¿¡åˆ†é…çš„å…¬ä¼—è´¦å·ID');
+            $table->string('mch_id')->default('')->comment('å¾®ä¿¡æ”¯ä»˜åˆ†é…çš„å•†æˆ·å·');
+            $table->string('bank_type', 16)->default('')->comment('ä»˜æ¬¾é“¶è¡Œ');
+            $table->integer('cash_fee')->default(0)->comment('çŽ°é‡‘æ”¯ä»˜é‡‘é¢');
+            $table->string('fee_type', 8)->default('')->comment('è´§å¸ç§ç±»');
+            $table->string('is_subscribe', 1)->default('')->comment('æ˜¯å¦å…³æ³¨å…¬ä¼—è´¦å·');
+            $table->string('nonce_str', 32)->default('')->comment('éšæœºå­—ç¬¦ä¸²');
+            $table->string('openid', 128)->default('')->comment('ç”¨æˆ·æ ‡è¯†');
+            $table->string('out_trade_no', 32)->default('')->comment('å•†æˆ·ç³»ç»Ÿå†…éƒ¨è®¢å•å·');
+            $table->string('result_code', 16)->default('')->comment('ä¸šåŠ¡ç»“æžœ');
+            $table->string('return_code', 16)->default('')->comment('é€šä¿¡æ ‡è¯†');
+            $table->string('sign', 32)->default('')->comment('ç­¾å');
+            $table->string("prepay_id",64)->default('')->comment('å¾®ä¿¡ç”Ÿæˆçš„é¢„æ”¯ä»˜å›žè¯æ ‡è¯†ï¼Œç”¨äºŽåŽç»­æŽ¥å£è°ƒç”¨ä¸­ä½¿ç”¨ï¼Œè¯¥å€¼æœ‰æ•ˆæœŸä¸º2å°æ—¶');
+            $table->dateTime('time_end')->nullable()->comment('æ”¯ä»˜å®Œæˆæ—¶é—´');
+            $table->integer('total_fee')->default(0)->comment('è®¢å•é‡‘é¢');
+            $table->string('trade_type', 16)->default('')->comment('äº¤æ˜“ç±»åž‹');
+            $table->string('transaction_id', 32)->default('')->comment('å¾®ä¿¡æ”¯ä»˜è®¢å•å·');
+            $table->string('err_code', 32)->default('')->comment('é”™è¯¯ä»£ç ');
+            $table->string('err_code_des', 128)->default('')->comment('é”™è¯¯ä»£ç æè¿°');
+            $table->string('device_info', 32)->default('')->comment('è®¾å¤‡å·');
+            $table->text('attach')->nullable()->comment('å•†å®¶æ•°æ®åŒ…');
 
             $table->timestamps();
         });

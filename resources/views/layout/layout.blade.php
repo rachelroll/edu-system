@@ -86,6 +86,7 @@
 </nav>
 
 {{--.end 导航--}}
+
 @if (session('success'))
     <br>
     <div class="container">
