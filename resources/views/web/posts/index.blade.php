@@ -21,7 +21,7 @@
                         @if(!empty($posts))
                             @foreach($posts as $post)
                                 <li class="media">
-                                    <a href="{{ route('posts.show', ['id'=> $post->id]) }}" target="_blank" style="text-decoration:none;color:white;" >
+                                    <a href="{{ route('web.posts.show', ['id'=> $post->id]) }}" target="_blank" style="text-decoration:none;color:white;" >
                                         <div class="row">
                                             <div class="pl-3 mr-2">
                                                 <img src="{{ env('CDN_DOMAIN').'/'.$post->cover}}" class="mr-3" alt="..." style="height: 8rem;">

@@ -9,7 +9,7 @@
         <div class="no-gutters" style="width: 960px; margin:0 auto">
             <h4 class="text-muted text-center">专心写文章</h4>
             <br>
-            <form method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
+            <form method="post" action="{{ route('web.posts.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <input name="title" type="text" class="form-control" placeholder="标题">

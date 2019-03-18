@@ -20,9 +20,9 @@ Route::get('/', function () {
 
 // ¹ØÓÚ posts
 Route::get('posts', 'PostController@index')->name('web.posts.index');
-Route::get('posts/create', 'PostController@create')->name('posts.create');
-Route::get('posts/{id}', 'PostController@show')->name('posts.show');
-Route::post('posts/store', 'PostController@store')->name('posts.store');
+Route::get('posts/create', 'PostController@create')->name('web.posts.create');
+Route::get('posts/{id}', 'PostController@show')->name('web.posts.show');
+Route::post('posts/store', 'PostController@store')->name('web.posts.store');
 Route::get('posts/user_colleciton/{id}', 'PostController@collect')->name('web.posts.user_collection');
 
 

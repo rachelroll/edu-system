@@ -7,7 +7,7 @@
     <title>֪知识付费平台-@yield('title')</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+           crossorigin="anonymous">
 
     @yield('css')
     @yield('style')
@@ -39,7 +39,8 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('posts.create') }}" tabindex="-1" aria-disabled="true">写文章</a>
+                    <a class="nav-link" href="{{ route('web.posts.create') }}" tabindex="-1"
+                       aria-disabled="true">写文章</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0" id="elasticScout" action="/SearchQuery" method="get">
@@ -57,12 +58,12 @@
                     </li>
                 @else
                     <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
+                        <a class="btn dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
                             <img class="rounded-circle" style="width:30px; height:30px;"
                                  src="{{ env('CDN_DOMAIN').'/'.\Auth::user()->avatar }}" alt=""/>
                             <span class="text-muted">{{ \Auth::user()->name }}</span>
-                        </button>
+                        </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item text-muted" href="{{ route('web.users.posts') }}">我的文章</a>
                             <a class="dropdown-item text-muted" href="{{ route('web.likes') }}">我的赞(收藏)</a>
@@ -77,31 +78,30 @@
 </nav>
 
 {{--.end 导航--}}
-
-@if (session('success'))
-    <br>
-    <div class="container">
-        <div class="alert alert-success" role="alert">
-            {{ session('success') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    </div>
-@elseif(session('error'))
-    <div class="container">
-        <div class="alert alert-warning" role="alert">
-            {{ session('error') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    </div>
-@endif
 <br>
 @yield('content')
 </body>
 <script src="{{ mix('js/app.js') }}"></script>
+<script>
+
+            @foreach(['success','info','error','warning'] as $type)
+                    @if(session($type))
+            var $type = '{{ $type }}';
+            var message = '{{ session($type) }}';
+            toastr.options.progressBar = true;
+            toastr['success']('nihskdfjskd');
+            // toastr[$type](message);
+            @endif
+            @endforeach
+
+            @if ($errors->any())
+            @foreach ($errors->all() as $error)
+        toastr.options.progressBar = true;
+    toastr['error']('{{ $error }}');
+    @endforeach
+    @endif
+
+</script>
 @yield('js')
 @yield('script')
 

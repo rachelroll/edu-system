@@ -117,7 +117,7 @@ class PostController extends Controller
             $id = $post->id;
 
             //$content = Markdown::convertToHtml($post->content);
-            return redirect()->route('posts.show', [
+            return redirect()->route('web.posts.show', [
                 'id' => $id,
             ]);
         } else {

@@ -232,7 +232,7 @@
                         alert('支付成功');
                         /** 取消定时器 */
                         interval.cancel(timer);
-                        location.href = "{{ route('posts.show', ['id' => 1]) }}";
+                        location.href = "{{ route('web.posts.show', ['id' => 1]) }}";
                     }
                 })
                 .catch(function (error) {

@@ -58,7 +58,7 @@
                 <br>
                 <div class="card" style="width: 17rem;">
                     <div class="card-body text-center">
-                        <a href="{{ route('posts.create') }}">撰写文章</a>
+                        <a href="{{ route('web.posts.create') }}">撰写文章</a>
                     </div>
                 </div>
             </div>

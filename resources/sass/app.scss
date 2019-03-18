@@ -1,17 +1,18 @@
-
 // Fonts
 //这里我去掉了 google字体
 // Variables
 @import 'variables';
-
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 @import '~simditor/styles/simditor';
+@import '~sweetalert2/src/sweetalert2.scss';
+@import "~toastr/toastr.scss";
 
 body {
   background-color: whitesmoke;
 }
-.triangle-down  {
+
+.triangle-down {
   width: 0;
   height: 0;
   border-top: 5px solid dimgrey;
@@ -27,7 +28,6 @@ nav {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
-.ross {
-  color: red;
-}
+
+
 
