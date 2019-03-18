@@ -6,23 +6,10 @@
     {{--<meta name="csrf-token" content="{{ csrf_token() }}">--}}
     <title>֪知识付费平台-@yield('title')</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <style>
-        body {
-            background-color: whitesmoke;
-        }
-        .triangle-down  {
-            width: 0;
-            height: 0;
-            border-top: 5px solid dimgrey;
-            border-left: 5px solid transparent;
-            border-right: 5px solid transparent;
-        }
+    <link rel="stylesheet" href="{{ mix('/css/app.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-        nav {
-            background-color: white;
-        }
-    </style>
+    @yield('css')
     @yield('style')
 
 </head>
@@ -34,7 +21,7 @@
         <div class="collapse navbar-collapse flex-row" id="navbarSupportedContent">
             <ul class="navbar-nav mr-5">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{ route('posts.index') }}">首页 <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{ route('web.posts.index') }}">首页 <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">好文</a>
@@ -52,24 +39,28 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="{{ route('posts.create') }}" tabindex="-1" aria-disabled="true">写文章</a>
+                    <a class="nav-link" href="{{ route('posts.create') }}" tabindex="-1" aria-disabled="true">写文章</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0" id="elasticScout" action="/SearchQuery" method="get">
-                <input class="form-control mr-sm-2 form-control-sm" type="search" placeholder="搜索" aria-label="Search" name="search">
+                <input class="form-control mr-sm-2 form-control-sm" type="search" placeholder="搜索" aria-label="Search"
+                       name="search">
                 <button class="btn btn-outline-secondary btn-sm my-2 my-sm-0" type="submit">搜索</button>
             </form>
         </div>
         <div class="flex-row">
             <ul class="navbar-nav mr-auto">
                 @if(! \Auth::user())
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ route('wechat.login') }}">微信登录 <span class="sr-only">(current)</span></a>
-                </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ route('wechat.login') }}">微信登录 <span
+                                    class="sr-only">(current)</span></a>
+                    </li>
                 @else
                     <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="rounded-circle" style="width:30px; height:30px;" src="{{ env('CDN_DOMAIN').'/'.\Auth::user()->avatar }}" alt=""/>
+                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                            <img class="rounded-circle" style="width:30px; height:30px;"
+                                 src="{{ env('CDN_DOMAIN').'/'.\Auth::user()->avatar }}" alt=""/>
                             <span class="text-muted">{{ \Auth::user()->name }}</span>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -97,7 +88,7 @@
             </button>
         </div>
     </div>
-    @elseif(session('error'))
+@elseif(session('error'))
     <div class="container">
         <div class="alert alert-warning" role="alert">
             {{ session('error') }}
@@ -110,7 +101,8 @@
 <br>
 @yield('content')
 </body>
-<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ mix('js/app.js') }}"></script>
 @yield('js')
+@yield('script')
 
 </html>

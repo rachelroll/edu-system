@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
+@charset "UTF-8";
 
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
@@ -11602,6 +11602,22 @@ a.text-dark:focus {
 .editor-style img {
   margin: 0 5px;
   vertical-align: middle;
+}
+
+body {
+  background-color: whitesmoke;
+}
+
+.triangle-down {
+  width: 0;
+  height: 0;
+  border-top: 5px solid dimgrey;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+
+nav {
+  background-color: white;
 }
 
 .navbar-laravel {

@@ -1,13 +1,27 @@
 
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
-
+//这里我去掉了 google字体
 // Variables
 @import 'variables';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 @import '~simditor/styles/simditor';
+
+body {
+  background-color: whitesmoke;
+}
+.triangle-down  {
+  width: 0;
+  height: 0;
+  border-top: 5px solid dimgrey;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+
+nav {
+  background-color: white;
+}
 
 .navbar-laravel {
   background-color: #fff;

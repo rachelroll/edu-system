@@ -1,8 +1,4 @@
 {
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css",
-    "/js/hotkeys.js": "/js/hotkeys.js",
-    "/js/simple-module.min.js": "/js/simple-module.min.js",
-    "/js/uploader.min.js": "/js/uploader.min.js",
-    "/js/simditor.js": "/js/simditor.js"
+    "/css/app.css": "/css/app.css"
 }

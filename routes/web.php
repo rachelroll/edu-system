@@ -14,12 +14,12 @@
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(route('web.posts.index'));
 });
 
 
 // ¹ØÓÚ posts
-Route::get('posts', 'PostController@index')->name('posts.index');
+Route::get('posts', 'PostController@index')->name('web.posts.index');
 Route::get('posts/create', 'PostController@create')->name('posts.create');
 Route::get('posts/{id}', 'PostController@show')->name('posts.show');
 Route::post('posts/store', 'PostController@store')->name('posts.store');
