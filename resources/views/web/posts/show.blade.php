@@ -69,9 +69,9 @@
                         @if($post->is_free != 1)
                             <br>
                             <div class="center">
-                                <a href="{{ route('web.payment.place_order', ['id' => $post->id]) }}" class="btn btn-secondary btn-block">
+                                <button type="button" id="order" class="btn btn-secondary btn-block">
                                     扫码投资
-                                </a>
+                                </button>
                             </div>
                         @endif
                     </div>
@@ -168,6 +168,21 @@
             </div>
         </div>
     </div>
+
+    <!-- 二维码 -->
+    <div class="modal fade" id="qrcode" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content bg-transparent" style="border:none">
+                <div class="modal-body align-items-center text-center">
+                    <p class="modal-title" id="exampleModalLabel" style="color:white">微信扫码支付</p>
+                    <br>
+                    @if(session('code_url'))
+                    {!! \QrCode::size(200)->generate(session('code_url')); !!}
+                        @endif
+                </div>
+            </div>
+        </div>
+    </div>
 @stop
 
 @section('js')
@@ -203,6 +218,67 @@
             });
         });
 
+        $('#order').click(function () {
+            axios.get("/payment/place_order", {
+                params: {
+                    id: "{{ $post->id }}"
+                }
+            }).then(function (response) {
+                    console.log(response);
+                if (response.data.code == 200) {
+                    $('#qrcode').modal('show')
+                }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        });
     </script>
 
+@if(session('order_sn'))
+    <script>
+        var timer = setInterval(function () {
+            axios.get('/payment/paid', {
+                params: {
+                    'out_trade_no': "{{ session('order_sn') }}"
+                }
+            })
+                .then(function (response) {
+                    if (response.data.code == 200) {
+                        /** 取消定时器 */
+                        window.clearInterval(timer);
+                        window.location.reload();
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }, 300);
+    </script>
+    @endif
+
+
 @endsection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

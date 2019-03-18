@@ -92,6 +92,17 @@ Route::get('/auth/callback', 'Auth\AuthController@callback')->name('wechat.callb
 
 
 // 请求微信统一下单接口
-Route::get('/payment/place_order{id}', 'PaymentController@place_order')->name('web.payment.place_order');
+Route::get('/payment/place_order', 'PaymentController@place_order')->name('web.payment.place_order');
 // 接收微信支付状态的通知
 Route::post('/payment/notify', 'paymentController@notify')->name('web.payment.notify');
+
+// 请求微信接口, 查看订单支付状态
+Route::get('/payment/paid', 'PaymentController@paid')->name('web.payment.paid');
+
+
+
+
+
+
+
+
