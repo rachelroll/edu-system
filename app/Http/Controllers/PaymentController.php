@@ -8,6 +8,8 @@ use App\Post;
 use EasyWeChat\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class PaymentController extends Controller
 {
@@ -34,7 +36,6 @@ class PaymentController extends Controller
         $id = $request->get('id');
         $order_sn = date('ymd') . substr(time(), -5) . substr(microtime(), 2, 5);
         $post_price = optional(Post::where('id', $id)->first())->pirce;
-
         PayLog::create([
             'appid'        => config('wechat.payment.default.app_id'),
             'mch_id'       => config('wechat.payment.default.mch_id'),
@@ -48,23 +49,19 @@ class PaymentController extends Controller
 
         $result = $app->order->unify([
             'trade_type'       => 'NATIVE',
-            'body'             => '投资平台-订单支付',
+            'body'             => '教科文-订单支付',
             'out_trade_no'     => $order_sn,
             'total_fee'        => $total_fee,
             'spbill_create_ip' => request()->ip(), // 可选，如不传该参数，SDK 将会自动获取相应 IP 地址
         ]);
-
         if ($result['result_code'] == 'SUCCESS') {
             $code_url = $result['code_url'];
 
-            $request->session()->flash('code_url', $code_url);
-            $request->session()->flash('order_sn', $order_sn);
-
             return [
                 'code'     => 200,
+                'order_sn' => $order_sn,
+                'html' => QrCode::size(200)->generate($code_url),
             ];
-
-            //return view('web.payment.qrcode', compact('code_url', 'order_sn'));
         }
     }
 
@@ -170,13 +167,9 @@ class PaymentController extends Controller
     {
         $out_trade_no = $request->get('out_trade_no');
 
-        Log::info($out_trade_no);
         $app = $this->payment();
         $result = $app->order->queryByOutTradeNumber($out_trade_no);
-        Log::info($result);
         if ($result['trade_state'] === 'SUCCESS') {
-            Log::info($result['trade_state']);
-
             return [
                 'code' => 200,
                 'msg'  => '支付成功',
