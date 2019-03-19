@@ -64,6 +64,8 @@ Route::post('/message/store', 'MessageController@store')->name('web.message.stor
 // 所有私信
 Route::get('/messages', 'MessageController@index')->name('web.messages');
 
+Route::get('notifications', 'NotificationController@index')->name('web.notifications.index');
+
 // 点赞
 Route::post('/like', 'LikeController@like');
 Route::get('/likes', 'LikeController@index')->name('web.likes');

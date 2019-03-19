@@ -15,7 +15,7 @@ class CreatePayLogsTable extends Migration
     {
         Schema::create('pay_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            
+
             // 根据自身业务设计的字段
             $table->integer('post_id')->default(0)->comment('文章id');
             // 以下均是微信支付结果通知接口返回的字段

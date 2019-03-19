@@ -57,6 +57,9 @@
                                     class="sr-only">(current)</span></a>
                     </li>
                 @else
+                    <li class="nav-item align-self-center">
+                        <a href="{{ route('web.notifications.index') }}" class="mr-3 text-muted">{{ $notifications_count }}</a>
+                    </li>
                     <div class="dropdown">
                         <a class="btn dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">

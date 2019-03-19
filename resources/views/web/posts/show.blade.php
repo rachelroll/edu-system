@@ -98,8 +98,9 @@
                                          src="{{ env('CDN_DOMAIN').'/'.$comment->portrait }}" alt=""/>
                                 </div>
                                 <div class="card col-10 ml-3">
-                                    <div class="card-header bg-transparent">
-                                        {{ $comment->name }}
+                                    <div class="d-flex pt-2 pb-2 border-bottom">
+                                        <div class="mr-auto">{{ $comment->name }}</div>
+                                        <div class="reply">回复</div>
                                     </div>
                                     <div class="card-body">
                                         <div class="mb-0">
@@ -118,7 +119,7 @@
                         @csrf
                         <input type="hidden" name="post_id" value="{{ $post->id }}">
                         <div class="form-group">
-                            <textarea name="comments" id="" cols="90" rows="4" class="form-control"></textarea>
+                            <textarea name="comments" id="comment" cols="90" rows="4" class="form-control"></textarea>
                         </div>
                         <button type="submit" class="btn btn-secondary">发表评论</button>
                     </form>
@@ -194,6 +195,7 @@
             hljs.highlightBlock(block);
         });
 
+        // 点赞
         $('#like').click(function () {
             // 指定 get 请求, 及请求的 url
             axios.post('/like', {
@@ -217,6 +219,7 @@
             });
         });
 
+        // 点击购买
         $('#order').click(function () {
             axios.get("/payment/place_order", {
                 params: {
@@ -249,6 +252,12 @@
                 .catch(function (error) {
                     console.log(error);
                 });
+        });
+
+        // 指定回复某人
+        $('.reply').click(function () {
+            $('#comment').val('@'+ $(this).siblings().text() + ' ');
+            $('#comment').focus();
         });
     </script>
 @endsection

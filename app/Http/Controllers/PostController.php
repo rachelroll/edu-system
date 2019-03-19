@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Fan;
 use App\Like;
 use App\Post;
+use App\User;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,6 +40,11 @@ class PostController extends Controller
             }
         }
 
+        // 通知数
+        //$user_id = Auth::user()->id;
+        //$user = User::where('id', $user_id)->withCount('notifications')->first();
+        //$notifications_count = $user->notifications_count;
+
         return view('web.posts.index', compact('posts'));
     }
 
@@ -70,6 +76,10 @@ class PostController extends Controller
 
         // 阅读量
         $readed = Redis::incr('post'.$id.'_readed');
+
+        // 通知数
+        //$user = User::where('id', $user_id)->withCount('notifications')->first();
+        //$notifications_count = $user->notifications_count;
 
         return view('web.posts.show', compact('post', 'bool', 'like_counts', 'readed'));
     }

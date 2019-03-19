@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [
             'SocialiteProviders\Weixin\WeixinExtendSocialite@handle',
         ],
+        'App\Events\CommentSent' => [
+            'App\Listeners\SendCommentNotification',
+        ],
         //\SocialiteProviders\Manager\SocialiteWasCalled::class => [
         //    // add your listeners (aka providers) here
         //    'SocialiteProviders\WeixinWeb\WeixinWebExtendSocialite@handle',
