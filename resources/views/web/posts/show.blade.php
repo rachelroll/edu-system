@@ -176,9 +176,8 @@
                 <div class="modal-body align-items-center text-center">
                     <p class="modal-title" id="exampleModalLabel" style="color:white">微信扫码支付</p>
                     <br>
-                    @if(session('code_url'))
-                    {!! \QrCode::size(200)->generate(session('code_url')); !!}
-                        @endif
+                    {{--生成的二维码会放在这里--}}
+                    <div id="qrcode2"></div>
                 </div>
             </div>
         </div>
@@ -226,7 +225,25 @@
             }).then(function (response) {
                     console.log(response);
                 if (response.data.code == 200) {
-                    $('#qrcode').modal('show')
+                    $('#qrcode2').html(response.data.html);
+                    $('#qrcode').modal('show');
+                    var timer = setInterval(function () {
+                        axios.get('/payment/paid', {
+                            params: {
+                                'out_trade_no': response.data.order_sn,
+                            }
+                        })
+                            .then(function (response) {
+                                if (response.data.code == 200) {
+                                    /** 取消定时器 */
+                                    window.clearInterval(timer);
+                                    window.location.reload();
+                                }
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
+                    }, 300);
                 }
                 })
                 .catch(function (error) {
@@ -234,30 +251,6 @@
                 });
         });
     </script>
-
-@if(session('order_sn'))
-    <script>
-        var timer = setInterval(function () {
-            axios.get('/payment/paid', {
-                params: {
-                    'out_trade_no': "{{ session('order_sn') }}"
-                }
-            })
-                .then(function (response) {
-                    if (response.data.code == 200) {
-                        /** 取消定时器 */
-                        window.clearInterval(timer);
-                        window.location.reload();
-                    }
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        }, 300);
-    </script>
-    @endif
-
-
 @endsection
 
 

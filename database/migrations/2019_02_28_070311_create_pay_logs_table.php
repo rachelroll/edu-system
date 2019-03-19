@@ -15,9 +15,12 @@ class CreatePayLogsTable extends Migration
     {
         Schema::create('pay_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
-
-            $table->string('appid')->default('')->comment('微信分配的公众账号ID');
-            $table->string('mch_id')->default('')->comment('微信支付分配的商户号');
+            
+            // 根据自身业务设计的字段
+            $table->integer('post_id')->default(0)->comment('文章id');
+            // 以下均是微信支付结果通知接口返回的字段
+            $table->string('appid', 255)->default('')->comment('微信分配的公众账号ID');
+            $table->string('mch_id', 255)->default('')->comment('微信支付分配的商户号');
             $table->string('bank_type', 16)->default('')->comment('付款银行');
             $table->integer('cash_fee')->default(0)->comment('现金支付金额');
             $table->string('fee_type', 8)->default('')->comment('货币种类');
@@ -28,7 +31,7 @@ class CreatePayLogsTable extends Migration
             $table->string('result_code', 16)->default('')->comment('业务结果');
             $table->string('return_code', 16)->default('')->comment('通信标识');
             $table->string('sign', 32)->default('')->comment('签名');
-            $table->string("prepay_id",64)->default('')->comment('微信生成的预支付回话标识，用于后续接口调用中使用，该值有效期为2小时');
+            $table->string('prepay_id', 64)->default('')->comment('微信生成的预支付回话标识，用于后续接口调用中使用，该值有效期为2小时');
             $table->dateTime('time_end')->nullable()->comment('支付完成时间');
             $table->integer('total_fee')->default(0)->comment('订单金额');
             $table->string('trade_type', 16)->default('')->comment('交易类型');
@@ -38,7 +41,7 @@ class CreatePayLogsTable extends Migration
             $table->string('device_info', 32)->default('')->comment('设备号');
             $table->text('attach')->nullable()->comment('商家数据包');
 
-            $table->timestamps();
+            $table->nullableTimestamps();
         });
     }
 
