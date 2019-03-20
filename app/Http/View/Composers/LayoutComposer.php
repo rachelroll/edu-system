@@ -2,6 +2,7 @@
 
 namespace App\Http\View\Composers;
 
+use App\Notification;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -40,8 +41,11 @@ class LayoutComposer
         // 首先判断用户是否登录
         if ($user) {
             $user_id = Auth::user()->id;
-            $user = User::where('id', $user_id)->withCount('notifications')->first();
+            $user = User::where('id', $user_id)->withCount(['notifications' => function ($query) {
+                $query->where('unreaded', 1);
+            }])->first();
             $notifications_count = $user->notifications_count;
+
             $view->with('notifications_count', $notifications_count);
         } else {
             $view->with('notifications_count', null);

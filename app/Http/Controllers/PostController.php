@@ -55,6 +55,11 @@ class PostController extends Controller
         $user_id = Auth::user()->id;
         $author_id = $post->user_id;
 
+        if ($post->is_free == 0) {
+            $content = $post->content;
+            $post->content = $this->cutArticle($content);
+        }
+        
         // 是否关注
         $bool = Fan::where('user_id', $author_id)->where('fans_id', $user_id)->exists();
 
@@ -163,6 +168,20 @@ class PostController extends Controller
         $bool = Fan::where('user_id', $author_id)->where('fans_id', $user_id)->exists();
 
         return view('web.posts.user_collection', compact('posts', 'bool'));
+    }
+
+    // 截取文章的一部分内容
+    public function cutArticle($data, $str="....")
+    {
+        $data=strip_tags($data);//去除html标记
+        $pattern = "/&[a-zA-Z]+;/";//去除特殊符号
+        $data=preg_replace($pattern,'',$data);
+
+        $cut = strlen($data) * 3 / 10;
+
+        $data = mb_strimwidth($data,0, $cut, $str);
+
+        return $data;
     }
 
 }

@@ -20,6 +20,10 @@ class NotificationController extends Controller
             $notification->post_author_id = $post->user_id;
         }
 
+        Notification::where('unreaded', 1)->update([
+            'unreaded' => 0,
+        ]);
+
         return view('web.notifications.index', compact('notifications'));
     }
 }
