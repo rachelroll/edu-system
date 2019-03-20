@@ -23,11 +23,32 @@
                     <hr>
                     @if(!empty($notifications))
                         @foreach($notifications as $notification)
-                            <img class="rounded-circle" style="width:30px" src="{{ env('CDN_DOMAIN').'/'.$notification->sender_portrait }}" alt=""/>
-                            <span>{{ $notification->sender_name }} | </span>
-                            <span class="text-muted">回复了你的话题: </span>
-                            <a href="{{ route('web.posts.show', ['id' => $notification->post_id]) }}">{{ $notification->content }}</a>
-                            <small class="text-muted">{{ \Carbon\Carbon::createFromTimeStamp(strtotime($notification->created_at))->diffForHumans() }}</small>
+                            <div class="row">
+                                <div class="col-1">
+                                    <img class="rounded-circle" style="width:37px" src="{{ env('CDN_DOMAIN').'/'.$notification->sender_portrait }}" alt=""/>
+                                </div>
+                                <div class="col-11 pl-0">
+                                    <div class="d-flex">
+                                        @if($notification->post_author_id == $notification->user_id)
+                                            <div class="mr-auto">
+                                                <span>{{ $notification->sender_name }} | </span>
+                                                <span class="text-muted">回复了你的话题: </span>
+                                                <a href="{{ route('web.posts.show', ['id' => $notification->post_id]) }}">{{ $notification->post_title }}</a>
+                                            </div>
+                                        @else
+                                            <div class="mr-auto">
+                                                <span>{{ $notification->sender_name }} | </span>
+                                                <span class="text-muted">在 </span>
+                                                <a href="{{ route('web.posts.show', ['id' => $notification->post_id]) }}">{{ $notification->post_title }}</a>
+                                                <span> 的评论中提到了你</span>
+                                            </div>
+                                        @endif
+                                        <small class="text-muted">{{ \Carbon\Carbon::createFromTimeStamp(strtotime($notification->created_at))->diffForHumans() }}</small>
+                                    </div>
+                                    <div>{{ $notification->content }}</div>
+                                </div>
+                            </div>
+
                             <hr>
                         @endforeach
                     @else

@@ -26,6 +26,7 @@ class CommentSent
         $this->comment = $comment;
     }
 
+
     /**
      * Get the channels the event should broadcast on.
      *

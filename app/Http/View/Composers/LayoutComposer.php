@@ -36,9 +36,16 @@ class LayoutComposer
      */
     public function compose(View $view)
     {
-        $user_id = Auth::user()->id;
-        $user = User::where('id', $user_id)->withCount('notifications')->first();
-        $notifications_count = $user->notifications_count;
-        $view->with('notifications_count', $notifications_count);
+        $user = Auth::user();
+        // 首先判断用户是否登录
+        if ($user) {
+            $user_id = Auth::user()->id;
+            $user = User::where('id', $user_id)->withCount('notifications')->first();
+            $notifications_count = $user->notifications_count;
+            $view->with('notifications_count', $notifications_count);
+        } else {
+            $view->with('notifications_count', null);
+        }
+
     }
 }

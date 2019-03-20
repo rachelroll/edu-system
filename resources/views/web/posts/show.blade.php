@@ -95,12 +95,13 @@
                             <div class="row">
                                 <div class="col-1">
                                     <img class="rounded-circle" style="width:50px; height:50px;"
-                                         src="{{ env('CDN_DOMAIN').'/'.$comment->portrait }}" alt=""/>
+                                         src="{{ env('CDN_DOMAIN').'/'.$comment->commentator_portrait }}" alt=""/>
                                 </div>
                                 <div class="card col-10 ml-3">
                                     <div class="d-flex pt-2 pb-2 border-bottom">
-                                        <div class="mr-auto">{{ $comment->name }}</div>
+                                        <div class="mr-auto">{{ $comment->commentator_name }}</div>
                                         <div class="reply">回复</div>
+                                        <div class="d-none">{{ $comment->user_id }}</div>
                                     </div>
                                     <div class="card-body">
                                         <div class="mb-0">
@@ -118,6 +119,8 @@
                     <form method="post" action="{{ route('comments.store') }}">
                         @csrf
                         <input type="hidden" name="post_id" value="{{ $post->id }}">
+                        <input type="hidden" name="post_title" value="{{ $post->title }}">
+                        <input id="commentator_id" type="hidden" name="commentator_id" value="">
                         <div class="form-group">
                             <textarea name="comments" id="comment" cols="90" rows="4" class="form-control"></textarea>
                         </div>
@@ -256,7 +259,10 @@
 
         // 指定回复某人
         $('.reply').click(function () {
-            $('#comment').val('@'+ $(this).siblings().text() + ' ');
+            $('#comment').val('@'+ $(this).prev().text() + ' ');
+            var commentator_id = $(this).next().text();
+            console.log(commentator_id);
+            $('#commentator_id').val(commentator_id);
             $('#comment').focus();
         });
     </script>
