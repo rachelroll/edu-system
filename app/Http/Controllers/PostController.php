@@ -17,7 +17,7 @@ class PostController extends Controller
     // 文章列表
     public function index()
     {
-        $posts = Post::isChecked()->orderBy('updated_at', 'desc')->get();
+        $posts = Post::isChecked()->orderBy('updated_at', 'desc')->paginate(10);
 
         foreach ($posts as &$post) {
             // 阅读量
@@ -40,11 +40,6 @@ class PostController extends Controller
             }
         }
 
-        // 通知数
-        //$user_id = Auth::user()->id;
-        //$user = User::where('id', $user_id)->withCount('notifications')->first();
-        //$notifications_count = $user->notifications_count;
-
         return view('web.posts.index', compact('posts'));
     }
 
@@ -59,7 +54,7 @@ class PostController extends Controller
             $content = $post->content;
             $post->content = $this->cutArticle($content);
         }
-        
+
         // 是否关注
         $bool = Fan::where('user_id', $author_id)->where('fans_id', $user_id)->exists();
 
@@ -177,6 +172,7 @@ class PostController extends Controller
         $pattern = "/&[a-zA-Z]+;/";//去除特殊符号
         $data=preg_replace($pattern,'',$data);
 
+        // 设置只加载三分之一的内容
         $cut = strlen($data) * 3 / 10;
 
         $data = mb_strimwidth($data,0, $cut, $str);

@@ -9,7 +9,7 @@
 @import "~toastr/toastr.scss";
 
 body {
-  background-color: whitesmoke;
+  background-color: white;
 }
 
 .triangle-down {
@@ -27,6 +27,11 @@ nav {
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+a {
+  text-decoration: none;
+  color: gray;
 }
 
 

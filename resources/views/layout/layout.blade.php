@@ -15,7 +15,7 @@
 </head>
 <body>
 {{--导航--}}
-<nav class=" navbar navbar-expand-lg navbar-light">
+<nav class=" navbar navbar-expand-lg navbar-light border-bottom shadow-sm">
     <div class="container">
         <a class="navbar-brand" href="#">投资</a>
         <div class="collapse navbar-collapse flex-row" id="navbarSupportedContent">

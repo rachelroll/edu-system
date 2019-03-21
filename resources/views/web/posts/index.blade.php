@@ -10,6 +10,11 @@
     .right {
         /*margin: 0 4px;*/
     }
+
+    a {
+        text-decoration: none;
+        color: gray;
+    }
 </style>
 @endsection('style)
 @section('content')
@@ -17,11 +22,11 @@
         <div class="row">
             <div class="col-9">
                 <div class="left">
-                    <ul class="list-unstyled">
+                    <ul class="list-unstyled infinite-scroll">
                         @if(!empty($posts))
                             @foreach($posts as $post)
                                 <li class="media">
-                                    <a href="{{ route('web.posts.show', ['id'=> $post->id]) }}" target="_blank" style="text-decoration:none;color:white;" >
+                                    <a href="{{ route('web.posts.show', ['id'=> $post->id]) }}" target="_blank" style="text-decoration:none;color:white;" class="" >
                                         <div class="row">
                                             <div class="pl-3 mr-2">
                                                 <img src="{{ env('CDN_DOMAIN').'/'.$post->cover}}" class="mr-3" alt="..." style="height: 8rem;">
@@ -30,7 +35,9 @@
                                                 <h5 class="mt-0 mb-1 text-muted">{{ $post->title }}</h5>
                                                 <p class="text-muted">{{$post->description }}</p>
                                                 <p class="text-muted">¥ {{ $post->price / 100 }}</p>
-                                                <p class="card-text"><small class="text-muted">{{ $post->author }} | 发布于 {{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }} | 阅读 {{ $post->readed }} | 评论 {{ $post->comments_count }} | 点赞 {{ $post->like }}</small></p>
+                                                <div class="d-flex">
+                                                    <p class="card-text ml-auto"><small class="text-muted">{{ $post->author }} | 发布于 {{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }} | 阅读 {{ $post->readed }} | 评论 {{ $post->comments_count }} | 点赞 {{ $post->like }}</small></p>
+                                                </div>
                                             </div>
                                         </div>
                                     </a>
@@ -38,6 +45,17 @@
                                 <hr>
                             @endforeach
                         @endif
+
+                        <div class="text-center">
+                            @if( $posts->currentPage() == $posts->lastPage())
+                                <span class="text-center text-muted">没有更多了</span>
+                            @else
+                                {{-- 这里调用 paginator 对象的 nextPageUrl() 方法, 以获得下一页的路由 --}}
+                                <a class="jscroll-next btn btn-outline-secondary btn-block rounded-pill" href="{{ $posts->nextPageUrl() }}">
+                                    加载更多....
+                                </a>
+                            @endif
+                        </div>
                     </ul>
                 </div>
             </div>
@@ -65,3 +83,33 @@
         </div>
     </div>
 @stop
+
+@section('js')
+    <script src="https://cdn.bootcss.com/jscroll/2.4.1/jquery.jscroll.min.js"></script>
+    <script>
+        $(function() {
+            $('ul.pagination').hide();
+
+            var options = {
+                debug:true,
+                // 当滚动到底部时,自动加载下一页
+                autoTrigger: true,
+                // 限制自动加载, 仅限前两页, 后面就要用户点击才加载
+                autoTriggerUntil: 1,
+                // 设置加载下一页缓冲时的图片
+                loadingHtml: '<img class="align-self-center" src="/img/loading.jpg" alt="Loading..." style="width: 80px"/>',
+                //设置距离底部多远时开始加载下一页
+                padding: 0,
+                // nextSelector: '.pagination li.active + li a',
+                nextSelector: 'a.jscroll-next:last',
+                // 下一个自动加载的位置
+                contentSelector: 'ul.infinite-scroll',
+                callback: function() {
+                    $('ul.pagination').remove();
+                }
+            };
+            $('.infinite-scroll').jscroll(options);
+        });
+    </script>
+
+    @stop

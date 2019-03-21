@@ -134,7 +134,7 @@
                 <div class="right">
                     <div class="pt-5" style="background-color: white">
                         <img src="{{ env('CDN_DOMAIN').'/'.$post->user->avatar }}" style="width:90px; height:90px;"
-                             class="card-img-top rounded-circle center" alt="...">
+                             class="card-img-top center" alt="...">
                         <br>
                         <div class="text-muted text-center">{{ $post->user->name }}</div>
                         <div class="card-body">
