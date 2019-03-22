@@ -15,7 +15,7 @@
 </head>
 <body>
 {{--导航--}}
-<nav class=" navbar navbar-expand-lg navbar-light border-bottom shadow-sm">
+<nav class=" navbar navbar-expand-lg sticky-top">
     <div class="container">
         <a class="navbar-brand" href="#">投资</a>
         <div class="collapse navbar-collapse flex-row" id="navbarSupportedContent">
@@ -46,7 +46,7 @@
             <form class="form-inline my-2 my-lg-0" id="elasticScout" action="/SearchQuery" method="get">
                 <input class="form-control mr-sm-2 form-control-sm" type="search" placeholder="搜索" aria-label="Search"
                        name="search">
-                <button class="btn btn-outline-secondary btn-sm my-2 my-sm-0" type="submit">搜索</button>
+                <button class="btn btn-outline-light btn-sm my-2 my-sm-0" type="submit">搜索</button>
             </form>
         </div>
         <div class="flex-row">
@@ -58,14 +58,17 @@
                     </li>
                 @else
                     <li class="nav-item align-self-center">
-                        <a href="{{ route('web.notifications.index') }}" class="mr-3 text-muted">{{ $notifications_count }}</a>
+                        <div class="notes-count rounded">
+                            <a href="{{ route('web.notifications.index') }}" class="mr-3 p" style="color: rgb(51, 51, 51)">{{ $notifications_count }}</a>
+                        </div>
+
                     </li>
                     <div class="dropdown">
                         <a class="btn dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">
-                            <img class="rounded-circle" style="width:30px; height:30px;"
+                            <img class="rounded" style="width:30px; height:30px;"
                                  src="{{ env('CDN_DOMAIN').'/'.\Auth::user()->avatar }}" alt=""/>
-                            <span class="text-muted">{{ \Auth::user()->name }}</span>
+                            <span class="text-white ml-1">{{ \Auth::user()->name }}</span>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item text-muted" href="{{ route('web.users.posts') }}">我的文章</a>

@@ -13588,7 +13588,7 @@ body {
 }
 
 nav {
-  background-color: white;
+  background-color: #202124;
 }
 
 .navbar-laravel {
@@ -13596,8 +13596,34 @@ nav {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
+.main-text {
+  -webkit-text-decoration: none solid #333333;
+          text-decoration: none solid #333333;
+  color: #333333;
+}
+
 a {
   text-decoration: none;
-  color: gray;
+  color: white;
+}
+
+.notes-count {
+  background-color: white;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+}
+
+.notes-count a {
+  display: block;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+}
+
+.content-text {
+  font-size: 15px;
+  line-height: 30px;
+  font-family: Helvetica Neue, Microsoft YaHei;
 }
 

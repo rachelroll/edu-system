@@ -1,7 +1,6 @@
 @extends('layout.layout')
 @section('css')
-    <link rel="stylesheet" href="../css/simditor-markdown.css" media="screen" charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="assets/styles/simditor.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
 @endsection
 
 @section('content')
@@ -61,43 +60,106 @@
 
 
 @section('js')
-    <script src="../js/module.js"></script>
-    <script src="../js/hotkeys.js"></script>
-    <script src="../js/uploader.js"></script>
-    <script src="https://cdn.bootcss.com/simditor/2.3.23/lib/simditor.min.js"></script>
-    <script src="https://cdn.bootcss.com/marked/0.6.1/marked.min.js"></script>
-    <script src="../js/mobilecheck.js"></script>
-    <script src="https://cdn.bootcss.com/to-markdown/3.1.1/to-markdown.min.js"></script>
-    <script type="text/javascript" src="../js/simditor-markdown.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+
+    {{--<script src="../js/codemirror-4.inline-attachment.min.js"></script>--}}
+    {{--<script src="../js/inline-attachment.min.js"></script>--}}
+    {{--<script src="../js/input.inline-attachment.js"></script>--}}
 
 
     <script>
-        (function() {
-            $(function() {
-                toolbar = ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment', 'markdown'];
-                mobileToolbar = ["bold", "underline", "strikethrough", "color", "ul", "ol"];
-                if (mobilecheck()) {
-                    toolbar = mobileToolbar;
+        var simplemde = new SimpleMDE({
+            // 对应 textarea 输入框
+            element: $("#editor")[0],
+            // 自动聚焦到输入框
+            autofocus: true,
+            // 自动保存
+            autosave: {
+                enabled: true,
+                uniqueId: "#editor",
+                delay: 1000,
+            },
+            blockStyles: {
+                bold: "__",
+                italic: "_"
+            },
+            forceSync: true,
+            hideIcons: ["guide", "heading"],
+            indentWithTabs: false,
+            insertTexts: {
+                horizontalRule: ["", "\n\n-----\n\n"],
+                image: ["![](http://", ")"],
+                link: ["[", "](http://)"],
+                table: ["", "\n\n| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text      | Text     |\n\n"],
+            },
+            parsingConfig: {
+                allowAtxHeaderWithoutSpace: true,
+                strikethrough: false,
+                underscoresBreakWords: true,
+            },
+            placeholder: "支持 Markdown 编写",
+            previewRender: function(plainText, preview) { // Returns HTML from a custom parser, Async method
+                setTimeout(function(){
+                    preview.innerHTML = marked(plainText);
+                }, 250);
+                return "预览生成中......";
+            },
+            // 用 highlight.js 使代码高亮, 仅预览时生效
+            renderingConfig: {
+                codeSyntaxHighlighting: true,
+            },
+            // showIcons: ["code", "table"],
+            toolbar: {
+                image: {
+                    action: null,
+                    className: 'md-upload-img fa fa-picture-o',
+                    whenEleCreate: function (el) {
+                        let self = this;
+                        // add custom class
+                        el.classList.add('md-upload-img');
+                        // append input element
+                        let inputEle = document.createElement('input');
+                        inputEle.setAttribute('type', 'file');
+                        inputEle.setAttribute('multiple', true);
+                        inputEle.setAttribute('accept', 'image/*');
+                        el.appendChild(inputEle);
+
+                        inputEle.onchange = (evt) => {
+                            let imgs = evt.currentTarget.files;
+                            if (imgs.length) {
+                                let xhr = new window.XMLHttpRequest();
+                                let formData = new window.FormData();
+                                for (let i = 0; i < imgs.length; i++) {
+                                    formData.append('upload_img_' + i, imgs[i])
+                                }
+                                xhr.open('POST', 'http://localhost:3000/upload', true);
+                                xhr.onload = (event) => {
+                                    if (xhr.status === 200) {
+                                        let cm = self.codemirror;
+                                        let stat = self.getState();
+                                        let options = self.options;
+                                        let res = JSON.parse(event.target.response);
+                                        let urls = res.urls;
+
+                                        urls.forEach((url) => {
+                                            self.replaceSelection(cm, stat.iamge, options.insertTexts.image, url)
+                                        })
+                                    } else {
+                                        console.log('fail')
+                                    }
+                                }
+                                xhr.send(formData)
+                            }
+                        }
+
+                        return el
+                    }
                 }
-                var editor = new Simditor({
-                    textarea: $('#editor'),
-                    autosave: 'editor-content',
-                    markdown: true,
-                    toolbar: toolbar,
-                    pasteImage: true,
-                    defaultImage: 'assets/images/image.png',
-                    upload: location.search === '?upload' ? {
-                        url: '/upload'
-                    } : false
-                });
-                $('#editor').attr("data-autosave-confirm", "是否读取上次退出时未保存的草稿？");
-                $preview = $('#preview');
-                if ($preview.length > 0) {
-                    return editor.on('valuechanged', function(e) {
-                        return $preview.html(editor.getValue());
-                    });
-                }
-            });
-        }).call(this);
+            }
+        });
+
+        // inlineAttachment.editors.input.attachToInput(document.getElementById("editor"));
+
     </script>
     @endsection

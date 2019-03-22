@@ -10,6 +10,8 @@ use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
+use Parsedown;
+
 
 class PostController extends Controller
 {
@@ -47,13 +49,14 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::isChecked()->with('comments')->findOrFail($id);
+
         $user_id = Auth::user()->id;
         $author_id = $post->user_id;
 
-        if ($post->is_free == 0) {
-            $content = $post->content;
-            $post->content = $this->cutArticle($content);
-        }
+        //if ($post->is_free == 0) {
+        //    $content = $post->content;
+        //    $post->content = $this->cutArticle($content);
+        //}
 
         // 是否关注
         $bool = Fan::where('user_id', $author_id)->where('fans_id', $user_id)->exists();
