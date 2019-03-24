@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
 use Parsedown;
 
-
 class PostController extends Controller
 {
 
@@ -24,13 +23,13 @@ class PostController extends Controller
 
         foreach ($posts as &$post) {
             // 阅读量
-            $post->readed = Redis::get('post'.$post->id.'_readed');
+            $post->readed = Redis::get('post' . $post->id . '_readed');
 
             // 获取文章的点赞数
             // 初始化为 0
             $post->like = 0;
             // 获取 redis 中的点赞数
-            $count_in_redis = Redis::get('likes_count'.$post->id);
+            $count_in_redis = Redis::get('likes_count' . $post->id);
             if (!is_null($count_in_redis)) {
                 $post->like += $count_in_redis;
             }
@@ -60,9 +59,11 @@ class PostController extends Controller
                 $post->is_free = 0;
                 $post->content = Utils::cutArticle($post->content);
             } else {
-                $user = Auth::user()->load(['orders'=>function($query) use($id) {
-                    $query->where('post_id', $id);
-                }]);
+                $user = Auth::user()->load([
+                    'orders' => function ($query) use ($id) {
+                        $query->where('post_id', $id);
+                    },
+                ]);
                 if (count($user->orders)) {
                     $post->is_free = 1;
                 } else {
@@ -71,7 +72,6 @@ class PostController extends Controller
             }
         }
 
-
         // 是否关注
         $bool = Fan::where('user_id', $author_id)->where('fans_id', $user_id)->exists();
 
@@ -79,7 +79,7 @@ class PostController extends Controller
         // 初始化为 0
         $like_counts = 0;
         // 获取 redis 中的点赞数
-        $count_in_redis = Redis::get('likes_count'.$id);
+        $count_in_redis = Redis::get('likes_count' . $id);
         if (!is_null($count_in_redis)) {
             $like_counts += $count_in_redis;
         }
@@ -92,7 +92,7 @@ class PostController extends Controller
         }
 
         // 阅读量
-        $readed = Redis::incr('post'.$id.'_readed');
+        $readed = Redis::incr('post' . $id . '_readed');
 
         return view('web.posts.show', compact('post', 'bool', 'like_counts', 'readed'));
     }
@@ -155,13 +155,13 @@ class PostController extends Controller
 
         foreach ($posts as &$post) {
             // 阅读量
-            $post->readed = Redis::get('post'.$post->id.'_readed');
+            $post->readed = Redis::get('post' . $post->id . '_readed');
 
             // 获取文章的点赞数
             // 初始化为 0
             $post->like = 0;
             // 获取 redis 中的点赞数
-            $count_in_redis = Redis::get('likes_count'.$post->id);
+            $count_in_redis = Redis::get('likes_count' . $post->id);
             if (!is_null($count_in_redis)) {
                 $post->like += $count_in_redis;
             }
@@ -183,16 +183,16 @@ class PostController extends Controller
     }
 
     // 截取文章的一部分内容
-    private function cutArticle($data, $str="....")
+    private function cutArticle($data, $str = "....")
     {
-        $data=strip_tags($data);//去除html标记
+        $data = strip_tags($data);//去除html标记
         $pattern = "/&[a-zA-Z]+;/";//去除特殊符号
-        $data=preg_replace($pattern,'',$data);
+        $data = preg_replace($pattern, '', $data);
 
         // 设置只加载三分之一的内容
         $cut = strlen($data) * 3 / 10;
 
-        $data = mb_strimwidth($data,0, $cut, $str);
+        $data = mb_strimwidth($data, 0, $cut, $str);
 
         return $data;
     }
