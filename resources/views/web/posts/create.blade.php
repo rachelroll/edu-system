@@ -1,6 +1,12 @@
 @extends('layout.layout')
 @section('css')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    {{--<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">--}}
+    <link href="https://cdn.bootcss.com/simplemde/1.11.2/simplemde.min.css" rel="stylesheet">
+    <style>
+        .editor-toolbar.fullscreen {
+            z-index: 1020;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -60,15 +66,13 @@
 
 
 @section('js')
+    {{--markdown 的 JS 解析器--}}
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-
-    {{--<script src="../js/codemirror-4.inline-attachment.min.js"></script>--}}
-    {{--<script src="../js/inline-attachment.min.js"></script>--}}
-    {{--<script src="../js/input.inline-attachment.js"></script>--}}
-
+    {{--markdown 编辑器--}}
+    <script src="https://cdn.bootcss.com/simplemde/1.11.2/simplemde.min.js"></script>
 
     <script>
+        // markdown 编辑器配置
         var simplemde = new SimpleMDE({
             // 对应 textarea 输入框
             element: $("#editor")[0],
@@ -90,7 +94,7 @@
             insertTexts: {
                 horizontalRule: ["", "\n\n-----\n\n"],
                 image: ["![](http://", ")"],
-                link: ["[", "](http://)"],
+                // link: ["[", "](http://)"],
                 table: ["", "\n\n| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text      | Text     |\n\n"],
             },
             parsingConfig: {
@@ -109,54 +113,55 @@
             renderingConfig: {
                 codeSyntaxHighlighting: true,
             },
-            // showIcons: ["code", "table"],
-            toolbar: {
-                image: {
-                    action: null,
-                    className: 'md-upload-img fa fa-picture-o',
-                    whenEleCreate: function (el) {
-                        let self = this;
-                        // add custom class
-                        el.classList.add('md-upload-img');
-                        // append input element
-                        let inputEle = document.createElement('input');
-                        inputEle.setAttribute('type', 'file');
-                        inputEle.setAttribute('multiple', true);
-                        inputEle.setAttribute('accept', 'image/*');
-                        el.appendChild(inputEle);
-
-                        inputEle.onchange = (evt) => {
-                            let imgs = evt.currentTarget.files;
-                            if (imgs.length) {
-                                let xhr = new window.XMLHttpRequest();
-                                let formData = new window.FormData();
-                                for (let i = 0; i < imgs.length; i++) {
-                                    formData.append('upload_img_' + i, imgs[i])
-                                }
-                                xhr.open('POST', 'http://localhost:3000/upload', true);
-                                xhr.onload = (event) => {
-                                    if (xhr.status === 200) {
-                                        let cm = self.codemirror;
-                                        let stat = self.getState();
-                                        let options = self.options;
-                                        let res = JSON.parse(event.target.response);
-                                        let urls = res.urls;
-
-                                        urls.forEach((url) => {
-                                            self.replaceSelection(cm, stat.iamge, options.insertTexts.image, url)
-                                        })
-                                    } else {
-                                        console.log('fail')
-                                    }
-                                }
-                                xhr.send(formData)
-                            }
-                        }
-
-                        return el
-                    }
-                }
-            }
+            promptURLs:true,
+            showIcons: ["code", "table", "clean-block", "link", "horizontal-rule", "side-by-side", "fullscreen", "heading-1", "heading-2", "|", "heading-3", "|"],
+            // toolbar: {
+            //     image: {
+            //         action: null,
+            //         className: 'md-upload-img fa fa-picture-o',
+            //         whenEleCreate: function (el) {
+            //             let self = this;
+            //             // add custom class
+            //             el.classList.add('md-upload-img');
+            //             // append input element
+            //             let inputEle = document.createElement('input');
+            //             inputEle.setAttribute('type', 'file');
+            //             inputEle.setAttribute('multiple', true);
+            //             inputEle.setAttribute('accept', 'image/*');
+            //             el.appendChild(inputEle);
+            //
+            //             inputEle.onchange = (evt) => {
+            //                 let imgs = evt.currentTarget.files;
+            //                 if (imgs.length) {
+            //                     let xhr = new window.XMLHttpRequest();
+            //                     let formData = new window.FormData();
+            //                     for (let i = 0; i < imgs.length; i++) {
+            //                         formData.append('upload_img_' + i, imgs[i])
+            //                     }
+            //                     xhr.open('POST', 'http://localhost:3000/upload', true);
+            //                     xhr.onload = (event) => {
+            //                         if (xhr.status === 200) {
+            //                             let cm = self.codemirror;
+            //                             let stat = self.getState();
+            //                             let options = self.options;
+            //                             let res = JSON.parse(event.target.response);
+            //                             let urls = res.urls;
+            //
+            //                             urls.forEach((url) => {
+            //                                 self.replaceSelection(cm, stat.iamge, options.insertTexts.image, url)
+            //                             })
+            //                         } else {
+            //                             console.log('fail')
+            //                         }
+            //                     }
+            //                     xhr.send(formData)
+            //                 }
+            //             }
+            //
+            //             return el
+            //         }
+            //     }
+            // }
         });
 
         // inlineAttachment.editors.input.attachToInput(document.getElementById("editor"));

@@ -4,7 +4,7 @@
 @import 'variables';
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
-@import '~simditor/styles/simditor';
+//@import '~simditor/styles/simditor';
 @import '~sweetalert2/src/sweetalert2.scss';
 @import "~toastr/toastr.scss";
 
@@ -30,13 +30,13 @@ nav {
 }
 
 .main-text {
-  text-decoration: none solid rgb(51, 51, 51);
-  color: rgb(51, 51, 51)
+  text-decoration: none solid rgb(99, 107, 111);
+  color: rgb(99, 107, 111)
 }
 
 a {
   text-decoration: none;
-  color: white;
+  //color: white;
 }
 
 .notes-count {
@@ -58,4 +58,3 @@ a {
   line-height: 30px;
   font-family: Helvetica Neue, Microsoft YaHei;
 }
-

@@ -63,7 +63,7 @@
                             更新于 {{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->updated_at))->diffForHumans() }}</small>
                         <hr class="my-4">
                         <p class="p-2 main-text content-text">
-                            {!! Parsedown::instance()->text($post->content) !!}
+                            {!! Parsedown::instance()->setBreaksEnabled(true)->text($post->content) !!}
                         </p>
                         @if($post->is_free != 1)
                             <br>

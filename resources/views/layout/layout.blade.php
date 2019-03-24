@@ -59,7 +59,7 @@
                 @else
                     <li class="nav-item align-self-center">
                         <div class="notes-count rounded">
-                            <a href="{{ route('web.notifications.index') }}" class="mr-3 p" style="color: rgb(51, 51, 51)">{{ $notifications_count }}</a>
+                            <a href="{{ route('web.notifications.index') }}" class="mr-3" style="color: rgb(51, 51, 51)">{{ $notifications_count }}</a>
                         </div>
 
                     </li>
