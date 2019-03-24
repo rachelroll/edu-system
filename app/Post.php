@@ -32,4 +32,16 @@ class Post extends Model
     {
         return $this->comments()->count();
     }
+
+    // 把单位 "分" 转成单位 "元"
+    public function getPriceAttribute($value)
+    {
+        return $value / 100;
+    }
+
+    // 把单位 "元" 存成单位 "分"
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = $value * 100;
+    }
 }

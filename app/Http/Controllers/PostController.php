@@ -50,16 +50,17 @@ class PostController extends Controller
     {
         $post = Post::isChecked()->with('comments')->findOrFail($id);
 
-        $user_id = Auth::user()->id;
         $author_id = $post->user_id;
 
-        //if ($post->is_free == 0) {
-        //    $content = $post->content;
-        //    $post->content = $this->cutArticle($content);
-        //}
+        // 判断用户是否登录
+        if (Auth::user()) {
+            $user_id = Auth::user()->id;
 
-        // 是否关注
-        $bool = Fan::where('user_id', $author_id)->where('fans_id', $user_id)->exists();
+            // 是否关注
+            $bool = Fan::where('user_id', $author_id)->where('fans_id', $user_id)->exists();
+        } else{
+            $bool = 0;
+        }
 
         // 获取文章的点赞数
         // 初始化为 0
@@ -117,7 +118,7 @@ class PostController extends Controller
             'description' => $description,
             'content'     => $content,
             'cover'       => $cover,
-            'price'       => $price * 100,
+            'price'       => $price,
             'is_free'     => $is_free,
         ]);
 

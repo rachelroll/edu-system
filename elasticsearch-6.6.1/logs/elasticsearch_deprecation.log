@@ -1,2 +1,0 @@
-[2019-03-06T08:48:39,446][WARN ][o.e.d.c.m.MetaDataCreateIndexService] [27qRw7J] the default number of shards will change from [5] to [1] in 7.0.0; if you wish to continue using the default of [5] shards, you must manage this on the create index request or with an index template
-[2019-03-06T12:04:50,964][WARN ][o.e.d.c.m.MetaDataCreateIndexService] [27qRw7J] the default number of shards will change from [5] to [1] in 7.0.0; if you wish to continue using the default of [5] shards, you must manage this on the create index request or with an index template

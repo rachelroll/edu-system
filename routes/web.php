@@ -18,7 +18,7 @@ Route::get('/', function () {
 });
 
 
-// ¹ØÓÚ posts
+// å…³äº posts
 Route::get('posts', 'PostController@index')->name('web.posts.index');
 Route::get('posts/create', 'PostController@create')->name('web.posts.create');
 Route::get('posts/{id}', 'PostController@show')->name('web.posts.show');
@@ -35,49 +35,49 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-# ÓÃ»§µã»÷µÇÂ¼°´Å¥Ê±ÇëÇóµÄµØÖ·
+# ç”¨æˆ·ç‚¹å‡»ç™»å½•æŒ‰é’®æ—¶è¯·æ±‚çš„åœ°å€
 //Route::get('/auth/oauth', 'Auth\AuthController@oauth')->name('wechat.login');
 
-// ËÑË÷
+// æœç´¢
 Route::get('/SearchQuery', 'SearchController@search');
 
-// ÎÒµÄÎÄÕÂ
+// æˆ‘çš„æ–‡ç« 
 Route::get('/users/posts', 'UserController@post')->name('web.users.posts');
-// ±à¼­×ÊÁÏ
+// ç¼–è¾‘èµ„æ–™
 Route::get('/users/edit', 'UserController@edit')->name('web.users.edit');
-// ÉÏ´«Í·Ïñ
+// ä¸Šä¼ å¤´åƒ
 Route::get('/users/edit_avatar', 'UserController@editAvatar')->name('web.users.edit_avatar');
-// ±£´æ×ÊÁÏ
+// ä¿å­˜èµ„æ–™
 Route::post('/users/store', 'UserController@store')->name('web.users.store');
-//±£´æÍ·Ïñ
+//ä¿å­˜å¤´åƒ
 Route::post('/users/store_avatar', 'UserController@storeAvatar')->name('web.users.store_avatar');
 
-// ·ÛË¿¹Ø×¢
+// ç²‰ä¸å…³æ³¨
 Route::post('/fans/store', 'FansController@store')->name('web.fans.store');
 Route::post('/fans/cancel', 'FansController@cancel')->name('web.fans.cancel');
 
-// Í¨Öª
-// ±à¼­Ë½ĞÅ
+// é€šçŸ¥
+// ç¼–è¾‘ç§ä¿¡
 Route::get('/message/to/{id}', 'MessageController@create')->name('web.message.to');
-//·¢ËÍ(±£´æ)Ë½ĞÅ
+//å‘é€(ä¿å­˜)ç§ä¿¡
 Route::post('/message/store', 'MessageController@store')->name('web.message.store');
-// ËùÓĞË½ĞÅ
+// æ‰€æœ‰ç§ä¿¡
 Route::get('/messages', 'MessageController@index')->name('web.messages');
 
 Route::get('notifications', 'NotificationController@index')->name('web.notifications.index');
 
-// µãÔŞ
+// ç‚¹èµ
 Route::post('/like', 'LikeController@like');
 Route::get('/likes', 'LikeController@index')->name('web.likes');
 
 
-// ¸øÎ¢ĞÅ·şÎñÆ÷·ÃÎÊµÄÂ·ÓÉ
+// ç»™å¾®ä¿¡æœåŠ¡å™¨è®¿é—®çš„è·¯ç”±
 Route::any('/wechat', 'WeChatController@serve');
 
-// Í¨¹ıÖĞ¼ä¼ş»ñÈ¡ÓÃ»§×ÊÁÏ
+// é€šè¿‡ä¸­é—´ä»¶è·å–ç”¨æˆ·èµ„æ–™
 Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_userinfo']], function () {
     Route::get('/user', function () {
-        $user = session('wechat.oauth_user.default'); // ÄÃµ½ÊÚÈ¨ÓÃ»§×ÊÁÏ
+        $user = session('wechat.oauth_user.default'); // æ‹¿åˆ°æˆæƒç”¨æˆ·èµ„æ–™
 
         dd($user);
     });
@@ -86,19 +86,24 @@ Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_userinfo']], function
 Route::get('/auth/oauth', function() {
     Auth::loginUsingId(1);
     //$user = Auth::user();
-    return redirect('posts');
+    return back();
 })->name('wechat.login');
 
-# Î¢ĞÅ½Ó¿Ú»Øµ÷µØÖ·
+Route::get('logout', function () {
+    Auth::logout();
+    return back();
+});
+
+# å¾®ä¿¡æ¥å£å›è°ƒåœ°å€
 Route::get('/auth/callback', 'Auth\AuthController@callback')->name('wechat.callback');
 
 
-// ÇëÇóÎ¢ĞÅÍ³Ò»ÏÂµ¥½Ó¿Ú
+// è¯·æ±‚å¾®ä¿¡ç»Ÿä¸€ä¸‹å•æ¥å£
 Route::get('/payment/place_order', 'PaymentController@place_order')->name('web.payment.place_order');
-// ½ÓÊÕÎ¢ĞÅÖ§¸¶×´Ì¬µÄÍ¨Öª
+// æ¥æ”¶å¾®ä¿¡æ”¯ä»˜çŠ¶æ€çš„é€šçŸ¥
 Route::post('/payment/notify', 'paymentController@notify')->name('web.payment.notify');
 
-// ÇëÇóÎ¢ĞÅ½Ó¿Ú, ²é¿´¶©µ¥Ö§¸¶×´Ì¬
+// è¯·æ±‚å¾®ä¿¡æ¥å£, æŸ¥çœ‹è®¢å•æ”¯ä»˜çŠ¶æ€
 Route::get('/payment/paid', 'PaymentController@paid')->name('web.payment.paid');
 
 

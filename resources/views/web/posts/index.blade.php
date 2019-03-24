@@ -34,7 +34,7 @@
                                             <div class="media-body">
                                                 <h5 class="mt-0 mb-1 main-text">{{ $post->title }}</h5>
                                                 <p class="main-text">{{$post->description }}</p>
-                                                <p class="main-text">¥ {{ $post->price / 100 }}</p>
+                                                <p class="main-text">¥ {{ $post->price }}</p>
                                             </div>
                                         </div>
                                     </a>
