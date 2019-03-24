@@ -16,7 +16,7 @@ class CreatePostLikeTable extends Migration
         Schema::create('post_like', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedInteger('post_id')->comment('文章 id');
+            $table->unsignedInteger('post_id')->comment('文章ID');
             $table->integer('count')->default(0)->comment('文章被赞数');
 
             $table->timestamps();

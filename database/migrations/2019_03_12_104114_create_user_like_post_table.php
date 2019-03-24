@@ -16,8 +16,8 @@ class CreateUserLikePostTable extends Migration
         Schema::create('user_like_post', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedInteger('post_id')->comment('文章 ID');
-            $table->unsignedInteger('user_id')->comment('点赞人 ID');
+            $table->unsignedInteger('post_id')->comment('文章ID');
+            $table->unsignedInteger('user_id')->comment('点赞人ID');
             $table->string('post_title')->default('')->comment('文章标题');
             $table->string('post_description')->default('')->comment('文章简介');
             $table->string('user_name')->default('')->comment('点赞人名字');
