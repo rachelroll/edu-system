@@ -54,6 +54,7 @@ class PostController extends Controller
         $user_id = Auth::user()->id;
         $author_id = $post->user_id;
 
+        //判断用户是否可以可以看
         if (!$post->is_free || $post->price) {
             if (!Auth::check()) {
                 $post->is_free = 0;
