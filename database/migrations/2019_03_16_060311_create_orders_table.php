@@ -16,10 +16,10 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedInteger('user_id')->comment('用户 ID');
-            $table->decimal('total_fee')->default(0)->comment('订单金额');
-            $table->string('order_sn')->default('')->comment('订单编号');
-            $table->string('product_name')->default('')->comment('商品名称');
+            $table->unsignedInteger('user_id')->comment('鐢ㄦ埛 ID');
+            $table->decimal('total_fee')->default(0)->comment('璁㈠崟閲戦');
+            $table->string('order_sn')->default('')->comment('璁㈠崟缂栧彿');
+            $table->string('product_name')->default('')->comment('鍟嗗搧鍚嶇О');
 
             $table->timestamps();
         });

@@ -16,9 +16,9 @@ class CreateSeriesTable extends Migration
         Schema::create('series', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('course_title')->default('')->comment('ÏµÁÐ¿Î³ÌÃû');
-            $table->string('episode_name')->default('')->comment('ÕÂ½ÚÃû³Æ');
-            $table->unsignedInteger('parent_id')->default(0)->comment('¸¸¼¶id, 0:ÎÞ¸¸¼¶, ¼´ÎªÏµÁÐ¿Î³ÌÃû|ÆäËû:ËùÊôÏµÁÐ¿Î³ÌµÄ id');
+            $table->string('course_title')->default('')->comment('ç³»åˆ—è¯¾ç¨‹å');
+            $table->string('episode_name')->default('')->comment('ç« èŠ‚åç§°');
+            $table->unsignedInteger('parent_id')->default(0)->comment('çˆ¶çº§id, 0:æ— çˆ¶çº§, å³ä¸ºç³»åˆ—è¯¾ç¨‹å|å…¶ä»–:æ‰€å±žç³»åˆ—è¯¾ç¨‹çš„ id');
 
             $table->timestamps();
         });

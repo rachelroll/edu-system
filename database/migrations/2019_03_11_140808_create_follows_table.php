@@ -15,8 +15,8 @@ class CreateFollowsTable extends Migration
     {
         Schema::create('follows', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id')->default(0)->comment('ÓÃ»§ id');
-            $table->integer('follow_id')->default(0)->comment('±»¹Ø×¢µÄÓÃ»§µÄ id');
+            $table->integer('user_id')->default(0)->comment('ç”¨æˆ· id');
+            $table->integer('follow_id')->default(0)->comment('è¢«å…³æ³¨çš„ç”¨æˆ·çš„ id');
             $table->timestamps();
         });
     }

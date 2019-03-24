@@ -16,7 +16,7 @@ class CreateAdminsTable extends Migration
         Schema::create('admins', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('name')->default('')->comment('¹ÜÀíÔ±ÐÕÃû');
+            $table->string('name')->default('')->comment('ç®¡ç†å‘˜å§“å');
 
 
             $table->timestamps();

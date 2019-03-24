@@ -16,18 +16,18 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('author')->default('')->comment('×÷Õß');
-            $table->tinyInteger('type')->default(1)->comment('·ÖÀà, 1:ÎÄÕÂ|2:ÊÓÆµ');
-            $table->string('title')->default('')->comment('ÎÄÕÂ±êÌâ');
-            $table->string('description')->default('')->comment('ÎÄÕÂÃèÊö');
-            $table->text('content')->default('')->comment('ÎÄÕÂÄÚÈİ');
-            $table->string('cover')->default('')->comment('ÁĞ±í·âÃæÍ¼');
-            $table->string('pictures')->default('')->comment('²åÍ¼');
-            $table->unsignedInteger('readed')->default(0)->comment('ÔÄ¶ÁÊı');
-            $table->unsignedInteger('price')->default(0)->comment('¼Û¸ñ(·Ö)');
-            $table->unsignedInteger('original_price')->default(0)->comment('Ô­¼Û(·Ö)');
-            $table->boolean('is_free')->default(0)->comment('ÊÇ·ñÃâ·Ñ, 0:²»Ãâ·Ñ|1:Ãâ·Ñ');
-            $table->boolean('is_checked')->default(0)->comment('ÊÇ·ñÍ¨¹ıÉóºË, 0:Î´Í¨¹ı|1:Í¨¹ı');
+            $table->string('author')->default('')->comment('ä½œè€…');
+            $table->tinyInteger('type')->default(1)->comment('åˆ†ç±», 1:æ–‡ç« |2:è§†é¢‘');
+            $table->string('title')->default('')->comment('æ–‡ç« æ ‡é¢˜');
+            $table->string('description')->default('')->comment('æ–‡ç« æè¿°');
+            $table->text('content')->default('')->comment('æ–‡ç« å†…å®¹');
+            $table->string('cover')->default('')->comment('åˆ—è¡¨å°é¢å›¾');
+            $table->string('pictures')->default('')->comment('æ’å›¾');
+            $table->unsignedInteger('readed')->default(0)->comment('é˜…è¯»æ•°');
+            $table->unsignedInteger('price')->default(0)->comment('ä»·æ ¼(åˆ†)');
+            $table->unsignedInteger('original_price')->default(0)->comment('åŸä»·(åˆ†)');
+            $table->boolean('is_free')->default(0)->comment('æ˜¯å¦å…è´¹, 0:ä¸å…è´¹|1:å…è´¹');
+            $table->boolean('is_checked')->default(0)->comment('æ˜¯å¦é€šè¿‡å®¡æ ¸, 0:æœªé€šè¿‡|1:é€šè¿‡');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('series_id');
 

@@ -16,8 +16,8 @@ class CreatePostLikeTable extends Migration
         Schema::create('post_like', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedInteger('post_id')->comment('ÎÄÕÂ id');
-            $table->integer('count')->default(0)->comment('ÎÄÕÂ±»ÔÞÊý');
+            $table->unsignedInteger('post_id')->comment('æ–‡ç«  id');
+            $table->integer('count')->default(0)->comment('æ–‡ç« è¢«èµžæ•°');
 
             $table->timestamps();
         });

@@ -16,11 +16,11 @@ class CreateCommentsTable extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('comments')->default('')->comment('ÆÀÂÛ');
-            $table->unsignedInteger('user_id')->default(0)->comment('ÓÃ»§ id');
-            $table->unsignedInteger('post_id')->default(0)->comment('ÎÄÕÂ id');
-            $table->string('name')->default('')->comment('ÆÀÂÛÈË');
-            $table->string('portrait')->default('')->comment('ÆÀÂÛÈËÍ·Ïñ');
+            $table->string('comments')->default('')->comment('è¯„è®º');
+            $table->unsignedInteger('user_id')->default(0)->comment('ç”¨æˆ· id');
+            $table->unsignedInteger('post_id')->default(0)->comment('æ–‡ç«  id');
+            $table->string('name')->default('')->comment('è¯„è®ºäºº');
+            $table->string('portrait')->default('')->comment('è¯„è®ºäººå¤´åƒ');
 
             $table->timestamps();
         });
