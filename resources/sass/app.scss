@@ -1,5 +1,5 @@
 // Fonts
-//ÕâÀïÎÒÈ¥µôÁË google×ÖÌå
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½ googleï¿½ï¿½ï¿½ï¿½
 // Variables
 @import 'variables';
 // Bootstrap
@@ -10,6 +10,8 @@
 
 body {
   background-color: white;
+  font-family: "PingFang SC", "Lantinghei SC", "Helvetica Neue", Helvetica, Arial, "Microsoft YaHei", "\\5FAEè½¯é›…é»‘", STHeitiSC-Light, simsun, "\\5B8Bä½“", "WenQuanYi Zen Hei", "WenQuanYi Micro Hei", sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 .triangle-down {
@@ -32,6 +34,22 @@ nav {
 .main-text {
   text-decoration: none solid rgb(99, 107, 111);
   color: rgb(99, 107, 111)
+}
+.text-desc {
+  font-size: 13px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 22px;
+  text-decoration: none solid rgb(130, 138, 146);
+  text-align: left;
+  text-indent: 0px;
+  text-transform: none;
+  vertical-align: baseline;
+  white-space: normal;
+  word-spacing: 0;
+  color: rgb(130, 138, 146);
 }
 
 a {

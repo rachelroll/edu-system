@@ -6,6 +6,7 @@ use App\Fan;
 use App\Like;
 use App\Post;
 use App\User;
+use App\Utils\Utils;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,10 +54,22 @@ class PostController extends Controller
         $user_id = Auth::user()->id;
         $author_id = $post->user_id;
 
-        //if ($post->is_free == 0) {
-        //    $content = $post->content;
-        //    $post->content = $this->cutArticle($content);
-        //}
+        if (!$post->is_free || $post->price) {
+            if (!Auth::check()) {
+                $post->is_free = 0;
+                $post->content = Utils::cutArticle($post->content);
+            } else {
+                $user = Auth::user()->load(['orders'=>function($query) use($id) {
+                    $query->where('post_id', $id);
+                }]);
+                if (count($user->orders)) {
+                    $post->is_free = 1;
+                } else {
+                    $post->content = Utils::cutArticle($post->content);
+                }
+            }
+        }
+
 
         // 是否关注
         $bool = Fan::where('user_id', $author_id)->where('fans_id', $user_id)->exists();
@@ -169,7 +182,7 @@ class PostController extends Controller
     }
 
     // 截取文章的一部分内容
-    public function cutArticle($data, $str="....")
+    private function cutArticle($data, $str="....")
     {
         $data=strip_tags($data);//去除html标记
         $pattern = "/&[a-zA-Z]+;/";//去除特殊符号
