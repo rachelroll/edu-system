@@ -15,8 +15,8 @@ class CreateFansTable extends Migration
     {
         Schema::create('fans', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id')->default(0)->comment('ÓÃ»§ id');
-            $table->integer('fans_id')->default(0)->comment('·ÛË¿ id');
+            $table->integer('user_id')->default(0)->comment('ç”¨æˆ· id');
+            $table->integer('fans_id')->default(0)->comment('ç²‰ä¸ id');
             $table->timestamps();
         });
     }

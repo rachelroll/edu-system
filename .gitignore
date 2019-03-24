@@ -24,4 +24,8 @@ segments_4
 *.st
 state-0.st
 /dump.rdb
+<<<<<<< HEAD
 elasticsearch-6.6.1/*
+=======
+/.phpstorm.meta.php
+>>>>>>> 2ac6787e3f9b07f82046397d4ce4f4374ea93cb1

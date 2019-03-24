@@ -89,10 +89,12 @@ Route::get('/auth/oauth', function() {
     return back();
 })->name('wechat.login');
 
+
 Route::get('logout', function () {
     Auth::logout();
     return back();
 });
+
 
 # 微信接口回调地址
 Route::get('/auth/callback', 'Auth\AuthController@callback')->name('wechat.callback');

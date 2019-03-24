@@ -16,17 +16,17 @@ class CreateOrderItemsTable extends Migration
         Schema::create('order_items', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedInteger('order_id')->default(0)->comment('¶©µ¥ID');
-            $table->string('order_sn')->default('')->comment('¶©µ¥±àºÅ');
+            $table->unsignedInteger('order_id')->default(0)->comment('è®¢å•ID');
+            $table->string('order_sn')->default('')->comment('è®¢å•ç¼–å·');
 
-            $table->unsignedInteger('user_id')->default(0)->comment('ÓÃ»§ID');
-            $table->unsignedInteger('post_id')->default(0)->comment('½Ì³ÌID');
+            $table->unsignedInteger('user_id')->default(0)->comment('ç”¨æˆ·ID');
+            $table->unsignedInteger('post_id')->default(0)->comment('æ•™ç¨‹ID');
 
-            $table->unsignedInteger('price')->default(0)->comment('¿Î³Ì¼Û¸ñ(·Ö)');
-            $table->unsignedInteger('current_price')->comment('Ê±Ê±¼Û¸ñ(·Ö)');
+            $table->unsignedInteger('price')->default(0)->comment('è¯¾ç¨‹ä»·æ ¼(åˆ†)');
+            $table->unsignedInteger('current_price')->comment('æ—¶æ—¶ä»·æ ¼(åˆ†)');
 
-            $table->string('title')->default('')->comment('¿Î³ÌÃû³Æ');
-            $table->string('cover')->default('')->comment('¿Î³Ì·âÃæÍ¼');
+            $table->string('title')->default('')->comment('è¯¾ç¨‹åç§°');
+            $table->string('cover')->default('')->comment('è¯¾ç¨‹å°é¢å›¾');
 
             $table->timestamps();
         });

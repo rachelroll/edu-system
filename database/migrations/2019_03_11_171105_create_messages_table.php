@@ -16,9 +16,9 @@ class CreateMessagesTable extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('content')->default('')->comment('Ë½ÐÅÄÚÈÝ');
-            $table->integer('receiver')->default(0)->comment('ÊÕÐÅÈË');
-            $table->integer('sender')->default(0)->comment('·¢ËÍÈË');
+            $table->string('content')->default('')->comment('ç§ä¿¡å†…å®¹');
+            $table->integer('receiver')->default(0)->comment('æ”¶ä¿¡äºº');
+            $table->integer('sender')->default(0)->comment('å‘é€äºº');
 
             $table->timestamps();
         });

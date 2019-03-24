@@ -16,10 +16,10 @@ class CreateNotificationsTable extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedInteger('post_id')->default(0)->comment('文章ID');
-            $table->unsignedInteger('user_id')->default(0)->comment('发起通知的用户ID');
-            $table->string('title')->default('')->comment('文章标题');
-            $table->string('comments')->default('')->comment('建议内容');
+            $table->unsignedInteger('post_id')->default(0)->comment('鏂囩珷ID');
+            $table->unsignedInteger('user_id')->default(0)->comment('鍙戣捣閫氱煡鐨勭敤鎴稩D');
+            $table->string('title')->default('')->comment('鏂囩珷鏍囬');
+            $table->string('comments')->default('')->comment('寤鸿鍐呭');
 
             $table->timestamps();
         });

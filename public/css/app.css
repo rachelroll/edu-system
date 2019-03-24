@@ -70,7 +70,7 @@ body {
   font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.6;
-  color: rgb(99, 107, 111);
+  color: #212529;
   text-align: left;
   background-color: #f8fafc;
 }
@@ -12628,6 +12628,8 @@ button.toast-close-button {
 
 body {
   background-color: white;
+  font-family: "PingFang SC", "Lantinghei SC", "Helvetica Neue", Helvetica, Arial, "Microsoft YaHei", "\\5FAE\8F6F\96C5\9ED1", STHeitiSC-Light, simsun, "\\5B8B\4F53", "WenQuanYi Zen Hei", "WenQuanYi Micro Hei", sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 .triangle-down {
@@ -12651,6 +12653,24 @@ nav {
   -webkit-text-decoration: none solid #636b6f;
           text-decoration: none solid #636b6f;
   color: #636b6f;
+}
+
+.text-desc {
+  font-size: 13px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 22px;
+  -webkit-text-decoration: none solid #828a92;
+          text-decoration: none solid #828a92;
+  text-align: left;
+  text-indent: 0px;
+  text-transform: none;
+  vertical-align: baseline;
+  white-space: normal;
+  word-spacing: 0;
+  color: #828a92;
 }
 
 a {

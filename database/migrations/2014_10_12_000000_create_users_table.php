@@ -15,31 +15,31 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('email')->nullable()->unique()->comment('ÓÊÏä');
-            $table->string('mobile')->nullable()->unique()->comment('ÊÖ»úºÅ');
-            $table->string('password')->default('')->comment('ÃÜÂë');
-            $table->string('name')->default('')->comment('ÐÕÃû');
-            $table->string('nick_name')->default('')->comment('êÇ³Æ');
+            $table->string('email')->nullable()->unique()->comment('é‚®ç®±');
+            $table->string('mobile')->nullable()->unique()->comment('æ‰‹æœºå·');
+            $table->string('password')->default('')->comment('å¯†ç ');
+            $table->string('name')->default('')->comment('å§“å');
+            $table->string('nick_name')->default('')->comment('æ˜µç§°');
 
-            $table->string('wechat_name')->default('')->comment('Î¢ÐÅêÇ³Æ');
-            $table->string('avatar')->default('')->comment('Í·Ïñ');
-            $table->dateTime('email_verified_at')->nullable()->comment('ÓÊÏäÑéÖ¤');
+            $table->string('wechat_name')->default('')->comment('å¾®ä¿¡æ˜µç§°');
+            $table->string('avatar')->default('')->comment('å¤´åƒ');
+            $table->dateTime('email_verified_at')->nullable()->comment('é‚®ç®±éªŒè¯');
 
-            $table->dateTime('login_time')->nullable()->comment('µÇÂ¼Ê±¼ä');
-            $table->string('login_ip')->default('')->comment('µÇÂ¼IP');
-            $table->string('created_ip')->default('')->comment('´´½¨IP');
+            $table->dateTime('login_time')->nullable()->comment('ç™»å½•æ—¶é—´');
+            $table->string('login_ip')->default('')->comment('ç™»å½•IP');
+            $table->string('created_ip')->default('')->comment('åˆ›å»ºIP');
 
-            $table->string('from_user_id')->default('')->comment('ÑûÇëÈË');
-            $table->tinyInteger('register_type')->default(0)->comment('×¢²áÀ´Ô´:Ä¬ÈÏ0:ÄÚ²¿ÍøÕ¾|µÚÈý·½app/ºÏ×÷»ú¹¹¡­');
-            $table->tinyInteger('register_way')->default(0)->comment('×¢²áÉè±¸À´Ô´(Ä¬ÈÏ0:web/ios/android)');
+            $table->string('from_user_id')->default('')->comment('é‚€è¯·äºº');
+            $table->tinyInteger('register_type')->default(0)->comment('æ³¨å†Œæ¥æº:é»˜è®¤0:å†…éƒ¨ç½‘ç«™|ç¬¬ä¸‰æ–¹app/åˆä½œæœºæž„â€¦');
+            $table->tinyInteger('register_way')->default(0)->comment('æ³¨å†Œè®¾å¤‡æ¥æº(é»˜è®¤0:web/ios/android)');
             $table->string('uuid')->default('')->comment('uuid');
 
-            $table->tinyInteger('sex')->default(0)->comment('ÐÔ±ð, 0:ÄÐ|1:Å®');
-            $table->text('sign')->nullable()->comment('¸öÐÔÇ©Ãû');
+            $table->tinyInteger('sex')->default(0)->comment('æ€§åˆ«, 0:ç”·|1:å¥³');
+            $table->text('sign')->nullable()->comment('ä¸ªæ€§ç­¾å');
 
             $table->string('openid');
-            $table->unsignedInteger('order_id')->comment('¶©µ¥id');
-            $table->tinyInteger('role')->default(0)->comment('¹ºÂòÕß, 0:Âò¼Ò|1:·¢²¼Õß');
+            $table->unsignedInteger('order_id')->comment('è®¢å•id');
+            $table->tinyInteger('role')->default(0)->comment('è´­ä¹°è€…, 0:ä¹°å®¶|1:å‘å¸ƒè€…');
 
             $table->rememberToken();
             $table->timestamps();

@@ -16,12 +16,12 @@ class CreateUserLikePostTable extends Migration
         Schema::create('user_like_post', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedInteger('post_id')->comment('ÎÄÕÂ ID');
-            $table->unsignedInteger('user_id')->comment('µãÔÞÈË ID');
-            $table->string('post_title')->default('')->comment('ÎÄÕÂ±êÌâ');
-            $table->string('post_description')->default('')->comment('ÎÄÕÂ¼ò½é');
-            $table->string('user_name')->default('')->comment('µãÔÞÈËÃû×Ö');
-            $table->string('user_avatar')->default('')->comment('µãÔÞÈËÍ·Ïñ');
+            $table->unsignedInteger('post_id')->comment('æ–‡ç« ID');
+            $table->unsignedInteger('user_id')->comment('ç‚¹èµžäººID');
+            $table->string('post_title')->default('')->comment('æ–‡ç« æ ‡é¢˜');
+            $table->string('post_description')->default('')->comment('æ–‡ç« ç®€ä»‹');
+            $table->string('user_name')->default('')->comment('ç‚¹èµžäººåå­—');
+            $table->string('user_avatar')->default('')->comment('ç‚¹èµžäººå¤´åƒ');
 
             $table->timestamps();
         });
