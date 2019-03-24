@@ -24,3 +24,4 @@ segments_4
 *.st
 state-0.st
 /dump.rdb
+/.phpstorm.meta.php

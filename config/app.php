@@ -177,6 +177,7 @@ return [
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Overtrue\LaravelWeChat\ServiceProvider::class,
+
     ],
 
     /*
@@ -233,6 +234,7 @@ return [
         'Image' => Intervention\Image\ImageManagerStatic::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'EasyWeChat' => Overtrue\LaravelWeChat\Facade::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 
 ];
