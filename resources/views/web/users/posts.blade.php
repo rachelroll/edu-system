@@ -28,7 +28,7 @@
                     <ul class="list-unstyled">
                         @foreach($posts as $post)
                             <li class="media card-body">
-                                <a href="{{ route('posts.show', ['id'=> $post->id]) }}">
+                                <a href="{{ route('web.posts.show', ['id'=> $post->id]) }}">
                                     <div class="row">
                                         <img src="{{$post->cover}}" class="mr-3 img-thumbnail" alt="..." style="height: 10rem;">
                                         <div class="media-body">
