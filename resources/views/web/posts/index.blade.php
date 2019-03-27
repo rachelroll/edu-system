@@ -27,26 +27,34 @@
                             @foreach($posts as $post)
 
                                 <li class="media d-flex">
-                                    <a href="{{ route('web.posts.show', ['id'=> $post->id]) }}" target="_blank"
+                                    <a class="" href="{{ route('web.posts.show', ['id'=> $post->id]) }}" target="_blank"
                                        style="text-decoration:none;">
-                                        <div class="mr-4">
+                                        <div class="mr-4" style="width: 204px;height: 126px;">
                                             <img src="{{ config('edu.cdn_domain').'/'.$post->cover}}"
                                                  class="rounded" alt="..." style="width: 204px;height: 126px;">
                                         </div>
                                     </a>
                                     <div class="media-body">
-                                        <a href="{{ route('web.posts.show', ['id'=> $post->id]) }}" target="_blank"
-                                           style="text-decoration:none;">
-                                            <h5 class=" main-text">{{ $post->title }}</h5>
-                                        </a>
-                                        <p class="text-desc">{{$post->description }}</p>
-                                        <p class="main-text"><span class="text-danger">¥ {{ $post->price }}</span></p>
-                                        <p class="card-text float-right">
-                                            <small class="text-muted">{{ $post->author }} |
-                                                发布于 {{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}
-                                                | 阅读 {{ $post->readed }} | 评论 {{ $post->comments_count }} |
-                                                点赞 {{ $post->like }}</small>
-                                        </p>
+                                        <div style="height: 108px;">
+                                            <a href="{{ route('web.posts.show', ['id'=> $post->id]) }}" target="_blank"
+                                               style="text-decoration:none;" class="a-hover">
+                                                <h5 class=" main-text line-height-24">{{ $post->title }}</h5>
+                                            </a>
+                                            <a href="{{ route('web.posts.show', ['id'=> $post->id]) }}" target="_blank"
+                                               style="text-decoration:none;">
+                                                <p class="text-desc">{{$post->description }}</p>
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <p class="float-left"><span class="text-danger">¥ {{ $post->price }}</span></p>
+                                            <p class="card-text float-right">
+                                                <small class="text-muted">{{ $post->author }} |
+                                                    发布于 {{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}
+                                                    | 阅读 {{ $post->readed }} | 评论 {{ $post->comments_count }} |
+                                                    点赞 {{ $post->like }}</small>
+                                            </p>
+                                        </div>
+
                                     </div>
 
                                 </li>
