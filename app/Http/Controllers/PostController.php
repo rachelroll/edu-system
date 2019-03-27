@@ -10,7 +10,9 @@ use App\Utils\Utils;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Storage;
 use Parsedown;
 
 class PostController extends Controller
@@ -110,12 +112,21 @@ class PostController extends Controller
     //保存文章
     public function store(Request $request)
     {
-        $file = $request->file('cover', '');
-        if (!$file) {
-            return back()->with('error', '选一张门面图吧, 会展示在首页哦!');
-        } else {
-            $cover = $this->upload($file, 500);
+        $data = $request->input('data', '');
+        $cover = 'files/' . date('Y-m-d-h-i-s') . '-' . rand(0,100) . '.png'; // 生成图片名称
+        // 去掉多余字符
+        $data = str_replace('data:image/png;base64,', '', $data);
+
+        if ($data != "") { // 解码后保存图片
+            Storage::disk('oss')->put($cover, base64_decode($data));
         }
+
+
+        //if (!$file) {
+        //    return back()->with('error', '选一张门面图吧, 会展示在首页哦!');
+        //} else {
+        //    $cover = $this->upload($file, 500);
+        //}
         $title = $request->input('title', '');
         $description = $request->input('description', '');
         $content = $request->input('content', '');

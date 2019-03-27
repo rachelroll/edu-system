@@ -28,12 +28,12 @@
                             @foreach($posts as $post)
                                 <br>
                                 <li class="media">
-                                    <a href="{{ route('web.posts.show', ['id'=> $post['post_id']]) }}" target="_blank" style="text-decoration:none;color:white;">
+                                    <a href="{{ route('web.posts.show', ['id'=> $post->post_id]) }}" target="_blank" style="text-decoration:none;color:white;">
                                         <div class="row pl-3">
                                             <div class="media-body">
-                                                <h5 class="mt-0 mb-1 text-muted">{{ $post['post_title'] }}</h5>
+                                                <h5 class="mt-0 mb-1 text-muted">{{ $post->post_title }}</h5>
                                                 <p class="text-muted">
-                                                    {{$post['post_description'] }}
+                                                    {{$post->post_description }}
                                                 </p>
                                             </div>
                                         </div>

@@ -23,7 +23,10 @@ body {
 }
 
 nav {
-  background-color: rgb(32, 33, 36);
+  //background-color: rgb(32, 33, 36);
+  background-color:#fff;
+  border-bottom:1px solid lightgray;
+  //box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 .navbar-laravel {

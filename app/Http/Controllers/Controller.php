@@ -13,7 +13,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    // 接收上传的照片
+
     protected function upload($file, $size)
     {
         $image = Image::make($file->getRealPath())->fit($size)->encode('jpg');

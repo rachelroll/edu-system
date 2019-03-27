@@ -12641,7 +12641,8 @@ body {
 }
 
 nav {
-  background-color: #202124;
+  background-color: #fff;
+  border-bottom: 1px solid lightgray;
 }
 
 .navbar-laravel {

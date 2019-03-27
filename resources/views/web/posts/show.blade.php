@@ -132,8 +132,10 @@
             <div class="col-3">
                 <div class="right">
                     <div class="pt-5" style="background-color: white">
-                        <img src="{{ env('CDN_DOMAIN').'/'.$post->user->avatar }}" style="width:170px; height:170px;"
-                             class="card-img-top center" alt="...">
+                        <a href="">
+                            <img src="{{ env('CDN_DOMAIN').'/'.$post->user->avatar }}" style="width:170px; height:170px;"
+                                 class="card-img-top center" alt="...">
+                        </a>
                         <br>
                         <div class="main-text text-center">{{ $post->user->name }}</div>
                         <div class="card-body">

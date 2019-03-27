@@ -68,7 +68,7 @@
                            aria-haspopup="true" aria-expanded="false">
                             <img class="rounded" style="width:30px; height:30px;"
                                  src="{{ env('CDN_DOMAIN').'/'.\Auth::user()->avatar }}" alt=""/>
-                            <span class="text-white ml-1">{{ \Auth::user()->name }}</span>
+                            <span class="text-muted ml-1">{{ \Auth::user()->name }}</span>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item text-muted" href="{{ route('web.users.posts') }}">我的文章</a>

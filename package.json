@@ -26,6 +26,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "cropperjs": "^1.5.1",
         "jscroll": "^2.4.1",
         "marked": "^0.6.1",
         "simplemde": "^1.11.2"
