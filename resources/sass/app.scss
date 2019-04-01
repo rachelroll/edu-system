@@ -24,8 +24,8 @@ body {
 
 nav {
   //background-color: rgb(32, 33, 36);
-  background-color:#fff;
-  border-bottom:1px solid lightgray;
+  background-color: #fff;
+  border-bottom: 1px solid #77b1e6;
   //box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
@@ -38,13 +38,16 @@ nav {
   text-decoration: none solid rgb(99, 107, 111);
   color: rgb(99, 107, 111)
 }
+
 .line-height-24 {
   line-height: 24px;
 }
+
 .a-hover:hover {
   color: #4d7fd0;
-  cursor:pointer;
+  cursor: pointer;
 }
+
 .text-desc {
   font-size: 13px;
   font-style: normal;
@@ -85,4 +88,53 @@ a {
   font-size: 15px;
   line-height: 30px;
   font-family: Helvetica Neue, Microsoft YaHei;
+}
+
+
+.wrap-img {
+  width: 204px;height: 126px; overflow: hidden;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.scale-big {
+  transition: all 1s;
+}
+
+.scale-big:hover {
+  -webkit-transform: scale(1.12);
+  transform: scale(1.12);
+}
+
+.r-shadow-wrapper {
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.r-shadow-wrapper {
+  padding: 18px 10px;
+  margin: 4px 0;
+  transition: all .5s linear;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  z-index: 101;
+}
+
+.r-shadow-wrapper:hover {
+  background: #fff;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  box-shadow: 0 0 25px 2px rgba(0, 0, 0, .2);
+}
+
+.r-shadow-wrapper .r-shadow-content {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 102;
 }

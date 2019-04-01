@@ -55,7 +55,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">¥</span>
                         </div>
-                        <input type="text" name="price" class="form-control" aria-label="Amount (to the nearest dollar)">
+                        <input type="text" name="price" class="form-control" style="width: 20%; display: inline;" aria-label="Amount (to the nearest dollar)">
                         <div class="input-group-append">
                             <span class="input-group-text">元</span>
                         </div>
@@ -63,14 +63,16 @@
                     <small class="form-text text-muted">我们支持知识有价! 也支持知识无价, 定价 0 元也是可以的哦~~~</small>
                 </div>
                 <div id="images">
-                    <input type="file" name="image" id="image" onchange="readURL(this);"/>
+                    <input type="file" name="image" id="file" />
                     <br>
                     {{--放置用户选择的照片--}}
-                    <div id="image_container" class="pt-2 pb-2" style="width: 300px;">
+                    <div  class="pt-2 pb-2" style="width: 300px;">
+                        <img src="" id="image_container" alt=""/>
                         {{--放置用户上传照片的 img 标签--}}
                         {{--<img id="blah" src="#" alt="your image" class="d-none" style="width: 50px" />--}}
                     </div>
                     {{--裁切后的图片展示--}}
+
                     <div id="cropped_result" class="pt-2 pb-2" style="width: 300px">
                     </div>
 
@@ -156,95 +158,129 @@
             }
         });
 
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                console.log(input.files[0], input.files);
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    // 显示要放置用户上传的原始图片的 img 标签
-                    // $('#blah').removeClass('d-none');
+        $('#file').on('change',function(e) {
+            var file;
+            var files = e.target.files;
+            var img = document.getElementById('image_container');
+            if (files && files.length > 0) {
+                file = URL.createObjectURL(files[0]);
+                console.log(files)
 
-                    // 把用户上传的图片放入指定的 img 标签, 并设置图片显示的尺寸
-                    // $('#blah').attr('src', e.target.result)
-                    //             .width('300px');
+                $('#image_container').attr({'src': file});
 
-                    // 在上传新图之前, 先把原来的图片删掉
-                    $('#blah').remove();
-                    // 在上传新图之前, 先把原来生成的裁切 div 删掉
-                    $('.cropper-container').remove();
-
-
-                    // 创建一个新的 img 标签
-                    var img = $('<img id="blah">');
-
-                    // 给新创建的 img 标签添加 src 属性
-                    img.attr('src', e.target.result).width('300px');
-                    img.appendTo('#image_container');
-
-                };
-                reader.readAsDataURL(input.files[0]);
-                // 用定时器调用裁切函数
-                setTimeout(initCropper, 1000);
-                // 显示 "裁切" 按钮
-                $('#crop_button').addClass('d-block')
+                const cropper = new Cropper(img, {
+                    aspectRatio: 16 / 9,
+                    crop(event) {
+                        console.log(event.detail.x);
+                        console.log(event.detail.y);
+                        console.log(event.detail.width);
+                        console.log(event.detail.height);
+                        console.log(event.detail.rotate);
+                        console.log(event.detail.scaleX);
+                        console.log(event.detail.scaleY);
+                    },
+                });
             }
-        }
-        function initCropper(){
-            var image = document.getElementById('blah');
-            var cropper = new Cropper(image, {
-                // 设置图片裁切的比例
-                aspectRatio: 34 / 21,
-                // 去掉栅格背景
-                background: false,
-                // 去掉深灰色背景
-                modal: false,
-                viewMode: 2,
-            });
+        })
 
-            // 点击裁切按钮的点击事件
-            document.getElementById('crop_button').addEventListener('click', function(e){
-                // 把裁切好的图片生成 url, 同时设置图片显示的宽度
-                var imgurl =  cropper.getCroppedCanvas({width: 200}).toDataURL("image/png");
-                console.log(imgurl);
-                // 创建一个新的 img 标签
-                var img = document.createElement("img");
-                // 给新创建的 img 标签添加 src 属性
-                img.src = imgurl;
-
-                // 把裁切好的 img 标签放到页面上
-                document.getElementById("cropped_result").appendChild(img);
-                // 把裁切好的图片地址放到表单中
-                $('#data').val(imgurl);
-                // 点击 button 标签会自动提交整个表单, 所以这里要阻止表单提交
-                e.preventDefault();
-                // 裁切之后, 把 "裁切" 按钮隐藏
-                $('#crop_button').removeClass('d-block');
-                // 裁切后删除原图
-                $('#image_container').addClass('d-none');
+        function readURL(e) {
 
 
-                // upload to the server
-                {{--cropper.getCroppedCanvas().toBlob(function (blob) {--}}
+
+
+            {{--if (input.files && input.files[0]) {--}}
+                {{--console.log(input.files[0], input.files);--}}
+                {{--var reader = new FileReader();--}}
+                {{--reader.onload = function (e) {--}}
+                    {{--// 显示要放置用户上传的原始图片的 img 标签--}}
+                    {{--// $('#blah').removeClass('d-none');--}}
+
+                    {{--// 把用户上传的图片放入指定的 img 标签, 并设置图片显示的尺寸--}}
+                    {{--// $('#blah').attr('src', e.target.result)--}}
+                    {{--//             .width('300px');--}}
+
+                    {{--// 在上传新图之前, 先把原来的图片删掉--}}
+                    {{--$('#blah').remove();--}}
+                    {{--// 在上传新图之前, 先把原来生成的裁切 div 删掉--}}
+                    {{--$('.cropper-container').remove();--}}
+
+
+                    {{--// 创建一个新的 img 标签--}}
+                    {{--var img = $('<img id="blah">');--}}
+
+                    {{--// 给新创建的 img 标签添加 src 属性--}}
+                    {{--img.attr('src', e.target.result).width('300px');--}}
+                    {{--img.appendTo('#image_container');--}}
+
+                    {{--var image = document.getElementById('blah');--}}
+                    {{--console.log(img);--}}
+                    {{--debugger;--}}
+                    {{--var cropper = new Cropper(image, {--}}
+                        {{--// 设置图片裁切的比例--}}
+                        {{--aspectRatio: 34 / 21,--}}
+                        {{--// 去掉栅格背景--}}
+                        {{--background: false,--}}
+                        {{--// 去掉深灰色背景--}}
+                        {{--modal: false,--}}
+                        {{--viewMode: 2,--}}
+                    {{--});--}}
+
+                {{--};--}}
+                {{--reader.readAsDataURL(input.files[0]);--}}
+
+
+
+
+                {{--// 点击裁切按钮的点击事件--}}
+                {{--document.getElementById('crop_button').addEventListener('click', function(e){--}}
+                    {{--// 把裁切好的图片生成 url, 同时设置图片显示的宽度--}}
+                    {{--var imgurl =  cropper.getCroppedCanvas({width: 200}).toDataURL("image/png");--}}
+                    {{--console.log(imgurl);--}}
+                    {{--// 创建一个新的 img 标签--}}
+                    {{--var img = document.createElement("img");--}}
+                    {{--// 给新创建的 img 标签添加 src 属性--}}
+                    {{--img.src = imgurl;--}}
+
+                    {{--// 把裁切好的 img 标签放到页面上--}}
+                    {{--document.getElementById("cropped_result").appendChild(img);--}}
+                    {{--// 把裁切好的图片地址放到表单中--}}
+                    {{--$('#data').val(imgurl);--}}
+                    {{--// 点击 button 标签会自动提交整个表单, 所以这里要阻止表单提交--}}
+                    {{--e.preventDefault();--}}
+                    {{--// 裁切之后, 把 "裁切" 按钮隐藏--}}
+                    {{--$('#crop_button').removeClass('d-block');--}}
+                    {{--// 裁切后删除原图--}}
+                    {{--$('#image_container').addClass('d-none');--}}
+
+
+                    {{--// upload to the server--}}
+                    {{--cropper.getCroppedCanvas().toBlob(function (blob) {--}}
                     {{--var formData = new FormData();--}}
                     {{--formData.append('croppedImage', blob);--}}
                     {{--for (var p of formData) {--}}
-                        {{--console.log(p);--}}
+                    {{--console.log(p);--}}
                     {{--}--}}
                     {{--// Use `jQuery.ajax` method--}}
                     {{--$.ajax('{{ route('web.posts.store') }}', {--}}
-                        {{--method: "POST",--}}
-                        {{--data: formData,--}}
-                        {{--processData: false,--}}
-                        {{--contentType: false,--}}
-                        {{--success: function () {--}}
-                            {{--console.log('Upload success');--}}
-                        {{--},--}}
-                        {{--error: function () {--}}
-                            {{--console.log('Upload error');--}}
-                        {{--}--}}
+                    {{--method: "POST",--}}
+                    {{--data: formData,--}}
+                    {{--processData: false,--}}
+                    {{--contentType: false,--}}
+                    {{--success: function () {--}}
+                    {{--console.log('Upload success');--}}
+                    {{--},--}}
+                    {{--error: function () {--}}
+                    {{--console.log('Upload error');--}}
+                    {{--}--}}
+                    {{--});--}}
                     {{--});--}}
                 {{--});--}}
-            })
+
+
+
+                {{--// 显示 "裁切" 按钮--}}
+                {{--$('#crop_button').addClass('d-block');--}}
+            {{--}--}}
         }
     </script>
     @endsection
