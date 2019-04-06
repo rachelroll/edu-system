@@ -60,7 +60,11 @@
                         <small class="text-muted">
                             创建于 {{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}
                             / 阅读数 {{ $readed }} / 评论数 {{ $post->comments_count }} /
-                            更新于 {{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->updated_at))->diffForHumans() }}</small>
+                            更新于 {{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->updated_at))->diffForHumans() }}
+                            @if($post->user_id == \Auth::user()->id)
+                                 ( <a href="{{ route('web.posts.edit', ['id' => $post->id]) }}" class="text-muted">编辑</a> | <a href="{{ route('web.posts.delete', ['id' => $post->id]) }}" class="text-muted">删除</a> )
+                                @endif
+                        </small>
                         <hr class="my-4">
                         <p class="p-2 main-text content-text">
                             {!! Parsedown::instance()->setBreaksEnabled(true)->text($post->content) !!}

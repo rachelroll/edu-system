@@ -23,6 +23,9 @@ Route::get('posts', 'PostController@index')->name('web.posts.index');
 Route::get('posts/create', 'PostController@create')->name('web.posts.create');
 Route::get('posts/{id}', 'PostController@show')->name('web.posts.show');
 Route::post('posts/store', 'PostController@store')->name('web.posts.store');
+Route::get('posts/edit/{id}', 'PostController@edit')->name('web.posts.edit');
+Route::post('posts/update/{id}', 'PostController@update')->name('web.posts.update');
+Route::post('posts/delete{id}', 'PostController@delete')->name('web.posts.delete');
 Route::get('posts/user_colleciton/{id}', 'PostController@collect')->name('web.posts.user_collection');
 
 
@@ -63,7 +66,7 @@ Route::get('/message/to/{id}', 'MessageController@create')->name('web.message.to
 Route::post('/message/store', 'MessageController@store')->name('web.message.store');
 // 所有私信
 Route::get('/messages', 'MessageController@index')->name('web.messages');
-
+// 所有通知
 Route::get('notifications', 'NotificationController@index')->name('web.notifications.index');
 
 // 点赞

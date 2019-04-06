@@ -197,4 +197,18 @@ class PostController extends Controller
         return view('web.posts.user_collection', compact('posts', 'bool'));
     }
 
+    // 修改文章
+    public function edit($id)
+    {
+        $post = Post::find($id);
+
+        return view('web.posts.edit', compact('post'));
+    }
+
+    // 删除文章
+    public function delete($id)
+    {
+        Post::where('id', $id)->delete();
+    }
+
 }
