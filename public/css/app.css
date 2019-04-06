@@ -12642,7 +12642,7 @@ body {
 
 nav {
   background-color: #fff;
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid #77b1e6;
 }
 
 .navbar-laravel {
@@ -12705,5 +12705,50 @@ a {
   font-size: 15px;
   line-height: 30px;
   font-family: Helvetica Neue, Microsoft YaHei;
+}
+
+.wrap-img {
+  width: 204px;
+  height: 126px;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.scale-big {
+  transition: all 1s;
+}
+
+.scale-big:hover {
+  -webkit-transform: scale(1.12);
+  transform: scale(1.12);
+}
+
+.r-shadow-wrapper {
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.r-shadow-wrapper {
+  padding: 18px 10px;
+  margin: 4px 0;
+  transition: all 0.5s linear;
+  border-radius: 5px;
+  z-index: 101;
+}
+
+.r-shadow-wrapper:hover {
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 25px 2px rgba(0, 0, 0, 0.2);
+}
+
+.r-shadow-wrapper .r-shadow-content {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 102;
 }
 

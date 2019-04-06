@@ -7,7 +7,7 @@
     <title>֪知识付费平台-@yield('title')</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}"
-           crossorigin="anonymous">
+          crossorigin="anonymous">
 
     @yield('css')
     @yield('style')
@@ -59,7 +59,8 @@
                 @else
                     <li class="nav-item align-self-center">
                         <div class="notes-count rounded">
-                            <a href="{{ route('web.notifications.index') }}" class="mr-3" style="color: rgb(51, 51, 51)">{{ $notifications_count }}</a>
+                            <a href="{{ route('web.notifications.index') }}" class="mr-3"
+                               style="color: rgb(51, 51, 51)">{{ $notifications_count }}</a>
                         </div>
 
                     </li>
@@ -91,13 +92,13 @@
 <script>
 
             @foreach(['success','info','error','warning'] as $type)
-                    @if(session($type))
-            var $type = '{{ $type }}';
-            var message = '{{ session($type) }}';
-            toastr.options.progressBar = true;
-            toastr['success']('nihskdfjskd');
-            // toastr[$type](message);
-            @endif
+            @if(session($type))
+    var $type = '{{ $type }}';
+    var message = '{{ session($type) }}';
+    toastr.options.progressBar = true;
+    toastr['success']('nihskdfjskd');
+    // toastr[$type](message);
+    @endif
             @endforeach
 
             @if ($errors->any())
