@@ -27,6 +27,7 @@ Route::get('posts/edit/{id}', 'PostController@edit')->name('web.posts.edit');
 Route::post('posts/update/{id}', 'PostController@update')->name('web.posts.update');
 Route::post('posts/delete{id}', 'PostController@delete')->name('web.posts.delete');
 Route::get('posts/user_colleciton/{id}', 'PostController@collect')->name('web.posts.user_collection');
+Route::post('posts/imagesUpload', 'PostController@imagesUpload')->name('web.posts.imagesUpload');
 
 
 // comments
@@ -110,7 +111,6 @@ Route::post('/payment/notify', 'paymentController@notify')->name('web.payment.no
 
 // 请求微信接口, 查看订单支付状态
 Route::get('/payment/paid', 'PaymentController@paid')->name('web.payment.paid');
-
 
 
 
