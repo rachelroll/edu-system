@@ -1,6 +1,7 @@
 @extends('layout.layout')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @section('css')
+    <link href="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.0.3/codemirror.css" media="screen" rel="stylesheet" type="text/css">
     {{--markdown 富文本编辑器--}}
     <link href="https://cdn.bootcss.com/simplemde/1.11.2/simplemde.min.css" rel="stylesheet">
     {{--图片裁切插件--}}
@@ -32,7 +33,8 @@
                     <small class="form-text text-muted">将会展示在列表页, 所以想一句最有吸引力的话吧</small>
                 </div>
                 <div class="form-group">
-                    <textarea name="content" id="editor" data-autosave="editor-content" autofocus></textarea>
+                    {{--<textarea name="content" id="code" data-autosave="editor-content" autofocus>这里是哈哈哈哈</textarea>--}}
+                    <textarea name="one" id="code" cols="30" rows="10"></textarea>
                     <div id="preview" class="editor-style"></div>
                 </div>
                 {{--<div class="form-group">--}}
@@ -85,29 +87,35 @@
                     <button type="submit" class="btn btn-secondary ml-1 btn-sm pl-3 pr-3">保存草稿</button>
                 </div>
             </form>
-
             <br>
             <br>
         </div>
     </div>
     <br>
     <br>
+
     @stop
 
 @section('js')
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.0.3/codemirror.js"></script>
     {{--markdown 的 JS 解析器--}}
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     {{--markdown 编辑器--}}
     <script src="https://cdn.bootcss.com/simplemde/1.11.2/simplemde.min.js"></script>
-    <script src="../js/dropzone.js"></script>
+
+    {{--图片裁切--}}
     <script src="https://cdn.bootcss.com/cropperjs/2.0.0-alpha/cropper.js"></script>
+    {{--拖拽加载图片--}}
+    <script src="../js/inline-attachment.js"></script>
+    <script src="../js/codemirror-4.inline-attachment.js"></script>
+
     <script>
         // markdown 编辑器配置
         var simplemde = new SimpleMDE({
             // 对应 textarea 输入框
-            element: $("#editor")[0],
+            // element: $("#editor")[0],
             // 自动聚焦到输入框
-            autofocus: true,
+            // autofocus: true,
             // 自动保存
             autosave: {
                 enabled: true,
@@ -147,6 +155,29 @@
             showIcons: ["code", "table", "clean-block", "link", "horizontal-rule", "side-by-side", "fullscreen", "heading-1", "heading-2", "|", "heading-3", "|"],
         });
 
+        inlineAttachment.editors.codemirror4.attach(simplemde.codemirror, {
+            extraParams: {
+                '_token': "{{ csrf_token() }}",
+            },
+            uploadUrl: '{{ route('web.posts.imagesUpload') }}',
+            onFileUploadResponse: function(xhr) {
+                var result = JSON.parse(xhr.responseText),
+                    filename = result[this.settings.jsonFieldName];
+
+                if (result && filename) {
+                    var newValue;
+                    if (typeof this.settings.urlText === 'function') {
+                        newValue = this.settings.urlText.call(this, filename, result);
+                    } else {
+                        newValue = this.settings.urlText.replace(this.filenameTag, filename);
+                    }
+                    var text = this.editor.getValue().replace(this.lastValue, newValue);
+                    this.editor.setValue(text);
+                    this.settings.onFileUploaded.call(this, filename);
+                }
+                return false;
+            }
+        });
     </script>
 
     <script type="text/javascript" defer>
@@ -156,17 +187,42 @@
             }
         });
 
-        function readURL(input) {
+        $('#file').on('change',function(e) {
+            var file;
+            var files = e.target.files;
+            var img = document.getElementById('image_container');
+            if (files && files.length > 0) {
+                file = URL.createObjectURL(files[0]);
+                console.log(files);
+
+                $('#image_container').attr({'src': file});
+
+                const cropper = new Cropper(img, {
+                    aspectRatio: 16 / 9,
+                    crop(event) {
+                        console.log(event.detail.x);
+                        console.log(event.detail.y);
+                        console.log(event.detail.width);
+                        console.log(event.detail.height);
+                        console.log(event.detail.rotate);
+                        console.log(event.detail.scaleX);
+                        console.log(event.detail.scaleY);
+                    },
+                });
+            }
+        });
+
+        function readURL(e) {
+
             if (input.files && input.files[0]) {
                 console.log(input.files[0], input.files);
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     // 显示要放置用户上传的原始图片的 img 标签
-                    // $('#blah').removeClass('d-none');
+                    $('#blah').removeClass('d-none');
 
                     // 把用户上传的图片放入指定的 img 标签, 并设置图片显示的尺寸
-                    // $('#blah').attr('src', e.target.result)
-                    //             .width('300px');
+                    $('#blah').attr('src', e.target.result).width('300px');
 
                     // 在上传新图之前, 先把原来的图片删掉
                     $('#blah').remove();
@@ -181,50 +237,45 @@
                     img.attr('src', e.target.result).width('300px');
                     img.appendTo('#image_container');
 
+                    var image = document.getElementById('blah');
+                    console.log(img);
+                    debugger;
+                    var cropper = new Cropper(image, {
+                        // 设置图片裁切的比例
+                        aspectRatio: 34 / 21,
+                        // 去掉栅格背景
+                        background: false,
+                        // 去掉深灰色背景
+                        modal: false,
+                        viewMode: 2,
+                    });
                 };
                 reader.readAsDataURL(input.files[0]);
-                // 用定时器调用裁切函数
-                setTimeout(initCropper, 1000);
-                // 显示 "裁切" 按钮
-                $('#crop_button').addClass('d-block')
-            }
-        }
-        function initCropper(){
-            var image = document.getElementById('blah');
-            var cropper = new Cropper(image, {
-                // 设置图片裁切的比例
-                aspectRatio: 34 / 21,
-                // 去掉栅格背景
-                background: false,
-                // 去掉深灰色背景
-                modal: false,
-                viewMode: 2,
-            });
 
-            // 点击裁切按钮的点击事件
-            document.getElementById('crop_button').addEventListener('click', function(e){
-                // 把裁切好的图片生成 url, 同时设置图片显示的宽度
-                var imgurl =  cropper.getCroppedCanvas({width: 200}).toDataURL("image/png");
-                console.log(imgurl);
-                // 创建一个新的 img 标签
-                var img = document.createElement("img");
-                // 给新创建的 img 标签添加 src 属性
-                img.src = imgurl;
+                // 点击裁切按钮的点击事件
+                document.getElementById('crop_button').addEventListener('click', function(e){
+                    // 把裁切好的图片生成 url, 同时设置图片显示的宽度
+                    var imgurl =  cropper.getCroppedCanvas({width: 200}).toDataURL("image/png");
+                    console.log(imgurl);
+                    // 创建一个新的 img 标签
+                    var img = document.createElement("img");
+                    // 给新创建的 img 标签添加 src 属性
+                    img.src = imgurl;
 
-                // 把裁切好的 img 标签放到页面上
-                document.getElementById("cropped_result").appendChild(img);
-                // 把裁切好的图片地址放到表单中
-                $('#data').val(imgurl);
-                // 点击 button 标签会自动提交整个表单, 所以这里要阻止表单提交
-                e.preventDefault();
-                // 裁切之后, 把 "裁切" 按钮隐藏
-                $('#crop_button').removeClass('d-block');
-                // 裁切后删除原图
-                $('#image_container').addClass('d-none');
+                    // 把裁切好的 img 标签放到页面上
+                    document.getElementById("cropped_result").appendChild(img);
+                    // 把裁切好的图片地址放到表单中
+                    $('#data').val(imgurl);
+                    // 点击 button 标签会自动提交整个表单, 所以这里要阻止表单提交
+                    e.preventDefault();
+                    // 裁切之后, 把 "裁切" 按钮隐藏
+                    $('#crop_button').removeClass('d-block');
+                    // 裁切后删除原图
+                    $('#image_container').addClass('d-none');
 
 
-                // upload to the server
-                {{--cropper.getCroppedCanvas().toBlob(function (blob) {--}}
+                    // upload to the server
+                    {{--cropper.getCroppedCanvas().toBlob(function (blob) {--}}
                     {{--var formData = new FormData();--}}
                     {{--formData.append('croppedImage', blob);--}}
                     {{--for (var p of formData) {--}}
@@ -243,8 +294,11 @@
                             {{--console.log('Upload error');--}}
                         {{--}--}}
                     {{--});--}}
-                {{--});--}}
-            })
+                });
+
+                // 显示 "裁切" 按钮
+                $('#crop_button').addClass('d-block');
+            }
         }
     </script>
     @endsection

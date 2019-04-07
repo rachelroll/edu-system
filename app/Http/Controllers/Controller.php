@@ -19,10 +19,10 @@ class Controller extends BaseController
         $image = Image::make($file->getRealPath())->fit($size)->encode('jpg');
         $filename = 'files/' . date('Y-m-d-h-i-s') . '-' . $file->getClientOriginalName();
         $bool = Storage::disk('oss')->put($filename, $image->__toString());
-            if ($bool) {
-                return $filename;
-            } else {
-                return '';
-            }
+        if ($bool) {
+            return $filename;
+        } else {
+            return '';
+        }
     }
 }

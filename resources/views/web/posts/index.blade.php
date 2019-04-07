@@ -54,7 +54,7 @@
                                         <a class="" href="{{ route('web.posts.show', ['id'=> $post->id]) }}"
                                            target="_blank"
                                            style="text-decoration:none;">
-                                            <img src="{{ config('edu.cdn_domain').'/'.$post->cover}}"
+                                            <img src="{{ $post->cover}}"
                                                  class="rounded scale-big" alt="..."
                                             >
                                         </a>
@@ -67,16 +67,12 @@
                                                         target="_blank"
                                                         style="text-decoration:none;"
                                                         class="a-hover">{{ $post->title }}</a></h5>
-
-
                                             <p class="text-desc">
-                                                <a
-                                                        class="main-text"
+                                                <a class="main-text"
                                                         href="{{ route('web.posts.show', ['id'=> $post->id]) }}"
                                                         target="_blank"
                                                         style="text-decoration:none;">{{$post->description }}</a>
                                             </p>
-
                                         </div>
                                         <div>
                                             <span class="text-danger">¥ {{ $post->price }}</span>
