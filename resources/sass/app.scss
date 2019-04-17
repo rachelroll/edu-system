@@ -7,6 +7,7 @@
 //@import '~simditor/styles/simditor';
 @import '~sweetalert2/src/sweetalert2.scss';
 @import "~toastr/toastr.scss";
+@import "../css/typo.css";
 
 body {
   background-color: white;
@@ -85,8 +86,8 @@ a {
 }
 
 .content-text {
-  font-size: 15px;
-  line-height: 30px;
+  font-size: 16px;
+  line-height: 32px;
   font-family: Helvetica Neue, Microsoft YaHei;
 }
 

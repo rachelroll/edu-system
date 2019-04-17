@@ -55,20 +55,22 @@
             <div class="col-9">
                 <div class="left">
                     <div>
-                        <h3 class="display-5 main-text">{{ $post->title }}</h3>
-                        <p class="main-text content-text">{{ $post->description }}</p>
+                        <h3 class="display-5 main-text ">{{ $post->title }}</h3>
+                        <p class="main-text content-text pt-2">{{ $post->description }}</p>
                         <small class="text-muted">
                             创建于 {{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}
                             / 阅读数 {{ $readed }} / 评论数 {{ $post->comments_count }} /
                             更新于 {{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->updated_at))->diffForHumans() }}
+                            @auth
                             @if($post->user_id == \Auth::user()->id)
                                  ( <a href="{{ route('web.posts.edit', ['id' => $post->id]) }}" class="text-muted">编辑</a> | <a href="{{ route('web.posts.delete', ['id' => $post->id]) }}" class="text-muted">删除</a> )
                                 @endif
+                            @endauth
                         </small>
                         <hr class="my-4">
-                        <p class="p-2 main-text content-text">
+                        <div class="p-2 main-text content-text typo textwrap">
                             {!! Parsedown::instance()->setBreaksEnabled(true)->text($post->content) !!}
-                        </p>
+                        </div>
                         @if($post->is_free != 1)
                             <br>
                             <div class="">

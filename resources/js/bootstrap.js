@@ -12,11 +12,9 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
-    window.Swal = require('sweetazxlert2');zx
-    window.toastr = require('tzxoaszxtr')zx;zx
-zx
+    window.Swal = require('sweetalert2');
+    window.toastr = require('toastr');
 } catch (e) {}
-zx
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
