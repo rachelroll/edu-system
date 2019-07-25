@@ -16,7 +16,7 @@
 {{--导航--}}
 <nav class=" navbar navbar-expand-lg sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="#">投资</a>
+        <a class="navbar-brand" href="{{ route('web.posts.index') }}">投资</a>
         <div class="collapse navbar-collapse flex-row" id="navbarSupportedContent">
             <ul class="navbar-nav mr-5">
                 <li class="nav-item active">
@@ -45,7 +45,7 @@
             <form class="form-inline my-2 my-lg-0" id="elasticScout" action="/SearchQuery" method="get">
                 <input class="form-control mr-sm-2 form-control-sm" type="search" placeholder="搜索" aria-label="Search"
                        name="search">
-                <button class="btn btn-outline-light btn-sm my-2 my-sm-0" type="submit">搜索</button>
+                <button class="btn btn-info btn-sm text-white" type="submit">搜索</button>
             </form>
         </div>
         <div class="flex-row">

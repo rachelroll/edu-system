@@ -159,7 +159,7 @@
             extraParams: {
                 '_token': "{{ csrf_token() }}",
             },
-            uploadUrl: '{{ route('web.posts.imagesUpload') }}',
+            uploadUrl: '{{ route('web.posts.images-upload') }}',
             onFileUploadResponse: function(xhr) {
                 var result = JSON.parse(xhr.responseText),
                     filename = result[this.settings.jsonFieldName];

@@ -2,16 +2,6 @@
 @section('style')
     <link href="https://cdn.bootcss.com/highlight.js/9.15.6/styles/a11y-dark.min.css" rel="stylesheet">
     <style>
-        .left {
-            /*margin: 0 1px;*/
-            /*padding: 30px;*/
-            /*background-color: white;*/
-        }
-
-        .right {
-            /*margin: 0 2px;*/
-        }
-
         .center {
             display: block;
             margin-left: auto;
@@ -79,8 +69,10 @@
                                 </button>
                             </div>
                         @endif
+
                     </div>
                 </div>
+                <a href="{{ route('web.posts.show',['id'=>$post->id]) }}" >原文地址:{{ route('web.posts.show',['id'=>$post->id]) }}</a>
                 <br>
                 <div class="left" style="padding:16px 0">
                     <div class="row ml-0" id="like">
@@ -88,7 +80,9 @@
                         <span class="main-text"><span>{{ $like_counts }}</span> 人点赞</span>
                     </div>
                 </div>
+
                 <br>
+
                 <div class="main-text">
                     <span>讨论数量: {{ $post->comments_count }}</span>
                 </div>

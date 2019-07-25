@@ -72,6 +72,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUuid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereWechatName($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Order[] $orders
  */
 class User extends Authenticatable
 {

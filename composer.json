@@ -28,7 +28,7 @@
         "simplesoftwareio/simple-qrcode": "~2",
         "socialiteproviders/weixin": "^4.0",
         "socialiteproviders/weixin-web": "^3.0",
-        "tamayo/laravel-scout-elastic": "^4.0",
+        "tamayo/laravel-scout-elastic": "^5.0",
         "yzalis/identicon": "^1.2"
     },
     "require-dev": {

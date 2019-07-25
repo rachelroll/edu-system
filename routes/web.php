@@ -20,14 +20,18 @@ Route::get('/', function () {
 
 // 关于 posts
 Route::get('posts', 'PostController@index')->name('web.posts.index');
-Route::get('posts/create', 'PostController@create')->name('web.posts.create');
+
+Route::middleware('auth')->group(function () {
+    Route::get('posts/create', 'PostController@create')->name('web.posts.create');
+});
+
 Route::get('posts/{id}', 'PostController@show')->name('web.posts.show');
 Route::post('posts/store', 'PostController@store')->name('web.posts.store');
 Route::get('posts/edit/{id}', 'PostController@edit')->name('web.posts.edit');
 Route::post('posts/update/{id}', 'PostController@update')->name('web.posts.update');
 Route::post('posts/delete{id}', 'PostController@delete')->name('web.posts.delete');
-Route::get('posts/user_colleciton/{id}', 'PostController@collect')->name('web.posts.user_collection');
-Route::post('posts/imagesUpload', 'PostController@imagesUpload')->name('web.posts.imagesUpload');
+Route::get('posts/user-colleciton/{id}', 'PostController@collect')->name('web.posts.user-collection');
+Route::post('posts/images-upload', 'PostController@imagesUpload')->name('web.posts.images-upload');
 
 
 // comments
