@@ -118,6 +118,21 @@ class PostController extends Controller
     //保存文章
     public function store(Request $request)
     {
+        $bool = Post::create([
+            'user_id'     => 1,
+            'author'      => 'ross',
+            'title'       => '60秒探访阿里食堂：煎饼果子一年卖13.2万份，麻辣烫卖10.56万份',
+            'description' => '8月13日，腾讯音乐公布了截止至2019年6月30日第二季度与前六个月的财报。2019年Q2，腾讯音乐总营收同比增长31%至59亿元，市场预估为59.4亿元。归属于公司股东的净利润为人民币9.27亿元，略低于上个季度的9.87亿元。',
+            'content'     => '本季度中，腾讯音乐的在线音乐付费人数持续增加，达3100万，同比增长33.0％，比上个季度净增260万，这是自2018年第一季度以来最大的净增数。
+
+在线付费人数的增加体现在收入中则是，其归属的在线音乐服务收入由去年的13亿元增至15.6亿元，同比增长20.2％。音乐订阅收入和数字音乐专辑销售的增长带动了该部分收入的增加。其中，音乐订阅收入为7.98亿元，同比增长31.9％，去年同期为6.05亿元。
+
+腾讯音乐CEO彭迦信提到，本季度在线音乐付费用户的增长主要得益于其与更多音乐品牌建立了合作、添加了更多内容，包括以音乐为中心的综艺节目。以及与短视频和音频产品如有声读物和播客等加强了联盟。同时，包括为腾讯生态系统内的游戏、电影和电视节目开发了更多原创音乐等原因促进了在线音乐付费用户人数的增加。',
+            'cover'       => '',
+            'price'       => 12,
+            'is_free'     => 0,
+        ]);
+        dd($bool);
         // 设置封面图, 如果用户不上传则默认使用图片
         $cover = '';
         // 接收 base64 编码的图片
@@ -131,7 +146,7 @@ class PostController extends Controller
         $title = $request->input('title', '');
         $description = $request->input('description', '');
         $content = $request->input('content', '');
-        $price = $request->input('price', 0);
+        $price = $request->get('price', 0);
         if ($price == 0) {
             $is_free = 1;
         } else {
@@ -195,7 +210,7 @@ class PostController extends Controller
         // 是否关注
         $bool = Fan::where('user_id', $author_id)->where('fans_id', $user_id)->exists();
 
-        return view('web.posts.user_collection', compact('posts', 'bool'));
+        return view('web.posts.user-collection', compact('posts', 'bool'));
     }
 
     // 修改文章
@@ -218,9 +233,15 @@ class PostController extends Controller
 
         $filename = $this->upload($file['file'], 500);
 
-        return \Response::json([
+        return response()->json([
             'filename' => $filename
         ]);
     }
+
+    public function test()
+    {
+
+    }
+
 
 }

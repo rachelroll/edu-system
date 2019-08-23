@@ -14,7 +14,7 @@ return [
     | Supported: "algolia", "null"
     |
     */
-    // °ÑÄ¬ÈÏµÄÇý¶¯´Ó algolia ¸ÄÎª elasticsearch
+    // æŠŠé»˜è®¤çš„é©±åŠ¨ä»Ž algolia æ”¹ä¸º elasticsearch
     'driver' => env('SCOUT_DRIVER', 'elasticsearch'),
 
     /*
@@ -87,7 +87,7 @@ return [
         'secret' => env('ALGOLIA_SECRET', ''),
     ],
 
-    //ÕâÀïÊÇÌí¼ÓµÄ´úÂë
+    //è¿™é‡Œæ˜¯æ·»åŠ çš„ä»£ç 
     'elasticsearch' => [
         'index' => env('ELASTICSEARCH_INDEX', 'laravel'),
         'hosts' => [

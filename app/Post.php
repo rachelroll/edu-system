@@ -3,36 +3,36 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
+use ScoutElastic\Searchable;
 
 /**
  * App\Post
  *
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
- * @property-read mixed $comments_count
- * @property-read \App\User $user
+ * @property-read mixed                                                   $comments_count
+ * @property-read \App\User                                               $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Post isChecked()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Post newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Post newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Post query()
  * @mixin \Eloquent
- * @property int $id
- * @property string $author 作者
- * @property int $type 分类
- * @property string $title 文章标题
- * @property string $description 文章描述
- * @property string $content 文章内容
- * @property string $cover 列表封面图
- * @property string $pictures 插图
- * @property int $readed 阅读数
- * @property int $price 价格(分)
- * @property int $original_price 原价(分)
- * @property int $is_free 是否免费
- * @property int $is_checked 是否通过审核
- * @property int $user_id
- * @property int $series_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int                                                          $id
+ * @property string                                                       $author 作者
+ * @property int                                                          $type 分类
+ * @property string                                                       $title 文章标题
+ * @property string                                                       $description 文章描述
+ * @property string                                                       $content 文章内容
+ * @property string                                                       $cover 列表封面图
+ * @property string                                                       $pictures 插图
+ * @property int                                                          $readed 阅读数
+ * @property int                                                          $price 价格(分)
+ * @property int                                                          $original_price 原价(分)
+ * @property int                                                          $is_free 是否免费
+ * @property int                                                          $is_checked 是否通过审核
+ * @property int                                                          $user_id
+ * @property int                                                          $series_id
+ * @property \Illuminate\Support\Carbon|null                              $created_at
+ * @property \Illuminate\Support\Carbon|null                              $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereAuthor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereCover($value)
@@ -50,14 +50,71 @@ use Laravel\Scout\Searchable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereUserId($value)
+ * @property \ScoutElastic\Highlight|null $highlight
  */
 class Post extends Model
 {
+
     use Searchable;
 
     protected $fillable = [
-    'user_id', 'author', 'title', 'description', 'content', 'content', 'cover', 'price', 'is_free'
+        'user_id',
+        'author',
+        'title',
+        'description',
+        'content',
+        'content',
+        'cover',
+        'price',
+        'is_free',
     ];
+
+    protected $indexConfigurator = PostIndexConfigurator::class;
+    protected $searchRules = [
+        //
+    ];
+    protected $mapping = [
+        'properties' => [
+            'content' => [
+                'type'            => 'text',
+                'analyzer'        => 'ik_max_word',
+                'search_analyzer' => 'ik_smart',
+            ],
+        ],
+    ];
+
+    /**
+     * @return string
+     */
+    public function searchableAs()
+    : string
+    {
+        return 'posts';
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        // Customize array...
+
+        return $array;
+    }
+
+    /**
+     * Get the value used to index the model.
+     *
+     * @return mixed
+     */
+    public function getScoutKey()
+    {
+        return $this->id;
+    }
 
     public function comments()
     {
@@ -66,7 +123,7 @@ class Post extends Model
 
     public function scopeIsChecked($query)
     {
-        return $query->where('is_checked',1);
+        return $query->where('is_checked', 1);
     }
 
     public function user()
@@ -90,4 +147,5 @@ class Post extends Model
     {
         $this->attributes['price'] = $value * 100;
     }
+
 }

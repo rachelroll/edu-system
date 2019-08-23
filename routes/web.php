@@ -1,6 +1,5 @@
 <?php
-
-/*
+/*f
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
@@ -29,7 +28,8 @@ Route::get('posts/{id}', 'PostController@show')->name('web.posts.show');
 Route::post('posts/store', 'PostController@store')->name('web.posts.store');
 Route::get('posts/edit/{id}', 'PostController@edit')->name('web.posts.edit');
 Route::post('posts/update/{id}', 'PostController@update')->name('web.posts.update');
-Route::post('posts/delete{id}', 'PostController@delete')->name('web.posts.delete');
+Route::post('posts/delete{id}', 'P
+ostController@delete')->name('web.posts.delete');
 Route::get('posts/user-colleciton/{id}', 'PostController@collect')->name('web.posts.user-collection');
 Route::post('posts/images-upload', 'PostController@imagesUpload')->name('web.posts.images-upload');
 

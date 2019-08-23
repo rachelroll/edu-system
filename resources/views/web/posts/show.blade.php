@@ -163,7 +163,7 @@
                                        role="button">私信</a>
                                     <br>
                                         <a class="btn btn-outline-dark btn-sm btn-block"
-                                           href="{{ route('web.posts.user_collection', ['id' => $post->user->id]) }}"
+                                           href="{{ route('web.posts.user-collection', ['id' => $post->user->id]) }}"
                                            role="button">TA 的文章</a>
                                 </li>
                             </ul>

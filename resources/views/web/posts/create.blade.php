@@ -57,7 +57,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">¥</span>
                         </div>
-                        <input type="text" name="price" class="form-control" aria-label="Amount (to the nearest dollar)">
+                        <input type="number" name="price" class="form-control" aria-label="Amount (to the nearest dollar)" value="0">
                         <div class="input-group-append">
                             <span class="input-group-text">元</span>
                         </div>
