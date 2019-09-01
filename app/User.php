@@ -9,42 +9,42 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 /**
  * App\User
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Fan[] $fans
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Follow[] $follows
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[]      $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Fan[]          $fans
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Follow[]       $follows
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Notification[] $notifications
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Post[] $posts
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Post[]         $posts
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User query()
  * @mixin \Eloquent
- * @property int $id
- * @property string|null $email 邮箱
- * @property string|null $mobile 手机号
- * @property string $password 密码
- * @property string $name 姓名
- * @property string $nick_name 昵称
- * @property string $wechat_name 微信昵称
- * @property string $avatar 头像
- * @property \Illuminate\Support\Carbon|null $email_verified_at 邮箱验证֤
- * @property string|null $login_time 登录时间
- * @property string $login_ip 登录IP
- * @property string $created_ip 创建IP
- * @property string $from_user_id 邀请人
- * @property int $register_type 注册来源:默认0:内部网站|第三方app/合作机构…
- * @property int $register_way 注册设备来源(默认0:web/ios/android)
- * @property string $uuid uuid
- * @property int $sex 性别, 0:男|1:女
- * @property string|null $sign 个性签名
- * @property string $openid openid
- * @property int $order_id 订单id
- * @property int $role 购买者, 0:买家|1:发布者
- * @property string|null $remember_token
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string $city 城市
- * @property string $payee_code 收款二维码
- * @property string $self_intro 个人简介
+ * @property int                                                               $id
+ * @property string|null                                                       $email 邮箱
+ * @property string|null                                                       $mobile 手机号
+ * @property string                                                            $password 密码
+ * @property string                                                            $name 姓名
+ * @property string                                                            $nick_name 昵称
+ * @property string                                                            $wechat_name 微信昵称
+ * @property string                                                            $avatar 头像
+ * @property \Illuminate\Support\Carbon|null                                   $email_verified_at 邮箱验证֤
+ * @property string|null                                                       $login_time 登录时间
+ * @property string                                                            $login_ip 登录IP
+ * @property string                                                            $created_ip 创建IP
+ * @property string                                                            $from_user_id 邀请人
+ * @property int                                                               $register_type 注册来源:默认0:内部网站|第三方app/合作机构…
+ * @property int                                                               $register_way 注册设备来源(默认0:web/ios/android)
+ * @property string                                                            $uuid uuid
+ * @property int                                                               $sex 性别, 0:男|1:女
+ * @property string|null                                                       $sign 个性签名
+ * @property string                                                            $openid openid
+ * @property int                                                               $order_id 订单id
+ * @property int                                                               $role 购买者, 0:买家|1:发布者
+ * @property string|null                                                       $remember_token
+ * @property \Illuminate\Support\Carbon|null                                   $created_at
+ * @property \Illuminate\Support\Carbon|null                                   $updated_at
+ * @property string                                                            $city 城市
+ * @property string                                                            $payee_code 收款二维码
+ * @property string                                                            $self_intro 个人简介
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCreatedAt($value)
@@ -72,10 +72,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUuid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereWechatName($value)
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Order[] $orders
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Order[]        $orders
  */
 class User extends Authenticatable
 {
+
     use Notifiable;
 
     /**
@@ -84,7 +85,20 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'avatar',
+        'name',
+        'email',
+        'password',
+        'avatar',
+        'openid',
+        'nick_name',
+        'wechat_name',
+        'sex',
+        'login_time',
+        'login_ip',
+        'created_ip',
+        'city',
+        'province',
+        'country',
     ];
 
     /**
@@ -93,7 +107,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -105,7 +120,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public $timestamps = true;
+    public $timestamps = TRUE;
 
     public function comments()
     {

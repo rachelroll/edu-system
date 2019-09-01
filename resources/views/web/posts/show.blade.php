@@ -93,12 +93,17 @@
                         <div class="left">
                             <div class="row mr-0">
                                 <div class="col-1">
+                                    @if($comment->user->avatar)
                                     <img class="rounded" style="width:50px; height:50px;"
-                                         src="{{ env('CDN_DOMAIN').'/'.$comment->commentator_portrait }}" alt=""/>
+                                         src="{{ env('CDN_DOMAIN').'/'.$comment->user->avatar }}" alt=""/>
+                                        @else
+                                        <img class="rounded" style="width:50px; height:50px;"
+                                             src="{{ $comment->user->headimgurl }}" alt=""/>
+                                    @endif
                                 </div>
                                 <div class="card col-11">
                                     <div class="d-flex pt-2 pb-2 border-bottom">
-                                        <div class="mr-auto">{{ $comment->commentator_name }}</div>
+                                        <div class="mr-auto">{{ $comment->user->nick_name }}</div>
                                         <div class="reply">回复</div>
                                         <div class="d-none">{{ $comment->user_id }}</div>
                                     </div>

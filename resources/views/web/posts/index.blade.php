@@ -71,7 +71,7 @@
                                                 <a class="main-text"
                                                         href="{{ route('web.posts.show', ['id'=> $post->id]) }}"
                                                         target="_blank"
-                                                        style="text-decoration:none;">{{$post->description }}</a>
+                                                        style="text-decoration:none;">{{ \Illuminate\Support\Str::limit($post->description,140)  }}</a>
                                             </p>
                                         </div>
                                         <div>

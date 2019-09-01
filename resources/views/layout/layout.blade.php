@@ -7,7 +7,11 @@
     <title>֪知识付费平台-@yield('title')</title>
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}"
           crossorigin="anonymous">
-
+    <style>
+        .swal2-modal {
+            top:-140px;
+        }
+    </style>
     @yield('css')
     @yield('style')
 
@@ -52,8 +56,10 @@
             <ul class="navbar-nav mr-auto">
                 @if(! \Auth::user())
                     <li class="nav-item active">
-                        <a class="nav-link" href="{{ route('wechat.login') }}">微信登录 <span
-                                    class="sr-only">(current)</span></a>
+                        <a class="nav-link" id="nav-login" >微信登录 <span
+                                class="sr-only">(current)</span></a>
+                        <a class="nav-link"  href="{{ route('wechat.login') }}" >测试登录 <span
+                                class="sr-only">(current)</span></a>
                     </li>
                 @else
                     <li class="nav-item align-self-center">
@@ -66,9 +72,14 @@
                     <div class="dropdown">
                         <a class="btn dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">
-                            <img class="rounded" style="width:30px; height:30px;"
-                                 src="{{ env('CDN_DOMAIN').'/'.\Auth::user()->avatar }}" alt=""/>
-                            <span class="text-muted ml-1">{{ \Auth::user()->name }}</span>
+                            @if(Auth::user()->avatar)
+                                <img class="rounded" style="width:30px; height:30px;"
+                                     src="{{ env('CDN_DOMAIN').'/'.Auth::user()->avatar }}" alt=""/>
+                                @else
+                                <img class="rounded" style="width:30px; height:30px;"
+                                     src="{{ Auth::user()->headimgurl }}" alt=""/>
+                            @endif
+                            <span class="text-muted ml-1">{{ Auth::user()->name }}</span>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item text-muted" href="{{ route('web.users.posts') }}">我的文章</a>
@@ -85,27 +96,58 @@
 
 {{--.end 导航--}}
 <br>
+
 @yield('content')
 </body>
+<script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
 <script src="{{ mix('js/app.js') }}"></script>
 <script>
 
-            @foreach(['success','info','error','warning'] as $type)
-            @if(session($type))
+        @foreach(['success','info','error','warning'] as $type)
+        @if(session($type))
     var $type = '{{ $type }}';
     var message = '{{ session($type) }}';
     toastr.options.progressBar = true;
     toastr['success']('nihskdfjskd');
     // toastr[$type](message);
     @endif
-            @endforeach
+        @endforeach
 
-            @if ($errors->any())
-            @foreach ($errors->all() as $error)
+        @if ($errors->any())
+        @foreach ($errors->all() as $error)
         toastr.options.progressBar = true;
     toastr['error']('{{ $error }}');
     @endforeach
     @endif
+    $('#nav-login').on('click',function(){
+        Swal.fire({
+            // imageUrl: 'https://unsplash.it/800/800',
+            // imageWidth: 600,
+            // imageHeight: 400,
+            // imageAlt: 'Custom image',
+            animation: false,
+            html:'<div id="login_container"></div>',
+            showConfirmButton: false
+        })
+        var query_string = '{{ request()->getQueryString() }}';
+        var url_path = '{{ request()->path() }}';
+        if (query_string) {
+            url_path = url_path + '?' + url_path
+        }
+        var redirect_uri = 'https://www.jkwedu.net/call-back?redirect=http://edu-system.test/auth/oauth-callback?path=' + url_path;
+        var obj = new WxLogin({
+            self_redirect: false,
+            id:"login_container",
+            appid: "wx8027a980640d6d72",
+            scope: "snsapi_login",
+            redirect_uri: encodeURI(redirect_uri),
+            state: "wechat_redirect",
+            style: "",
+            href: ""
+        });
+    })
+
+
 
 </script>
 @yield('js')

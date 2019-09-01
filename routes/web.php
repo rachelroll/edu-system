@@ -17,11 +17,22 @@ Route::get('/', function () {
 });
 
 
-// 关于 posts
+// posts
 Route::get('posts', 'PostController@index')->name('web.posts.index');
 
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::get('auth/oauth-callback', 'Authcontroller@oauthCallback')->name('web.auth.oauth-callback');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
 Route::middleware('auth')->group(function () {
+    //写文章
     Route::get('posts/create', 'PostController@create')->name('web.posts.create');
+
+    // 粉丝关注
+    Route::post('/fans/store', 'FansController@store')->name('web.fans.store');
+    Route::post('/fans/cancel', 'FansController@cancel')->name('web.fans.cancel');
+    // comments
+    Route::post('/comments/store', 'CommentController@store')->name('comments.store');
 });
 
 Route::get('posts/{id}', 'PostController@show')->name('web.posts.show');
@@ -34,8 +45,7 @@ Route::get('posts/user-colleciton/{id}', 'PostController@collect')->name('web.po
 Route::post('posts/images-upload', 'PostController@imagesUpload')->name('web.posts.images-upload');
 
 
-// comments
-Route::post('/comments/store', 'CommentController@store')->name('comments.store');
+
 
 
 Auth::routes();
@@ -60,9 +70,7 @@ Route::post('/users/store', 'UserController@store')->name('web.users.store');
 //保存头像
 Route::post('/users/store_avatar', 'UserController@storeAvatar')->name('web.users.store_avatar');
 
-// 粉丝关注
-Route::post('/fans/store', 'FansController@store')->name('web.fans.store');
-Route::post('/fans/cancel', 'FansController@cancel')->name('web.fans.cancel');
+
 
 // 通知
 // 编辑私信
