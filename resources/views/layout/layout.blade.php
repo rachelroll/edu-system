@@ -7,12 +7,13 @@
     <title>֪知识付费平台-@yield('title')</title>
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}"
           crossorigin="anonymous">
+    @yield('css')
     <style>
         .swal2-modal {
             top:-140px;
         }
     </style>
-    @yield('css')
+
     @yield('style')
 
 </head>

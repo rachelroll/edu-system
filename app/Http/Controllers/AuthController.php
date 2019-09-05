@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Order;
 use App\User;
 use EasyWeChat\Factory;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 
 class AuthController extends Controller
 {
@@ -33,20 +35,28 @@ class AuthController extends Controller
         $body = $this->requestGet($request_url);
         if (!isset($body->errcode)) {
             $user_info = $this->getUserInfo($body->access_token, $body->openid);
-            $user = User::firstOrCreate([
-                'openid'=> $user_info->openid,
-                'nick_name'=> $user_info->nickname,
-                'wechat_name'=> $user_info->nickname,
-                'sex'=> $user_info->sex,
-                'login_time'=> now(),
-                'login_ip'=> inet_pton(request()->ip()),
-                'created_ip'=> inet_pton(request()->ip()),
-                'city'=> $user_info->city,
-                'province'=> $user_info->province,
-                'country'=> $user_info->country,
-                'headimgurl'=> $user_info->headimgurl,
-            ]);
-            Auth::login($user, true);
+            $user = User::where('openid', $user_info->openid)->first();
+            if (!$user) {
+                $user = User::create([
+                    'openid'      => $user_info->openid,
+                    'nick_name'   => $user_info->nickname,
+                    'wechat_name' => $user_info->nickname,
+                    'sex'         => $user_info->sex,
+                    'login_time'  => now(),
+                    'login_ip'    => inet_pton(request()->ip()),
+                    'created_ip'  => inet_pton(request()->ip()),
+                    'city'        => $user_info->city,
+                    'province'    => $user_info->province,
+                    'country'     => $user_info->country,
+                    'headimgurl'  => $user_info->headimgurl,
+                ]);
+            } else {
+                $user->update([
+                    'login_ip'   => inet_pton(request()->ip()),
+                    'login_time' => now(),
+                ]);
+            }
+            Auth::login($user, TRUE);
 
             return redirect()->to($path);
         }
@@ -54,6 +64,7 @@ class AuthController extends Controller
 
     /**
      * get wechat's userinfo
+     *
      * @param $access_token
      * @param $openid
      *
@@ -84,5 +95,30 @@ class AuthController extends Controller
         $body = json_decode($response->getBody());
 
         return $body;
+    }
+
+    public function checkTicket()
+    {
+        $ticket = request('ticket', '');
+
+        if (!$ticket) {
+            abort(403);
+        }
+
+        $user_id = Redis::get($ticket);
+        $user_id = 24;
+        $order = Order::where('user_id', $user_id)->latest()->first();
+        if (!$user_id) {
+            abort(403);
+        }
+
+        Auth::loginUsingId($user_id);
+        Redis::del($ticket);
+
+        $redirect_url = route('web.posts.show', [
+            'id' => $order->post_id,
+        ]);
+        return redirect($redirect_url);
+
     }
 }

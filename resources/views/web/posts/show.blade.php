@@ -1,6 +1,8 @@
 @extends('layout/layout')
-@section('style')
+@section('css')
     <link href="https://cdn.bootcss.com/highlight.js/9.15.6/styles/a11y-dark.min.css" rel="stylesheet">
+    @endsection
+@section('style')
     <style>
         .center {
             display: block;
@@ -35,6 +37,9 @@
             -moz-transform: rotate(45deg);
             -webkit-transform: rotate(45deg);
         }
+        .modal-title {
+            border-bottom: 1px solid #fff;
+        }
 
     </style>
 @endsection('style)
@@ -64,8 +69,8 @@
                         @if($post->is_free != 1)
                             <br>
                             <div class="">
-                                <button type="button" id="order" class="btn btn-dark pl-5 pr-5 mx-auto" style="width: 200px; display: block">
-                                    扫码投资
+                                <button type="button" id="order" class="btn btn-dark d-block pl-4 pr-4 mx-auto">
+                                    <span>{{ '¥' .  number_format($post->price,2) }}</span> 扫码投资
                                 </button>
                             </div>
                         @endif
@@ -182,12 +187,12 @@
     <!-- 二维码 -->
     <div class="modal fade" id="qrcode" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content bg-transparent" style="border:none">
+            <div class="modal-content bg-transparent border-white">
                 <div class="modal-body align-items-center text-center">
-                    <p class="modal-title" id="exampleModalLabel" style="color:white">微信扫码支付</p>
-                    <br>
+                    <p class="modal-title text-white mb-3" id="exampleModalLabel">微信扫码支付</p>
                     {{--生成的二维码会放在这里--}}
                     <div id="qrcode2"></div>
+                    <p class="modal-title text-white m-3" id="exampleModalLabel">您需支付  ¥{{ $post->price }}</p>
                 </div>
             </div>
         </div>
@@ -226,38 +231,41 @@
 
         // 点击购买
         $('#order').click(function () {
-            axios.get("/payment/place_order", {
+            axios.get("{{route('web.payment.place-order')}}", {
                 params: {
-                    id: "{{ $post->id }}"
+                    id: '{{ $post->id }}'
                 }
             }).then(function (response) {
-                    console.log(response);
                 if (response.data.code == 200) {
-                    $('#qrcode2').html(response.data.html);
+                    $('#qrcode2').html(response.data.data.html);
                     $('#qrcode').modal('show');
                     var timer = setInterval(function () {
-                        axios.get('/payment/paid', {
+                        axios.get("{{ route('web.payment.status') }}", {
                             params: {
-                                'out_trade_no': response.data.order_sn,
+                                'out_trade_no': response.data.data.order_sn,
                             }
                         })
                             .then(function (response) {
                                 if (response.data.code == 200) {
                                     /** 取消定时器 */
                                     window.clearInterval(timer);
-                                    window.location.reload();
+                                    window.location.href = "{{ route('web.auth.check-ticket') }}" + '?ticket=' + response.data.data.ticket;
                                 }
                             })
                             .catch(function (error) {
                                 console.log(error);
                             });
-                    }, 300);
+                    }, 3000);
+                    $('#qrcode').on('hidden.bs.modal', function (e) {
+                        clearInterval(timer)
+                    })
                 }
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         });
+
 
         // 指定回复某人
         $('.reply').click(function () {

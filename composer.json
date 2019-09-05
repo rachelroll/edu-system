@@ -23,6 +23,7 @@
         "laravel/scout": "^7.1",
         "laravel/socialite": "^4.1",
         "laravel/tinker": "^1.0",
+        "laravolt/avatar": "^3.0",
         "league/html-to-markdown": "^4.8",
         "nesbot/carbon": "^2.14",
         "overtrue/laravel-wechat": "~5.0",

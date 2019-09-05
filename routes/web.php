@@ -12,6 +12,8 @@
 
 use Illuminate\Support\Facades\Auth;
 
+Route::get('test', 'TestController@index')->name('web.test');
+
 Route::get('/', function () {
     return redirect(route('web.posts.index'));
 });
@@ -21,6 +23,7 @@ Route::get('/', function () {
 Route::get('posts', 'PostController@index')->name('web.posts.index');
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::get('auth/check-ticket', 'Authcontroller@checkTicket')->name('web.auth.check-ticket');
 Route::get('auth/oauth-callback', 'Authcontroller@oauthCallback')->name('web.auth.oauth-callback');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
@@ -117,12 +120,12 @@ Route::get('/auth/callback', 'Auth\AuthController@callback')->name('wechat.callb
 
 
 // 请求微信统一下单接口
-Route::get('/payment/place_order', 'PaymentController@place_order')->name('web.payment.place_order');
+Route::get('/payment/place-order', 'PaymentController@placeOrder')->name('web.payment.place-order');
 // 接收微信支付状态的通知
 Route::post('/payment/notify', 'paymentController@notify')->name('web.payment.notify');
 
 // 请求微信接口, 查看订单支付状态
-Route::get('/payment/paid', 'PaymentController@paid')->name('web.payment.paid');
+Route::get('/payment/status', 'PaymentController@status')->name('web.payment.status');
 
 
 

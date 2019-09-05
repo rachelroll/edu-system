@@ -75,7 +75,7 @@
                                             </p>
                                         </div>
                                         <div>
-                                            <span class="text-danger">¥ {{ $post->price }}</span>
+                                            <span class="text-danger"><span>¥</span>{{number_format($post->price,2) }}</span>
                                             <p class="card-text float-right">
                                                 <small class="text-muted">{{ $post->author }} |
                                                     发布于 {{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}

@@ -235,6 +235,7 @@ return [
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'EasyWeChat' => Overtrue\LaravelWeChat\Facade::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Avatar'    => Laravolt\Avatar\Facade::class,
     ],
 
 ];
