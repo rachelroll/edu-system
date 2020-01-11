@@ -30,7 +30,7 @@
     </div>
 </div>
 <script>
-    var redirect_uri = 'https://www.jkwedu.net/call-back?redirect=http://edu-system.test/auth/oauth-callback';
+    var redirect_uri = 'https://www.jkwedu.net/callback?redirect=http://edu-system.test/auth/oauth-callback';
     var obj = new WxLogin({
         self_redirect: false,
         id:"login_container",

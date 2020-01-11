@@ -224,8 +224,25 @@ class PostController extends Controller
         ]);
     }
 
-    public function test()
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
     {
+
+        $post = Post::where('user_id',$request->user()->id)->where('id',$id)->first();
+        $post->update([
+            'title'=>$request->title,
+            'description'=>$request->description,
+            'content'=>$request->content,
+            'price'=>$request->price,
+        ]);
+
+        return back();
 
     }
 

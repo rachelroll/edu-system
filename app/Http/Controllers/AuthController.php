@@ -106,7 +106,6 @@ class AuthController extends Controller
         }
 
         $user_id = Redis::get($ticket);
-        $user_id = 24;
         $order = Order::where('user_id', $user_id)->latest()->first();
         if (!$user_id) {
             abort(403);

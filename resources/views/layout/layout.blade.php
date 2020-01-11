@@ -47,9 +47,9 @@
                        aria-disabled="true">写文章</a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0" id="elasticScout" action="/SearchQuery" method="get">
+            <form class="form-inline my-2 my-lg-0" id="elasticScout" action="{{ route('web.search.search') }}" method="get">
                 <input class="form-control mr-sm-2 form-control-sm" type="search" placeholder="搜索" aria-label="Search"
-                       name="search">
+                       name="q">
                 <button class="btn btn-info btn-sm text-white" type="submit">搜索</button>
             </form>
         </div>
@@ -66,8 +66,9 @@
                     <li class="nav-item align-self-center">
                         <div class="notes-count rounded">
                             <a href="{{ route('web.notifications.index') }}" class="mr-3"
-                               style="color: rgb(51, 51, 51)">{{ $notifications_count }}</a>
+                               style="color: rgb(51, 51, 51)"><i class="far fa-bell" style="font-size: 24px;"></i>{{ $notifications_count }}</a>
                         </div>
+
 
                     </li>
                     <div class="dropdown">
@@ -135,7 +136,7 @@
         if (query_string) {
             url_path = url_path + '?' + url_path
         }
-        var redirect_uri = 'https://www.jkwedu.net/call-back?redirect=http://edu-system.test/auth/oauth-callback?path=' + url_path;
+        var redirect_uri = 'https://www.jkwedu.net/callback?redirect=http://edu-system.test/auth/oauth-callback?path=' + url_path;
         var obj = new WxLogin({
             self_redirect: false,
             id:"login_container",

@@ -60,7 +60,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 //Route::get('/auth/oauth', 'Auth\AuthController@oauth')->name('wechat.login');
 
 // 搜索
-Route::get('/SearchQuery', 'SearchController@search');
+Route::get('/search', 'SearchController@search')->name('web.search.search');
 
 // 我的文章
 Route::get('/users/posts', 'UserController@post')->name('web.users.posts');
